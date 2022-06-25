@@ -2,30 +2,24 @@
 
 namespace PHPUnit\Framework {
     /**
-     * A Test can be run and collect its results.
-     */
-    interface Test extends \Countable
-    {
-        /**
-         * Runs a test and collects its result in a TestResult instance.
-         *
-         * @param TestResult $result
-         *
-         * @return TestResult
-         */
-        public function run(\PHPUnit\Framework\TestResult $result = null);
-    }
-    /**
      * Interface for classes that can return a description of itself.
      */
     interface SelfDescribing
     {
         /**
          * Returns a string representation of the object.
-         *
-         * @return string
          */
-        public function toString();
+        public function toString() : string;
+    }
+    /**
+     * A Test can be run and collect its results.
+     */
+    interface Test extends \Countable
+    {
+        /**
+         * Runs a test and collects its result in a TestResult instance.
+         */
+        public function run(\PHPUnit\Framework\TestResult $result = null) : \PHPUnit\Framework\TestResult;
     }
     /**
      * A set of assertion methods.
@@ -39,11 +33,13 @@ namespace PHPUnit\Framework {
         /**
          * Asserts that an array has a specified key.
          *
-         * @param mixed             $key
+         * @param int|string        $key
          * @param array|ArrayAccess $array
-         * @param string            $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertArrayHasKey($key, $array, $message = '')
+        public static function assertArrayHasKey($key, $array, string $message = '') : void
         {
         }
         /**
@@ -51,121 +47,113 @@ namespace PHPUnit\Framework {
          *
          * @param array|ArrayAccess $subset
          * @param array|ArrayAccess $array
-         * @param bool              $strict  Check for object identity
-         * @param string            $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3494
          */
-        public static function assertArraySubset($subset, $array, $strict = false, $message = '')
+        public static function assertArraySubset($subset, $array, bool $checkForObjectIdentity = false, string $message = '') : void
         {
         }
         /**
          * Asserts that an array does not have a specified key.
          *
-         * @param mixed             $key
+         * @param int|string        $key
          * @param array|ArrayAccess $array
-         * @param string            $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertArrayNotHasKey($key, $array, $message = '')
+        public static function assertArrayNotHasKey($key, $array, string $message = '') : void
         {
         }
         /**
          * Asserts that a haystack contains a needle.
          *
-         * @param mixed  $needle
-         * @param mixed  $haystack
-         * @param string $message
-         * @param bool   $ignoreCase
-         * @param bool   $checkForObjectIdentity
-         * @param bool   $checkForNonObjectIdentity
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertContains($needle, $haystack, $message = '', $ignoreCase = false, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
+        public static function assertContains($needle, $haystack, string $message = '', bool $ignoreCase = false, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false) : void
         {
         }
         /**
          * Asserts that a haystack that is stored in a static attribute of a class
          * or an attribute of an object contains a needle.
          *
-         * @param mixed         $needle
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
-         * @param string        $message
-         * @param bool          $ignoreCase
-         * @param bool          $checkForObjectIdentity
-         * @param bool          $checkForNonObjectIdentity
+         * @param object|string $haystackClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeContains($needle, $haystackAttributeName, $haystackClassOrObject, $message = '', $ignoreCase = false, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
+        public static function assertAttributeContains($needle, string $haystackAttributeName, $haystackClassOrObject, string $message = '', bool $ignoreCase = false, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false) : void
         {
         }
         /**
          * Asserts that a haystack does not contain a needle.
          *
-         * @param mixed  $needle
-         * @param mixed  $haystack
-         * @param string $message
-         * @param bool   $ignoreCase
-         * @param bool   $checkForObjectIdentity
-         * @param bool   $checkForNonObjectIdentity
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotContains($needle, $haystack, $message = '', $ignoreCase = false, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
+        public static function assertNotContains($needle, $haystack, string $message = '', bool $ignoreCase = false, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false) : void
         {
         }
         /**
          * Asserts that a haystack that is stored in a static attribute of a class
          * or an attribute of an object does not contain a needle.
          *
-         * @param mixed         $needle
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
-         * @param string        $message
-         * @param bool          $ignoreCase
-         * @param bool          $checkForObjectIdentity
-         * @param bool          $checkForNonObjectIdentity
+         * @param object|string $haystackClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotContains($needle, $haystackAttributeName, $haystackClassOrObject, $message = '', $ignoreCase = false, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
+        public static function assertAttributeNotContains($needle, string $haystackAttributeName, $haystackClassOrObject, string $message = '', bool $ignoreCase = false, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false) : void
         {
         }
         /**
          * Asserts that a haystack contains only values of a given type.
          *
-         * @param string $type
-         * @param mixed  $haystack
-         * @param bool   $isNativeType
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertContainsOnly($type, $haystack, $isNativeType = null, $message = '')
+        public static function assertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '') : void
         {
         }
         /**
-         * Asserts that a haystack contains only instances of a given classname
+         * Asserts that a haystack contains only instances of a given class name.
          *
-         * @param string             $classname
-         * @param array|\Traversable $haystack
-         * @param string             $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertContainsOnlyInstancesOf($classname, $haystack, $message = '')
+        public static function assertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = '') : void
         {
         }
         /**
          * Asserts that a haystack that is stored in a static attribute of a class
          * or an attribute of an object contains only values of a given type.
          *
-         * @param string        $type
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
+         * @param object|string $haystackClassOrObject
          * @param bool          $isNativeType
-         * @param string        $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeContainsOnly($type, $haystackAttributeName, $haystackClassOrObject, $isNativeType = null, $message = '')
+        public static function assertAttributeContainsOnly(string $type, string $haystackAttributeName, $haystackClassOrObject, ?bool $isNativeType = null, string $message = '') : void
         {
         }
         /**
          * Asserts that a haystack does not contain only values of a given type.
          *
-         * @param string $type
-         * @param mixed  $haystack
-         * @param bool   $isNativeType
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotContainsOnly($type, $haystack, $isNativeType = null, $message = '')
+        public static function assertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '') : void
         {
         }
         /**
@@ -173,588 +161,625 @@ namespace PHPUnit\Framework {
          * or an attribute of an object does not contain only values of a given
          * type.
          *
-         * @param string        $type
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
+         * @param object|string $haystackClassOrObject
          * @param bool          $isNativeType
-         * @param string        $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotContainsOnly($type, $haystackAttributeName, $haystackClassOrObject, $isNativeType = null, $message = '')
+        public static function assertAttributeNotContainsOnly(string $type, string $haystackAttributeName, $haystackClassOrObject, ?bool $isNativeType = null, string $message = '') : void
         {
         }
         /**
          * Asserts the number of elements of an array, Countable or Traversable.
          *
-         * @param int    $expectedCount
-         * @param mixed  $haystack
-         * @param string $message
+         * @param Countable|iterable $haystack
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertCount($expectedCount, $haystack, $message = '')
+        public static function assertCount(int $expectedCount, $haystack, string $message = '') : void
         {
         }
         /**
          * Asserts the number of elements of an array, Countable or Traversable
          * that is stored in an attribute.
          *
-         * @param int           $expectedCount
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
-         * @param string        $message
+         * @param object|string $haystackClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeCount($expectedCount, $haystackAttributeName, $haystackClassOrObject, $message = '')
+        public static function assertAttributeCount(int $expectedCount, string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts the number of elements of an array, Countable or Traversable.
          *
-         * @param int    $expectedCount
-         * @param mixed  $haystack
-         * @param string $message
+         * @param Countable|iterable $haystack
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotCount($expectedCount, $haystack, $message = '')
+        public static function assertNotCount(int $expectedCount, $haystack, string $message = '') : void
         {
         }
         /**
          * Asserts the number of elements of an array, Countable or Traversable
          * that is stored in an attribute.
          *
-         * @param int           $expectedCount
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
-         * @param string        $message
+         * @param object|string $haystackClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotCount($expectedCount, $haystackAttributeName, $haystackClassOrObject, $message = '')
+        public static function assertAttributeNotCount(int $expectedCount, string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that two variables are equal.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
-         * @param float  $delta
-         * @param int    $maxDepth
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertEquals($expected, $actual, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        public static function assertEquals($expected, $actual, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false) : void
+        {
+        }
+        /**
+         * Asserts that two variables are equal (canonicalizing).
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public static function assertEqualsCanonicalizing($expected, $actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that two variables are equal (ignoring case).
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public static function assertEqualsIgnoringCase($expected, $actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that two variables are equal (with delta).
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public static function assertEqualsWithDelta($expected, $actual, float $delta, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is equal to an attribute of an object.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
-         * @param float         $delta
-         * @param int           $maxDepth
-         * @param bool          $canonicalize
-         * @param bool          $ignoreCase
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeEquals($expected, $actualAttributeName, $actualClassOrObject, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        public static function assertAttributeEquals($expected, string $actualAttributeName, $actualClassOrObject, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false) : void
         {
         }
         /**
          * Asserts that two variables are not equal.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
-         * @param float  $delta
-         * @param int    $maxDepth
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
+         * @param float $delta
+         * @param int   $maxDepth
+         * @param bool  $canonicalize
+         * @param bool  $ignoreCase
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotEquals($expected, $actual, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        public static function assertNotEquals($expected, $actual, string $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false) : void
+        {
+        }
+        /**
+         * Asserts that two variables are not equal (canonicalizing).
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public static function assertNotEqualsCanonicalizing($expected, $actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that two variables are not equal (ignoring case).
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public static function assertNotEqualsIgnoringCase($expected, $actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that two variables are not equal (with delta).
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public static function assertNotEqualsWithDelta($expected, $actual, float $delta, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is not equal to an attribute of an object.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
-         * @param float         $delta
-         * @param int           $maxDepth
-         * @param bool          $canonicalize
-         * @param bool          $ignoreCase
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotEquals($expected, $actualAttributeName, $actualClassOrObject, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        public static function assertAttributeNotEquals($expected, string $actualAttributeName, $actualClassOrObject, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false) : void
         {
         }
         /**
          * Asserts that a variable is empty.
          *
-         * @param mixed  $actual
-         * @param string $message
-         *
-         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertEmpty($actual, $message = '')
+        public static function assertEmpty($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a static attribute of a class or an attribute of an object
          * is empty.
          *
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
-         * @param string        $message
+         * @param object|string $haystackClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeEmpty($haystackAttributeName, $haystackClassOrObject, $message = '')
+        public static function assertAttributeEmpty(string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is not empty.
          *
-         * @param mixed  $actual
-         * @param string $message
-         *
-         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotEmpty($actual, $message = '')
+        public static function assertNotEmpty($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a static attribute of a class or an attribute of an object
          * is not empty.
          *
-         * @param string        $haystackAttributeName
-         * @param string|object $haystackClassOrObject
-         * @param string        $message
+         * @param object|string $haystackClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotEmpty($haystackAttributeName, $haystackClassOrObject, $message = '')
+        public static function assertAttributeNotEmpty(string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a value is greater than another value.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertGreaterThan($expected, $actual, $message = '')
+        public static function assertGreaterThan($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is greater than another value.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeGreaterThan($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+        public static function assertAttributeGreaterThan($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a value is greater than or equal to another value.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertGreaterThanOrEqual($expected, $actual, $message = '')
+        public static function assertGreaterThanOrEqual($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is greater than or equal to another value.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeGreaterThanOrEqual($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+        public static function assertAttributeGreaterThanOrEqual($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a value is smaller than another value.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertLessThan($expected, $actual, $message = '')
+        public static function assertLessThan($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is smaller than another value.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeLessThan($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+        public static function assertAttributeLessThan($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a value is smaller than or equal to another value.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertLessThanOrEqual($expected, $actual, $message = '')
+        public static function assertLessThanOrEqual($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is smaller than or equal to another value.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeLessThanOrEqual($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+        public static function assertAttributeLessThanOrEqual($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that the contents of one file is equal to the contents of another
          * file.
          *
-         * @param string $expected
-         * @param string $actual
-         * @param string $message
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileEquals($expected, $actual, $message = '', $canonicalize = false, $ignoreCase = false)
+        public static function assertFileEquals(string $expected, string $actual, string $message = '', bool $canonicalize = false, bool $ignoreCase = false) : void
         {
         }
         /**
          * Asserts that the contents of one file is not equal to the contents of
          * another file.
          *
-         * @param string $expected
-         * @param string $actual
-         * @param string $message
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileNotEquals($expected, $actual, $message = '', $canonicalize = false, $ignoreCase = false)
+        public static function assertFileNotEquals(string $expected, string $actual, string $message = '', bool $canonicalize = false, bool $ignoreCase = false) : void
         {
         }
         /**
          * Asserts that the contents of a string is equal
          * to the contents of a file.
          *
-         * @param string $expectedFile
-         * @param string $actualString
-         * @param string $message
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringEqualsFile($expectedFile, $actualString, $message = '', $canonicalize = false, $ignoreCase = false)
+        public static function assertStringEqualsFile(string $expectedFile, string $actualString, string $message = '', bool $canonicalize = false, bool $ignoreCase = false) : void
         {
         }
         /**
          * Asserts that the contents of a string is not equal
          * to the contents of a file.
          *
-         * @param string $expectedFile
-         * @param string $actualString
-         * @param string $message
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringNotEqualsFile($expectedFile, $actualString, $message = '', $canonicalize = false, $ignoreCase = false)
+        public static function assertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = '', bool $canonicalize = false, bool $ignoreCase = false) : void
         {
         }
         /**
          * Asserts that a file/dir is readable.
          *
-         * @param string $filename
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertIsReadable($filename, $message = '')
+        public static function assertIsReadable(string $filename, string $message = '') : void
         {
         }
         /**
          * Asserts that a file/dir exists and is not readable.
          *
-         * @param string $filename
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotIsReadable($filename, $message = '')
+        public static function assertNotIsReadable(string $filename, string $message = '') : void
         {
         }
         /**
          * Asserts that a file/dir exists and is writable.
          *
-         * @param string $filename
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertIsWritable($filename, $message = '')
+        public static function assertIsWritable(string $filename, string $message = '') : void
         {
         }
         /**
          * Asserts that a file/dir exists and is not writable.
          *
-         * @param string $filename
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotIsWritable($filename, $message = '')
+        public static function assertNotIsWritable(string $filename, string $message = '') : void
         {
         }
         /**
          * Asserts that a directory exists.
          *
-         * @param string $directory
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertDirectoryExists($directory, $message = '')
+        public static function assertDirectoryExists(string $directory, string $message = '') : void
         {
         }
         /**
          * Asserts that a directory does not exist.
          *
-         * @param string $directory
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertDirectoryNotExists($directory, $message = '')
+        public static function assertDirectoryNotExists(string $directory, string $message = '') : void
         {
         }
         /**
          * Asserts that a directory exists and is readable.
          *
-         * @param string $directory
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertDirectoryIsReadable($directory, $message = '')
+        public static function assertDirectoryIsReadable(string $directory, string $message = '') : void
         {
         }
         /**
          * Asserts that a directory exists and is not readable.
          *
-         * @param string $directory
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertDirectoryNotIsReadable($directory, $message = '')
+        public static function assertDirectoryNotIsReadable(string $directory, string $message = '') : void
         {
         }
         /**
          * Asserts that a directory exists and is writable.
          *
-         * @param string $directory
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertDirectoryIsWritable($directory, $message = '')
+        public static function assertDirectoryIsWritable(string $directory, string $message = '') : void
         {
         }
         /**
          * Asserts that a directory exists and is not writable.
          *
-         * @param string $directory
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertDirectoryNotIsWritable($directory, $message = '')
+        public static function assertDirectoryNotIsWritable(string $directory, string $message = '') : void
         {
         }
         /**
          * Asserts that a file exists.
          *
-         * @param string $filename
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileExists($filename, $message = '')
+        public static function assertFileExists(string $filename, string $message = '') : void
         {
         }
         /**
          * Asserts that a file does not exist.
          *
-         * @param string $filename
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileNotExists($filename, $message = '')
+        public static function assertFileNotExists(string $filename, string $message = '') : void
         {
         }
         /**
          * Asserts that a file exists and is readable.
          *
-         * @param string $file
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileIsReadable($file, $message = '')
+        public static function assertFileIsReadable(string $file, string $message = '') : void
         {
         }
         /**
          * Asserts that a file exists and is not readable.
          *
-         * @param string $file
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileNotIsReadable($file, $message = '')
+        public static function assertFileNotIsReadable(string $file, string $message = '') : void
         {
         }
         /**
          * Asserts that a file exists and is writable.
          *
-         * @param string $file
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileIsWritable($file, $message = '')
+        public static function assertFileIsWritable(string $file, string $message = '') : void
         {
         }
         /**
          * Asserts that a file exists and is not writable.
          *
-         * @param string $file
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFileNotIsWritable($file, $message = '')
+        public static function assertFileNotIsWritable(string $file, string $message = '') : void
         {
         }
         /**
          * Asserts that a condition is true.
          *
-         * @param bool   $condition
-         * @param string $message
-         *
-         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertTrue($condition, $message = '')
+        public static function assertTrue($condition, string $message = '') : void
         {
         }
         /**
          * Asserts that a condition is not true.
          *
-         * @param bool   $condition
-         * @param string $message
-         *
-         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotTrue($condition, $message = '')
+        public static function assertNotTrue($condition, string $message = '') : void
         {
         }
         /**
          * Asserts that a condition is false.
          *
-         * @param bool   $condition
-         * @param string $message
-         *
-         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFalse($condition, $message = '')
+        public static function assertFalse($condition, string $message = '') : void
         {
         }
         /**
          * Asserts that a condition is not false.
          *
-         * @param bool   $condition
-         * @param string $message
-         *
-         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotFalse($condition, $message = '')
+        public static function assertNotFalse($condition, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is null.
          *
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNull($actual, $message = '')
+        public static function assertNull($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is not null.
          *
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotNull($actual, $message = '')
+        public static function assertNotNull($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is finite.
          *
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertFinite($actual, $message = '')
+        public static function assertFinite($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is infinite.
          *
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertInfinite($actual, $message = '')
+        public static function assertInfinite($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is nan.
          *
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNan($actual, $message = '')
+        public static function assertNan($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a class has a specified attribute.
          *
-         * @param string $attributeName
-         * @param string $className
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertClassHasAttribute($attributeName, $className, $message = '')
+        public static function assertClassHasAttribute(string $attributeName, string $className, string $message = '') : void
         {
         }
         /**
          * Asserts that a class does not have a specified attribute.
          *
-         * @param string $attributeName
-         * @param string $className
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertClassNotHasAttribute($attributeName, $className, $message = '')
+        public static function assertClassNotHasAttribute(string $attributeName, string $className, string $message = '') : void
         {
         }
         /**
          * Asserts that a class has a specified static attribute.
          *
-         * @param string $attributeName
-         * @param string $className
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertClassHasStaticAttribute($attributeName, $className, $message = '')
+        public static function assertClassHasStaticAttribute(string $attributeName, string $className, string $message = '') : void
         {
         }
         /**
          * Asserts that a class does not have a specified static attribute.
          *
-         * @param string $attributeName
-         * @param string $className
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertClassNotHasStaticAttribute($attributeName, $className, $message = '')
+        public static function assertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = '') : void
         {
         }
         /**
          * Asserts that an object has a specified attribute.
          *
-         * @param string $attributeName
          * @param object $object
-         * @param string $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertObjectHasAttribute($attributeName, $object, $message = '')
+        public static function assertObjectHasAttribute(string $attributeName, $object, string $message = '') : void
         {
         }
         /**
          * Asserts that an object does not have a specified attribute.
          *
-         * @param string $attributeName
          * @param object $object
-         * @param string $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertObjectNotHasAttribute($attributeName, $object, $message = '')
+        public static function assertObjectNotHasAttribute(string $attributeName, $object, string $message = '') : void
         {
         }
         /**
@@ -762,23 +787,24 @@ namespace PHPUnit\Framework {
          * Used on objects, it asserts that two variables reference
          * the same object.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertSame($expected, $actual, $message = '')
+        public static function assertSame($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable and an attribute of an object have the same type
          * and value.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeSame($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+        public static function assertAttributeSame($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
         {
         }
         /**
@@ -786,199 +812,337 @@ namespace PHPUnit\Framework {
          * Used on objects, it asserts that two variables do not reference
          * the same object.
          *
-         * @param mixed  $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotSame($expected, $actual, $message = '')
+        public static function assertNotSame($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable and an attribute of an object do not have the
          * same type and value.
          *
-         * @param mixed         $expected
-         * @param string        $actualAttributeName
-         * @param string|object $actualClassOrObject
-         * @param string        $message
+         * @param object|string $actualClassOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotSame($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+        public static function assertAttributeNotSame($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is of a given type.
          *
-         * @param string $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertInstanceOf($expected, $actual, $message = '')
+        public static function assertInstanceOf(string $expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is of a given type.
          *
-         * @param string        $expected
-         * @param string        $attributeName
-         * @param string|object $classOrObject
-         * @param string        $message
+         * @param object|string $classOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeInstanceOf($expected, $attributeName, $classOrObject, $message = '')
+        public static function assertAttributeInstanceOf(string $expected, string $attributeName, $classOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is not of a given type.
          *
-         * @param string $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotInstanceOf($expected, $actual, $message = '')
+        public static function assertNotInstanceOf(string $expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is of a given type.
          *
-         * @param string        $expected
-         * @param string        $attributeName
-         * @param string|object $classOrObject
-         * @param string        $message
+         * @param object|string $classOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotInstanceOf($expected, $attributeName, $classOrObject, $message = '')
+        public static function assertAttributeNotInstanceOf(string $expected, string $attributeName, $classOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is of a given type.
          *
-         * @param string $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3369
          */
-        public static function assertInternalType($expected, $actual, $message = '')
+        public static function assertInternalType(string $expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is of a given type.
          *
-         * @param string        $expected
-         * @param string        $attributeName
-         * @param string|object $classOrObject
-         * @param string        $message
+         * @param object|string $classOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeInternalType($expected, $attributeName, $classOrObject, $message = '')
+        public static function assertAttributeInternalType(string $expected, string $attributeName, $classOrObject, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type array.
+         */
+        public static function assertIsArray($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type bool.
+         */
+        public static function assertIsBool($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type float.
+         */
+        public static function assertIsFloat($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type int.
+         */
+        public static function assertIsInt($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type numeric.
+         */
+        public static function assertIsNumeric($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type object.
+         */
+        public static function assertIsObject($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type resource.
+         */
+        public static function assertIsResource($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type string.
+         */
+        public static function assertIsString($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type scalar.
+         */
+        public static function assertIsScalar($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type callable.
+         */
+        public static function assertIsCallable($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is of type iterable.
+         */
+        public static function assertIsIterable($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a variable is not of a given type.
          *
-         * @param string $expected
-         * @param mixed  $actual
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3369
          */
-        public static function assertNotInternalType($expected, $actual, $message = '')
+        public static function assertNotInternalType(string $expected, $actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type array.
+         */
+        public static function assertIsNotArray($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type bool.
+         */
+        public static function assertIsNotBool($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type float.
+         */
+        public static function assertIsNotFloat($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type int.
+         */
+        public static function assertIsNotInt($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type numeric.
+         */
+        public static function assertIsNotNumeric($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type object.
+         */
+        public static function assertIsNotObject($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type resource.
+         */
+        public static function assertIsNotResource($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type string.
+         */
+        public static function assertIsNotString($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type scalar.
+         */
+        public static function assertIsNotScalar($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type callable.
+         */
+        public static function assertIsNotCallable($actual, string $message = '') : void
+        {
+        }
+        /**
+         * Asserts that a variable is not of type iterable.
+         */
+        public static function assertIsNotIterable($actual, string $message = '') : void
         {
         }
         /**
          * Asserts that an attribute is of a given type.
          *
-         * @param string        $expected
-         * @param string        $attributeName
-         * @param string|object $classOrObject
-         * @param string        $message
+         * @param object|string $classOrObject
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function assertAttributeNotInternalType($expected, $attributeName, $classOrObject, $message = '')
+        public static function assertAttributeNotInternalType(string $expected, string $attributeName, $classOrObject, string $message = '') : void
         {
         }
         /**
          * Asserts that a string matches a given regular expression.
          *
-         * @param string $pattern
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertRegExp($pattern, $string, $message = '')
+        public static function assertRegExp(string $pattern, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that a string does not match a given regular expression.
          *
-         * @param string $pattern
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotRegExp($pattern, $string, $message = '')
+        public static function assertNotRegExp(string $pattern, string $string, string $message = '') : void
         {
         }
         /**
          * Assert that the size of two arrays (or `Countable` or `Traversable` objects)
          * is the same.
          *
-         * @param array|\Countable|\Traversable $expected
-         * @param array|\Countable|\Traversable $actual
-         * @param string                        $message
+         * @param Countable|iterable $expected
+         * @param Countable|iterable $actual
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertSameSize($expected, $actual, $message = '')
+        public static function assertSameSize($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Assert that the size of two arrays (or `Countable` or `Traversable` objects)
          * is not the same.
          *
-         * @param array|\Countable|\Traversable $expected
-         * @param array|\Countable|\Traversable $actual
-         * @param string                        $message
+         * @param Countable|iterable $expected
+         * @param Countable|iterable $actual
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertNotSameSize($expected, $actual, $message = '')
+        public static function assertNotSameSize($expected, $actual, string $message = '') : void
         {
         }
         /**
          * Asserts that a string matches a given format string.
          *
-         * @param string $format
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringMatchesFormat($format, $string, $message = '')
+        public static function assertStringMatchesFormat(string $format, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that a string does not match a given format string.
          *
-         * @param string $format
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringNotMatchesFormat($format, $string, $message = '')
+        public static function assertStringNotMatchesFormat(string $format, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that a string matches a given format file.
          *
-         * @param string $formatFile
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringMatchesFormatFile($formatFile, $string, $message = '')
+        public static function assertStringMatchesFormatFile(string $formatFile, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that a string does not match a given format string.
          *
-         * @param string $formatFile
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringNotMatchesFormatFile($formatFile, $string, $message = '')
+        public static function assertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that a string starts with a given prefix.
          *
-         * @param string $prefix
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringStartsWith($prefix, $string, $message = '')
+        public static function assertStringStartsWith(string $prefix, string $string, string $message = '') : void
         {
         }
         /**
@@ -986,129 +1150,142 @@ namespace PHPUnit\Framework {
          *
          * @param string $prefix
          * @param string $string
-         * @param string $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringStartsNotWith($prefix, $string, $message = '')
+        public static function assertStringStartsNotWith($prefix, $string, string $message = '') : void
+        {
+        }
+        public static function assertStringContainsString(string $needle, string $haystack, string $message = '') : void
+        {
+        }
+        public static function assertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = '') : void
+        {
+        }
+        public static function assertStringNotContainsString(string $needle, string $haystack, string $message = '') : void
+        {
+        }
+        public static function assertStringNotContainsStringIgnoringCase(string $needle, string $haystack, string $message = '') : void
         {
         }
         /**
          * Asserts that a string ends with a given suffix.
          *
-         * @param string $suffix
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringEndsWith($suffix, $string, $message = '')
+        public static function assertStringEndsWith(string $suffix, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that a string ends not with a given suffix.
          *
-         * @param string $suffix
-         * @param string $string
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertStringEndsNotWith($suffix, $string, $message = '')
+        public static function assertStringEndsNotWith(string $suffix, string $string, string $message = '') : void
         {
         }
         /**
          * Asserts that two XML files are equal.
          *
-         * @param string $expectedFile
-         * @param string $actualFile
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertXmlFileEqualsXmlFile($expectedFile, $actualFile, $message = '')
+        public static function assertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '') : void
         {
         }
         /**
          * Asserts that two XML files are not equal.
          *
-         * @param string $expectedFile
-         * @param string $actualFile
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertXmlFileNotEqualsXmlFile($expectedFile, $actualFile, $message = '')
+        public static function assertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '') : void
         {
         }
         /**
          * Asserts that two XML documents are equal.
          *
-         * @param string             $expectedFile
-         * @param string|DOMDocument $actualXml
-         * @param string             $message
+         * @param DOMDocument|string $actualXml
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertXmlStringEqualsXmlFile($expectedFile, $actualXml, $message = '')
+        public static function assertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = '') : void
         {
         }
         /**
          * Asserts that two XML documents are not equal.
          *
-         * @param string             $expectedFile
-         * @param string|DOMDocument $actualXml
-         * @param string             $message
+         * @param DOMDocument|string $actualXml
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertXmlStringNotEqualsXmlFile($expectedFile, $actualXml, $message = '')
+        public static function assertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = '') : void
         {
         }
         /**
          * Asserts that two XML documents are equal.
          *
-         * @param string|DOMDocument $expectedXml
-         * @param string|DOMDocument $actualXml
-         * @param string             $message
+         * @param DOMDocument|string $expectedXml
+         * @param DOMDocument|string $actualXml
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertXmlStringEqualsXmlString($expectedXml, $actualXml, $message = '')
+        public static function assertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = '') : void
         {
         }
         /**
          * Asserts that two XML documents are not equal.
          *
-         * @param string|DOMDocument $expectedXml
-         * @param string|DOMDocument $actualXml
-         * @param string             $message
+         * @param DOMDocument|string $expectedXml
+         * @param DOMDocument|string $actualXml
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, $message = '')
+        public static function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = '') : void
         {
         }
         /**
          * Asserts that a hierarchy of DOMElements matches.
          *
-         * @param DOMElement $expectedElement
-         * @param DOMElement $actualElement
-         * @param bool       $checkAttributes
-         * @param string     $message
+         * @throws AssertionFailedError
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertEqualXMLStructure(\DOMElement $expectedElement, \DOMElement $actualElement, $checkAttributes = false, $message = '')
+        public static function assertEqualXMLStructure(\DOMElement $expectedElement, \DOMElement $actualElement, bool $checkAttributes = false, string $message = '') : void
         {
         }
         /**
          * Evaluates a PHPUnit\Framework\Constraint matcher object.
          *
-         * @param mixed      $value
-         * @param Constraint $constraint
-         * @param string     $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, $message = '')
+        public static function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '') : void
         {
         }
         /**
          * Asserts that a string is a valid JSON string.
          *
-         * @param string $actualJson
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJson($actualJson, $message = '')
+        public static function assertJson(string $actualJson, string $message = '') : void
         {
         }
         /**
          * Asserts that two given JSON encoded objects or arrays are equal.
          *
-         * @param string $expectedJson
-         * @param string $actualJson
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJsonStringEqualsJsonString($expectedJson, $actualJson, $message = '')
+        public static function assertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = '') : void
         {
         }
         /**
@@ -1116,396 +1293,212 @@ namespace PHPUnit\Framework {
          *
          * @param string $expectedJson
          * @param string $actualJson
-         * @param string $message
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJsonStringNotEqualsJsonString($expectedJson, $actualJson, $message = '')
+        public static function assertJsonStringNotEqualsJsonString($expectedJson, $actualJson, string $message = '') : void
         {
         }
         /**
          * Asserts that the generated JSON encoded object and the content of the given file are equal.
          *
-         * @param string $expectedFile
-         * @param string $actualJson
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJsonStringEqualsJsonFile($expectedFile, $actualJson, $message = '')
+        public static function assertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '') : void
         {
         }
         /**
          * Asserts that the generated JSON encoded object and the content of the given file are not equal.
          *
-         * @param string $expectedFile
-         * @param string $actualJson
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJsonStringNotEqualsJsonFile($expectedFile, $actualJson, $message = '')
+        public static function assertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '') : void
         {
         }
         /**
          * Asserts that two JSON files are equal.
          *
-         * @param string $expectedFile
-         * @param string $actualFile
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJsonFileEqualsJsonFile($expectedFile, $actualFile, $message = '')
+        public static function assertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '') : void
         {
         }
         /**
          * Asserts that two JSON files are not equal.
          *
-         * @param string $expectedFile
-         * @param string $actualFile
-         * @param string $message
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public static function assertJsonFileNotEqualsJsonFile($expectedFile, $actualFile, $message = '')
+        public static function assertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '') : void
+        {
+        }
+        public static function logicalAnd() : \PHPUnit\Framework\Constraint\LogicalAnd
+        {
+        }
+        public static function logicalOr() : \PHPUnit\Framework\Constraint\LogicalOr
+        {
+        }
+        public static function logicalNot(\PHPUnit\Framework\Constraint\Constraint $constraint) : \PHPUnit\Framework\Constraint\LogicalNot
+        {
+        }
+        public static function logicalXor() : \PHPUnit\Framework\Constraint\LogicalXor
+        {
+        }
+        public static function anything() : \PHPUnit\Framework\Constraint\IsAnything
+        {
+        }
+        public static function isTrue() : \PHPUnit\Framework\Constraint\IsTrue
+        {
+        }
+        public static function callback(callable $callback) : \PHPUnit\Framework\Constraint\Callback
+        {
+        }
+        public static function isFalse() : \PHPUnit\Framework\Constraint\IsFalse
+        {
+        }
+        public static function isJson() : \PHPUnit\Framework\Constraint\IsJson
+        {
+        }
+        public static function isNull() : \PHPUnit\Framework\Constraint\IsNull
+        {
+        }
+        public static function isFinite() : \PHPUnit\Framework\Constraint\IsFinite
+        {
+        }
+        public static function isInfinite() : \PHPUnit\Framework\Constraint\IsInfinite
+        {
+        }
+        public static function isNan() : \PHPUnit\Framework\Constraint\IsNan
         {
         }
         /**
-         * @return LogicalAnd
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function logicalAnd()
+        public static function attribute(\PHPUnit\Framework\Constraint\Constraint $constraint, string $attributeName) : \PHPUnit\Framework\Constraint\Attribute
+        {
+        }
+        public static function contains($value, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false) : \PHPUnit\Framework\Constraint\TraversableContains
+        {
+        }
+        public static function containsOnly(string $type) : \PHPUnit\Framework\Constraint\TraversableContainsOnly
+        {
+        }
+        public static function containsOnlyInstancesOf(string $className) : \PHPUnit\Framework\Constraint\TraversableContainsOnly
         {
         }
         /**
-         * @return LogicalOr
+         * @param int|string $key
          */
-        public static function logicalOr()
+        public static function arrayHasKey($key) : \PHPUnit\Framework\Constraint\ArrayHasKey
+        {
+        }
+        public static function equalTo($value, float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false) : \PHPUnit\Framework\Constraint\IsEqual
         {
         }
         /**
-         * @param Constraint $constraint
-         *
-         * @return LogicalNot
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function logicalNot(\PHPUnit\Framework\Constraint\Constraint $constraint)
+        public static function attributeEqualTo(string $attributeName, $value, float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false) : \PHPUnit\Framework\Constraint\Attribute
         {
         }
-        /**
-         * @return LogicalXor
-         */
-        public static function logicalXor()
+        public static function isEmpty() : \PHPUnit\Framework\Constraint\IsEmpty
         {
         }
-        /**
-         * @return IsAnything
-         */
-        public static function anything()
+        public static function isWritable() : \PHPUnit\Framework\Constraint\IsWritable
         {
         }
-        /**
-         * @return IsTrue
-         */
-        public static function isTrue()
+        public static function isReadable() : \PHPUnit\Framework\Constraint\IsReadable
         {
         }
-        /**
-         * @param callable $callback
-         *
-         * @return Callback
-         */
-        public static function callback($callback)
+        public static function directoryExists() : \PHPUnit\Framework\Constraint\DirectoryExists
         {
         }
-        /**
-         * @return IsFalse
-         */
-        public static function isFalse()
+        public static function fileExists() : \PHPUnit\Framework\Constraint\FileExists
         {
         }
-        /**
-         * @return IsJson
-         */
-        public static function isJson()
+        public static function greaterThan($value) : \PHPUnit\Framework\Constraint\GreaterThan
         {
         }
-        /**
-         * @return IsNull
-         */
-        public static function isNull()
+        public static function greaterThanOrEqual($value) : \PHPUnit\Framework\Constraint\LogicalOr
         {
         }
-        /**
-         * @return IsFinite
-         */
-        public static function isFinite()
+        public static function classHasAttribute(string $attributeName) : \PHPUnit\Framework\Constraint\ClassHasAttribute
         {
         }
-        /**
-         * @return IsInfinite
-         */
-        public static function isInfinite()
+        public static function classHasStaticAttribute(string $attributeName) : \PHPUnit\Framework\Constraint\ClassHasStaticAttribute
         {
         }
-        /**
-         * @return IsNan
-         */
-        public static function isNan()
+        public static function objectHasAttribute($attributeName) : \PHPUnit\Framework\Constraint\ObjectHasAttribute
         {
         }
-        /**
-         * @param Constraint $constraint
-         * @param string     $attributeName
-         *
-         * @return Attribute
-         */
-        public static function attribute(\PHPUnit\Framework\Constraint\Constraint $constraint, $attributeName)
+        public static function identicalTo($value) : \PHPUnit\Framework\Constraint\IsIdentical
         {
         }
-        /**
-         * @param mixed $value
-         * @param bool  $checkForObjectIdentity
-         * @param bool  $checkForNonObjectIdentity
-         *
-         * @return TraversableContains
-         */
-        public static function contains($value, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
+        public static function isInstanceOf(string $className) : \PHPUnit\Framework\Constraint\IsInstanceOf
         {
         }
-        /**
-         * @param string $type
-         *
-         * @return TraversableContainsOnly
-         */
-        public static function containsOnly($type)
+        public static function isType(string $type) : \PHPUnit\Framework\Constraint\IsType
         {
         }
-        /**
-         * @param string $classname
-         *
-         * @return TraversableContainsOnly
-         */
-        public static function containsOnlyInstancesOf($classname)
+        public static function lessThan($value) : \PHPUnit\Framework\Constraint\LessThan
         {
         }
-        /**
-         * @param mixed $key
-         *
-         * @return ArrayHasKey
-         */
-        public static function arrayHasKey($key)
+        public static function lessThanOrEqual($value) : \PHPUnit\Framework\Constraint\LogicalOr
         {
         }
-        /**
-         * @param mixed $value
-         * @param float $delta
-         * @param int   $maxDepth
-         * @param bool  $canonicalize
-         * @param bool  $ignoreCase
-         *
-         * @return IsEqual
-         */
-        public static function equalTo($value, $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        public static function matchesRegularExpression(string $pattern) : \PHPUnit\Framework\Constraint\RegularExpression
         {
         }
-        /**
-         * @param string $attributeName
-         * @param mixed  $value
-         * @param float  $delta
-         * @param int    $maxDepth
-         * @param bool   $canonicalize
-         * @param bool   $ignoreCase
-         *
-         * @return Attribute
-         */
-        public static function attributeEqualTo($attributeName, $value, $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        public static function matches(string $string) : \PHPUnit\Framework\Constraint\StringMatchesFormatDescription
         {
         }
-        /**
-         * @return IsEmpty
-         */
-        public static function isEmpty()
+        public static function stringStartsWith($prefix) : \PHPUnit\Framework\Constraint\StringStartsWith
         {
         }
-        /**
-         * @return IsWritable
-         */
-        public static function isWritable()
+        public static function stringContains(string $string, bool $case = true) : \PHPUnit\Framework\Constraint\StringContains
         {
         }
-        /**
-         * @return IsReadable
-         */
-        public static function isReadable()
+        public static function stringEndsWith(string $suffix) : \PHPUnit\Framework\Constraint\StringEndsWith
         {
         }
-        /**
-         * @return DirectoryExists
-         */
-        public static function directoryExists()
-        {
-        }
-        /**
-         * @return FileExists
-         */
-        public static function fileExists()
-        {
-        }
-        /**
-         * @param mixed $value
-         *
-         * @return GreaterThan
-         */
-        public static function greaterThan($value)
-        {
-        }
-        /**
-         * @param mixed $value
-         *
-         * @return LogicalOr
-         */
-        public static function greaterThanOrEqual($value)
-        {
-        }
-        /**
-         * @param string $attributeName
-         *
-         * @return ClassHasAttribute
-         */
-        public static function classHasAttribute($attributeName)
-        {
-        }
-        /**
-         * @param string $attributeName
-         *
-         * @return ClassHasStaticAttribute
-         */
-        public static function classHasStaticAttribute($attributeName)
-        {
-        }
-        /**
-         * @param string $attributeName
-         *
-         * @return ObjectHasAttribute
-         */
-        public static function objectHasAttribute($attributeName)
-        {
-        }
-        /**
-         * @param mixed $value
-         *
-         * @return IsIdentical
-         */
-        public static function identicalTo($value)
-        {
-        }
-        /**
-         * @param string $className
-         *
-         * @return IsInstanceOf
-         */
-        public static function isInstanceOf($className)
-        {
-        }
-        /**
-         * @param string $type
-         *
-         * @return IsType
-         */
-        public static function isType($type)
-        {
-        }
-        /**
-         * @param mixed $value
-         *
-         * @return LessThan
-         */
-        public static function lessThan($value)
-        {
-        }
-        /**
-         * @param mixed $value
-         *
-         * @return LogicalOr
-         */
-        public static function lessThanOrEqual($value)
-        {
-        }
-        /**
-         * @param string $pattern
-         *
-         * @return RegularExpression
-         */
-        public static function matchesRegularExpression($pattern)
-        {
-        }
-        /**
-         * @param string $string
-         *
-         * @return StringMatchesFormatDescription
-         */
-        public static function matches($string)
-        {
-        }
-        /**
-         * @param mixed $prefix
-         *
-         * @return StringStartsWith
-         */
-        public static function stringStartsWith($prefix)
-        {
-        }
-        /**
-         * @param string $string
-         * @param bool   $case
-         *
-         * @return StringContains
-         */
-        public static function stringContains($string, $case = true)
-        {
-        }
-        /**
-         * @param mixed $suffix
-         *
-         * @return StringEndsWith
-         */
-        public static function stringEndsWith($suffix)
-        {
-        }
-        /**
-         * @param int $count
-         *
-         * @return Count
-         */
-        public static function countOf($count)
+        public static function countOf(int $count) : \PHPUnit\Framework\Constraint\Count
         {
         }
         /**
          * Fails a test with the given message.
          *
-         * @param string $message
-         *
          * @throws AssertionFailedError
          */
-        public static function fail($message = '')
+        public static function fail(string $message = '') : void
         {
         }
         /**
          * Returns the value of an attribute of a class or an object.
          * This also works for attributes that are declared protected or private.
          *
-         * @param string|object $classOrObject
-         * @param string        $attributeName
-         *
-         * @return mixed
+         * @param object|string $classOrObject
          *
          * @throws Exception
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function readAttribute($classOrObject, $attributeName)
+        public static function readAttribute($classOrObject, string $attributeName)
         {
         }
         /**
          * Returns the value of a static attribute.
          * This also works for attributes that are declared protected or private.
          *
-         * @param string $className
-         * @param string $attributeName
-         *
-         * @return mixed
-         *
          * @throws Exception
+         * @throws ReflectionException
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function getStaticAttribute($className, $attributeName)
+        public static function getStaticAttribute(string $className, string $attributeName)
         {
         }
         /**
@@ -1513,101 +1506,56 @@ namespace PHPUnit\Framework {
          * This also works for attributes that are declared protected or private.
          *
          * @param object $object
-         * @param string $attributeName
-         *
-         * @return mixed
          *
          * @throws Exception
+         *
+         * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
          */
-        public static function getObjectAttribute($object, $attributeName)
+        public static function getObjectAttribute($object, string $attributeName)
         {
         }
         /**
          * Mark the test as incomplete.
          *
-         * @param string $message
-         *
          * @throws IncompleteTestError
          */
-        public static function markTestIncomplete($message = '')
+        public static function markTestIncomplete(string $message = '') : void
         {
         }
         /**
          * Mark the test as skipped.
          *
-         * @param string $message
-         *
          * @throws SkippedTestError
          */
-        public static function markTestSkipped($message = '')
+        public static function markTestSkipped(string $message = '') : void
         {
         }
         /**
          * Return the current assertion count.
-         *
-         * @return int
          */
-        public static function getCount()
+        public static function getCount() : int
         {
         }
         /**
          * Reset the assertion counter.
          */
-        public static function resetCount()
+        public static function resetCount() : void
+        {
+        }
+        private static function isValidObjectAttributeName(string $attributeName) : bool
+        {
+        }
+        private static function isValidClassAttributeName(string $attributeName) : bool
+        {
+        }
+        private static function createWarning(string $warning) : void
         {
         }
     }
-    /**
-     * A TestCase defines the fixture to run multiple tests.
-     *
-     * To define a TestCase
-     *
-     *   1) Implement a subclass of PHPUnit\Framework\TestCase.
-     *   2) Define instance variables that store the state of the fixture.
-     *   3) Initialize the fixture state by overriding setUp().
-     *   4) Clean-up after a test by overriding tearDown().
-     *
-     * Each test runs in its own fixture so there can be no side effects
-     * among test runs.
-     *
-     * Here is an example:
-     *
-     * <code>
-     * <?php
-     * class MathTest extends PHPUnit\Framework\TestCase
-     * {
-     *     public $value1;
-     *     public $value2;
-     *
-     *     protected function setUp()
-     *     {
-     *         $this->value1 = 2;
-     *         $this->value2 = 3;
-     *     }
-     * }
-     * ?>
-     * </code>
-     *
-     * For each test implement a method which interacts with the fixture.
-     * Verify the expected results with assertions specified by calling
-     * assert with a boolean.
-     *
-     * <code>
-     * <?php
-     * public function testPass()
-     * {
-     *     $this->assertTrue($this->value1 + $this->value2 == 5);
-     * }
-     * ?>
-     * </code>
-     */
-    abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Framework\Test, \PHPUnit\Framework\SelfDescribing
+    abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Framework\SelfDescribing, \PHPUnit\Framework\Test
     {
+        private const LOCALE_CATEGORIES = [\LC_ALL, \LC_COLLATE, \LC_CTYPE, \LC_MONETARY, \LC_NUMERIC, \LC_TIME];
         /**
-         * Enable or disable the backup and restoration of the $GLOBALS array.
-         * Overwrite this attribute in a child class of TestCase.
-         * Setting this attribute in setUp() has no effect!
-         *
          * @var bool
          */
         protected $backupGlobals;
@@ -1616,10 +1564,6 @@ namespace PHPUnit\Framework {
          */
         protected $backupGlobalsBlacklist = [];
         /**
-         * Enable or disable the backup and restoration of static attributes.
-         * Overwrite this attribute in a child class of TestCase.
-         * Setting this attribute in setUp() has no effect!
-         *
          * @var bool
          */
         protected $backupStaticAttributes;
@@ -1628,27 +1572,18 @@ namespace PHPUnit\Framework {
          */
         protected $backupStaticAttributesBlacklist = [];
         /**
-         * Whether or not this test is to be run in a separate PHP process.
-         *
          * @var bool
          */
         protected $runTestInSeparateProcess;
         /**
-         * Whether or not this class is to be run in a separate PHP process.
-         *
-         * @var bool
-         */
-        private $runClassInSeparateProcess;
-        /**
-         * Whether or not this test should preserve the global state when
-         * running in a separate PHP process.
-         *
          * @var bool
          */
         protected $preserveGlobalState = true;
         /**
-         * Whether or not this test is running in a separate PHP process.
-         *
+         * @var bool
+         */
+        private $runClassInSeparateProcess;
+        /**
          * @var bool
          */
         private $inIsolation = false;
@@ -1665,32 +1600,22 @@ namespace PHPUnit\Framework {
          */
         private $useErrorHandler;
         /**
-         * The name of the expected Exception.
-         *
          * @var null|string
          */
         private $expectedException;
         /**
-         * The message of the expected Exception.
-         *
-         * @var string
+         * @var null|string
          */
         private $expectedExceptionMessage;
         /**
-         * The regex pattern to validate the expected Exception message.
-         *
-         * @var string
+         * @var null|string
          */
         private $expectedExceptionMessageRegExp;
         /**
-         * The code of the expected Exception.
-         *
          * @var null|int|string
          */
         private $expectedExceptionCode;
         /**
-         * The name of the test case.
-         *
          * @var string
          */
         private $name;
@@ -1721,7 +1646,7 @@ namespace PHPUnit\Framework {
         /**
          * @var int
          */
-        private $status;
+        private $status = \PHPUnit\Runner\BaseTestRunner::STATUS_UNKNOWN;
         /**
          * @var string
          */
@@ -1795,792 +1720,89 @@ namespace PHPUnit\Framework {
          */
         private $customComparators = [];
         /**
-         * Constructs a test case with the given name.
-         *
-         * @param string $name
-         * @param array  $data
-         * @param string $dataName
-         */
-        public function __construct($name = null, array $data = [], $dataName = '')
-        {
-        }
-        /**
-         * Returns a string representation of the test case.
-         *
-         * @return string
-         */
-        public function toString()
-        {
-        }
-        /**
-         * Counts the number of test cases executed by run(TestResult result).
-         *
-         * @return int
-         */
-        public function count()
-        {
-        }
-        public function getGroups()
-        {
-        }
-        /**
-         * @param array $groups
-         */
-        public function setGroups(array $groups)
-        {
-        }
-        /**
-         * Returns the annotations for this test.
-         *
-         * @return array
-         */
-        public function getAnnotations()
-        {
-        }
-        /**
-         * Gets the name of a TestCase.
-         *
-         * @param bool $withDataSet
-         *
-         * @return string
-         */
-        public function getName($withDataSet = true)
-        {
-        }
-        /**
-         * Returns the size of the test.
-         *
-         * @return int
-         */
-        public function getSize()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function hasSize()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isSmall()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isMedium()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isLarge()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function getActualOutput()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function hasOutput()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function doesNotPerformAssertions()
-        {
-        }
-        /**
-         * @param string $expectedRegex
-         *
-         * @throws Exception
-         */
-        public function expectOutputRegex($expectedRegex)
-        {
-        }
-        /**
-         * @param string $expectedString
-         */
-        public function expectOutputString($expectedString)
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function hasExpectationOnOutput()
-        {
-        }
-        /**
-         * @return null|string
-         */
-        public function getExpectedException()
-        {
-        }
-        /**
-         * @return null|int|string
-         */
-        public function getExpectedExceptionCode()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function getExpectedExceptionMessage()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function getExpectedExceptionMessageRegExp()
-        {
-        }
-        /**
-         * @param string $exception
-         */
-        public function expectException($exception)
-        {
-        }
-        /**
-         * @param int|string $code
-         *
-         * @throws Exception
-         */
-        public function expectExceptionCode($code)
-        {
-        }
-        /**
-         * @param string $message
-         *
-         * @throws Exception
-         */
-        public function expectExceptionMessage($message)
-        {
-        }
-        /**
-         * @param string $messageRegExp
-         *
-         * @throws Exception
-         */
-        public function expectExceptionMessageRegExp($messageRegExp)
-        {
-        }
-        /**
-         * Sets up an expectation for an exception to be raised by the code under test.
-         * Information for expected exception class, expected exception message, and
-         * expected exception code are retrieved from a given Exception object.
-         */
-        public function expectExceptionObject(\Exception $exception)
-        {
-        }
-        /**
-         * @param bool $flag
-         */
-        public function setRegisterMockObjectsFromTestArgumentsRecursively($flag)
-        {
-        }
-        protected function setExpectedExceptionFromAnnotation()
-        {
-        }
-        /**
-         * @param bool $useErrorHandler
-         */
-        public function setUseErrorHandler($useErrorHandler)
-        {
-        }
-        protected function setUseErrorHandlerFromAnnotation()
-        {
-        }
-        protected function checkRequirements()
-        {
-        }
-        /**
-         * Returns the status of this test.
-         *
-         * @return int
-         */
-        public function getStatus()
-        {
-        }
-        public function markAsRisky()
-        {
-        }
-        /**
-         * Returns the status message of this test.
-         *
-         * @return string
-         */
-        public function getStatusMessage()
-        {
-        }
-        /**
-         * Returns whether or not this test has failed.
-         *
-         * @return bool
-         */
-        public function hasFailed()
-        {
-        }
-        /**
-         * Runs the test case and collects the results in a TestResult object.
-         * If no TestResult object is passed a new one will be created.
-         *
-         * @param TestResult $result
-         *
-         * @return TestResult
-         *
-         * @throws Exception
-         */
-        public function run(\PHPUnit\Framework\TestResult $result = null)
-        {
-        }
-        /**
-         * Runs the bare test sequence.
-         */
-        public function runBare()
-        {
-        }
-        /**
-         * Override to run the test and assert its state.
-         *
-         * @return mixed
-         *
-         * @throws Exception|Exception
-         * @throws Exception
-         */
-        protected function runTest()
-        {
-        }
-        /**
-         * Verifies the mock object expectations.
-         */
-        protected function verifyMockObjects()
-        {
-        }
-        /**
-         * Sets the name of a TestCase.
-         *
-         * @param  string
-         */
-        public function setName($name)
-        {
-        }
-        /**
-         * Sets the dependencies of a TestCase.
-         *
-         * @param string[] $dependencies
-         */
-        public function setDependencies(array $dependencies)
-        {
-        }
-        /**
-         * Returns true if the tests has dependencies
-         *
-         * @return bool
-         */
-        public function hasDependencies()
-        {
-        }
-        /**
-         * Sets
-         *
-         * @param array $dependencyInput
-         */
-        public function setDependencyInput(array $dependencyInput)
-        {
-        }
-        /**
-         * @param bool $beStrictAboutChangesToGlobalState
-         */
-        public function setBeStrictAboutChangesToGlobalState($beStrictAboutChangesToGlobalState)
-        {
-        }
-        /**
-         * Calling this method in setUp() has no effect!
-         *
-         * @param bool $backupGlobals
-         */
-        public function setBackupGlobals($backupGlobals)
-        {
-        }
-        /**
-         * Calling this method in setUp() has no effect!
-         *
-         * @param bool $backupStaticAttributes
-         */
-        public function setBackupStaticAttributes($backupStaticAttributes)
-        {
-        }
-        /**
-         * @param bool $runTestInSeparateProcess
-         *
-         * @throws Exception
-         */
-        public function setRunTestInSeparateProcess($runTestInSeparateProcess)
-        {
-        }
-        /**
-         * @param bool $runClassInSeparateProcess
-         *
-         * @throws Exception
-         */
-        public function setRunClassInSeparateProcess($runClassInSeparateProcess)
-        {
-        }
-        /**
-         * @param bool $preserveGlobalState
-         *
-         * @throws Exception
-         */
-        public function setPreserveGlobalState($preserveGlobalState)
-        {
-        }
-        /**
-         * @param bool $inIsolation
-         *
-         * @throws Exception
-         */
-        public function setInIsolation($inIsolation)
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isInIsolation()
-        {
-        }
-        /**
-         * @return mixed
-         */
-        public function getResult()
-        {
-        }
-        /**
-         * @param mixed $result
-         */
-        public function setResult($result)
-        {
-        }
-        /**
-         * @param callable $callback
-         *
-         * @throws Exception
-         */
-        public function setOutputCallback($callback)
-        {
-        }
-        /**
-         * @return TestResult
-         */
-        public function getTestResultObject()
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        public function setTestResultObject(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param MockObject $mockObject
-         */
-        public function registerMockObject(\PHPUnit\Framework\MockObject\MockObject $mockObject)
-        {
-        }
-        /**
-         * This method is a wrapper for the ini_set() function that automatically
-         * resets the modified php.ini setting to its original value after the
-         * test is run.
-         *
-         * @param string $varName
-         * @param string $newValue
-         *
-         * @throws Exception
-         */
-        protected function iniSet($varName, $newValue)
-        {
-        }
-        /**
-         * This method is a wrapper for the setlocale() function that automatically
-         * resets the locale to its original value after the test is run.
-         *
-         * @param int    $category
-         * @param string $locale
-         *
-         * @throws Exception
-         */
-        protected function setLocale()
-        {
-        }
-        /**
-         * Returns a builder object to create mock objects using a fluent interface.
-         *
-         * @param string|string[] $className
-         *
-         * @return MockBuilder
-         */
-        public function getMockBuilder($className)
-        {
-        }
-        /**
-         * Returns a test double for the specified class.
-         *
-         * @param string $originalClassName
-         *
-         * @return MockObject
-         *
-         * @throws Exception
-         */
-        protected function createMock($originalClassName)
-        {
-        }
-        /**
-         * Returns a configured test double for the specified class.
-         *
-         * @param string $originalClassName
-         * @param array  $configuration
-         *
-         * @return MockObject
-         *
-         * @throws Exception
-         */
-        protected function createConfiguredMock($originalClassName, array $configuration)
-        {
-        }
-        /**
-         * Returns a partial test double for the specified class.
-         *
-         * @param string   $originalClassName
-         * @param string[] $methods
-         *
-         * @return MockObject
-         *
-         * @throws Exception
-         */
-        protected function createPartialMock($originalClassName, array $methods)
-        {
-        }
-        /**
-         * Returns a test proxy for the specified class.
-         *
-         * @param string $originalClassName
-         * @param array  $constructorArguments
-         *
-         * @return MockObject
-         *
-         * @throws Exception
-         */
-        protected function createTestProxy($originalClassName, array $constructorArguments = [])
-        {
-        }
-        /**
-         * Mocks the specified class and returns the name of the mocked class.
-         *
-         * @param string $originalClassName
-         * @param array  $methods
-         * @param array  $arguments
-         * @param string $mockClassName
-         * @param bool   $callOriginalConstructor
-         * @param bool   $callOriginalClone
-         * @param bool   $callAutoload
-         * @param bool   $cloneArguments
-         *
-         * @return string
-         *
-         * @throws Exception
-         */
-        protected function getMockClass($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = false, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false)
-        {
-        }
-        /**
-         * Returns a mock object for the specified abstract class with all abstract
-         * methods of the class mocked. Concrete methods are not mocked by default.
-         * To mock concrete methods, use the 7th parameter ($mockedMethods).
-         *
-         * @param string $originalClassName
-         * @param array  $arguments
-         * @param string $mockClassName
-         * @param bool   $callOriginalConstructor
-         * @param bool   $callOriginalClone
-         * @param bool   $callAutoload
-         * @param array  $mockedMethods
-         * @param bool   $cloneArguments
-         *
-         * @return MockObject
-         *
-         * @throws Exception
-         */
-        protected function getMockForAbstractClass($originalClassName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = false)
-        {
-        }
-        /**
-         * Returns a mock object based on the given WSDL file.
-         *
-         * @param string $wsdlFile
-         * @param string $originalClassName
-         * @param string $mockClassName
-         * @param array  $methods
-         * @param bool   $callOriginalConstructor
-         * @param array  $options                 An array of options passed to SOAPClient::_construct
-         *
-         * @return MockObject
-         */
-        protected function getMockFromWsdl($wsdlFile, $originalClassName = '', $mockClassName = '', array $methods = [], $callOriginalConstructor = true, array $options = [])
-        {
-        }
-        /**
-         * Returns a mock object for the specified trait with all abstract methods
-         * of the trait mocked. Concrete methods to mock can be specified with the
-         * `$mockedMethods` parameter.
-         *
-         * @param string $traitName
-         * @param array  $arguments
-         * @param string $mockClassName
-         * @param bool   $callOriginalConstructor
-         * @param bool   $callOriginalClone
-         * @param bool   $callAutoload
-         * @param array  $mockedMethods
-         * @param bool   $cloneArguments
-         *
-         * @return MockObject
-         *
-         * @throws Exception
-         */
-        protected function getMockForTrait($traitName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = false)
-        {
-        }
-        /**
-         * Returns an object for the specified trait.
-         *
-         * @param string $traitName
-         * @param array  $arguments
-         * @param string $traitClassName
-         * @param bool   $callOriginalConstructor
-         * @param bool   $callOriginalClone
-         * @param bool   $callAutoload
-         *
-         * @return object
-         *
-         * @throws Exception
-         */
-        protected function getObjectForTrait($traitName, array $arguments = [], $traitClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
-        {
-        }
-        /**
-         * @param string|null $classOrInterface
-         *
-         * @return \Prophecy\Prophecy\ObjectProphecy
-         *
-         * @throws \LogicException
-         */
-        protected function prophesize($classOrInterface = null)
-        {
-        }
-        /**
-         * Adds a value to the assertion counter.
-         *
-         * @param int $count
-         */
-        public function addToAssertionCount($count)
-        {
-        }
-        /**
-         * Returns the number of assertions performed by this test.
-         *
-         * @return int
-         */
-        public function getNumAssertions()
-        {
-        }
-        /**
          * Returns a matcher that matches when the method is executed
          * zero or more times.
-         *
-         * @return AnyInvokedCountMatcher
          */
-        public static function any()
+        public static function any() : \PHPUnit\Framework\MockObject\Matcher\AnyInvokedCount
         {
         }
         /**
          * Returns a matcher that matches when the method is never executed.
-         *
-         * @return InvokedCountMatcher
          */
-        public static function never()
+        public static function never() : \PHPUnit\Framework\MockObject\Matcher\InvokedCount
         {
         }
         /**
          * Returns a matcher that matches when the method is executed
          * at least N times.
-         *
-         * @param int $requiredInvocations
-         *
-         * @return InvokedAtLeastCountMatcher
          */
-        public static function atLeast($requiredInvocations)
+        public static function atLeast(int $requiredInvocations) : \PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastCount
         {
         }
         /**
          * Returns a matcher that matches when the method is executed at least once.
-         *
-         * @return InvokedAtLeastOnceMatcher
          */
-        public static function atLeastOnce()
+        public static function atLeastOnce() : \PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastOnce
         {
         }
         /**
          * Returns a matcher that matches when the method is executed exactly once.
-         *
-         * @return InvokedCountMatcher
          */
-        public static function once()
+        public static function once() : \PHPUnit\Framework\MockObject\Matcher\InvokedCount
         {
         }
         /**
          * Returns a matcher that matches when the method is executed
          * exactly $count times.
-         *
-         * @param int $count
-         *
-         * @return InvokedCountMatcher
          */
-        public static function exactly($count)
+        public static function exactly(int $count) : \PHPUnit\Framework\MockObject\Matcher\InvokedCount
         {
         }
         /**
          * Returns a matcher that matches when the method is executed
          * at most N times.
-         *
-         * @param int $allowedInvocations
-         *
-         * @return InvokedAtMostCountMatcher
          */
-        public static function atMost($allowedInvocations)
+        public static function atMost(int $allowedInvocations) : \PHPUnit\Framework\MockObject\Matcher\InvokedAtMostCount
         {
         }
         /**
          * Returns a matcher that matches when the method is executed
          * at the given index.
-         *
-         * @param int $index
-         *
-         * @return InvokedAtIndexMatcher
          */
-        public static function at($index)
+        public static function at(int $index) : \PHPUnit\Framework\MockObject\Matcher\InvokedAtIndex
         {
         }
-        /**
-         * @param mixed $value
-         *
-         * @return ReturnStub
-         */
-        public static function returnValue($value)
+        public static function returnValue($value) : \PHPUnit\Framework\MockObject\Stub\ReturnStub
         {
         }
-        /**
-         * @param array $valueMap
-         *
-         * @return ReturnValueMapStub
-         */
-        public static function returnValueMap(array $valueMap)
+        public static function returnValueMap(array $valueMap) : \PHPUnit\Framework\MockObject\Stub\ReturnValueMap
         {
         }
-        /**
-         * @param int $argumentIndex
-         *
-         * @return ReturnArgumentStub
-         */
-        public static function returnArgument($argumentIndex)
+        public static function returnArgument(int $argumentIndex) : \PHPUnit\Framework\MockObject\Stub\ReturnArgument
         {
         }
-        /**
-         * @param mixed $callback
-         *
-         * @return ReturnCallbackStub
-         */
-        public static function returnCallback($callback)
+        public static function returnCallback($callback) : \PHPUnit\Framework\MockObject\Stub\ReturnCallback
         {
         }
         /**
          * Returns the current object.
          *
          * This method is useful when mocking a fluent interface.
-         *
-         * @return ReturnSelfStub
          */
-        public static function returnSelf()
+        public static function returnSelf() : \PHPUnit\Framework\MockObject\Stub\ReturnSelf
+        {
+        }
+        public static function throwException(\Throwable $exception) : \PHPUnit\Framework\MockObject\Stub\Exception
+        {
+        }
+        public static function onConsecutiveCalls(...$args) : \PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls
         {
         }
         /**
-         * @param Throwable $exception
-         *
-         * @return ExceptionStub
+         * @param string $name
+         * @param string $dataName
          */
-        public static function throwException(\Throwable $exception)
-        {
-        }
-        /**
-         * @param mixed $value , ...
-         *
-         * @return ConsecutiveCallsStub
-         */
-        public static function onConsecutiveCalls()
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function usesDataProvider()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function dataDescription()
-        {
-        }
-        /**
-         * @return int|string
-         */
-        public function dataName()
-        {
-        }
-        public function registerComparator(\SebastianBergmann\Comparator\Comparator $comparator)
-        {
-        }
-        /**
-         * Gets the data set description of a TestCase.
-         *
-         * @param bool $includeData
-         *
-         * @return string
-         */
-        public function getDataSetAsString($includeData = true)
-        {
-        }
-        /**
-         * Gets the data set of a TestCase.
-         *
-         * @return array
-         */
-        protected function getProvidedData()
-        {
-        }
-        /**
-         * Creates a default TestResult object.
-         *
-         * @return TestResult
-         */
-        protected function createResult()
-        {
-        }
-        protected function handleDependencies()
+        public function __construct($name = null, array $data = [], $dataName = '')
         {
         }
         /**
@@ -2590,17 +1812,471 @@ namespace PHPUnit\Framework {
         {
         }
         /**
-         * Sets up the fixture, for example, open a network connection.
-         * This method is called before a test is executed.
+         * This method is called after the last test of this test class is run.
+         */
+        public static function tearDownAfterClass()
+        {
+        }
+        /**
+         * This method is called before each test.
          */
         protected function setUp()
         {
         }
         /**
+         * This method is called after each test.
+         */
+        protected function tearDown()
+        {
+        }
+        /**
+         * Returns a string representation of the test case.
+         *
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         * @throws \ReflectionException
+         */
+        public function toString() : string
+        {
+        }
+        public function count() : int
+        {
+        }
+        public function getGroups() : array
+        {
+        }
+        public function setGroups(array $groups) : void
+        {
+        }
+        public function getAnnotations() : array
+        {
+        }
+        /**
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function getName(bool $withDataSet = true) : ?string
+        {
+        }
+        /**
+         * Returns the size of the test.
+         *
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function getSize() : int
+        {
+        }
+        /**
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function hasSize() : bool
+        {
+        }
+        /**
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function isSmall() : bool
+        {
+        }
+        /**
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function isMedium() : bool
+        {
+        }
+        /**
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function isLarge() : bool
+        {
+        }
+        public function getActualOutput() : string
+        {
+        }
+        public function hasOutput() : bool
+        {
+        }
+        public function doesNotPerformAssertions() : bool
+        {
+        }
+        public function expectOutputRegex(string $expectedRegex) : void
+        {
+        }
+        public function expectOutputString(string $expectedString) : void
+        {
+        }
+        public function hasExpectationOnOutput() : bool
+        {
+        }
+        public function getExpectedException() : ?string
+        {
+        }
+        /**
+         * @return null|int|string
+         */
+        public function getExpectedExceptionCode()
+        {
+        }
+        public function getExpectedExceptionMessage() : ?string
+        {
+        }
+        public function getExpectedExceptionMessageRegExp() : ?string
+        {
+        }
+        public function expectException(string $exception) : void
+        {
+        }
+        /**
+         * @param int|string $code
+         */
+        public function expectExceptionCode($code) : void
+        {
+        }
+        public function expectExceptionMessage(string $message) : void
+        {
+        }
+        public function expectExceptionMessageRegExp(string $messageRegExp) : void
+        {
+        }
+        /**
+         * Sets up an expectation for an exception to be raised by the code under test.
+         * Information for expected exception class, expected exception message, and
+         * expected exception code are retrieved from a given Exception object.
+         */
+        public function expectExceptionObject(\Exception $exception) : void
+        {
+        }
+        public function expectNotToPerformAssertions()
+        {
+        }
+        public function setRegisterMockObjectsFromTestArgumentsRecursively(bool $flag) : void
+        {
+        }
+        public function setUseErrorHandler(bool $useErrorHandler) : void
+        {
+        }
+        public function getStatus() : int
+        {
+        }
+        public function markAsRisky() : void
+        {
+        }
+        public function getStatusMessage() : string
+        {
+        }
+        public function hasFailed() : bool
+        {
+        }
+        /**
+         * Runs the test case and collects the results in a TestResult object.
+         * If no TestResult object is passed a new one will be created.
+         *
+         * @throws CodeCoverageException
+         * @throws ReflectionException
+         * @throws \SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException
+         * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+         * @throws \SebastianBergmann\CodeCoverage\MissingCoversAnnotationException
+         * @throws \SebastianBergmann\CodeCoverage\RuntimeException
+         * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function run(\PHPUnit\Framework\TestResult $result = null) : \PHPUnit\Framework\TestResult
+        {
+        }
+        /**
+         * @throws \Throwable
+         */
+        public function runBare() : void
+        {
+        }
+        public function setName(string $name) : void
+        {
+        }
+        /**
+         * @param string[] $dependencies
+         */
+        public function setDependencies(array $dependencies) : void
+        {
+        }
+        public function getDependencies() : array
+        {
+        }
+        public function hasDependencies() : bool
+        {
+        }
+        public function setDependencyInput(array $dependencyInput) : void
+        {
+        }
+        public function setBeStrictAboutChangesToGlobalState(?bool $beStrictAboutChangesToGlobalState) : void
+        {
+        }
+        public function setBackupGlobals(?bool $backupGlobals) : void
+        {
+        }
+        public function setBackupStaticAttributes(?bool $backupStaticAttributes) : void
+        {
+        }
+        public function setRunTestInSeparateProcess(bool $runTestInSeparateProcess) : void
+        {
+        }
+        public function setRunClassInSeparateProcess(bool $runClassInSeparateProcess) : void
+        {
+        }
+        public function setPreserveGlobalState(bool $preserveGlobalState) : void
+        {
+        }
+        public function setInIsolation(bool $inIsolation) : void
+        {
+        }
+        public function isInIsolation() : bool
+        {
+        }
+        public function getResult()
+        {
+        }
+        public function setResult($result) : void
+        {
+        }
+        public function setOutputCallback(callable $callback) : void
+        {
+        }
+        public function getTestResultObject() : ?\PHPUnit\Framework\TestResult
+        {
+        }
+        public function setTestResultObject(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        public function registerMockObject(\PHPUnit\Framework\MockObject\MockObject $mockObject) : void
+        {
+        }
+        /**
+         * Returns a builder object to create mock objects using a fluent interface.
+         *
+         * @param string|string[] $className
+         */
+        public function getMockBuilder($className) : \PHPUnit\Framework\MockObject\MockBuilder
+        {
+        }
+        public function addToAssertionCount(int $count) : void
+        {
+        }
+        /**
+         * Returns the number of assertions performed by this test.
+         */
+        public function getNumAssertions() : int
+        {
+        }
+        public function usesDataProvider() : bool
+        {
+        }
+        public function dataDescription() : string
+        {
+        }
+        /**
+         * @return int|string
+         */
+        public function dataName()
+        {
+        }
+        public function registerComparator(\SebastianBergmann\Comparator\Comparator $comparator) : void
+        {
+        }
+        public function getDataSetAsString(bool $includeData = true) : string
+        {
+        }
+        /**
+         * Gets the data set of a TestCase.
+         */
+        public function getProvidedData() : array
+        {
+        }
+        public function addWarning(string $warning) : void
+        {
+        }
+        /**
+         * Override to run the test and assert its state.
+         *
+         * @throws AssertionFailedError
+         * @throws Exception
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
+         * @throws Throwable
+         */
+        protected function runTest()
+        {
+        }
+        /**
+         * This method is a wrapper for the ini_set() function that automatically
+         * resets the modified php.ini setting to its original value after the
+         * test is run.
+         *
+         * @throws Exception
+         */
+        protected function iniSet(string $varName, $newValue) : void
+        {
+        }
+        /**
+         * This method is a wrapper for the setlocale() function that automatically
+         * resets the locale to its original value after the test is run.
+         *
+         * @throws Exception
+         */
+        protected function setLocale(...$args) : void
+        {
+        }
+        /**
+         * Returns a test double for the specified class.
+         *
+         * @param string|string[] $originalClassName
+         *
+         * @throws Exception
+         * @throws \InvalidArgumentException
+         */
+        protected function createMock($originalClassName) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Returns a configured test double for the specified class.
+         *
+         * @param string|string[] $originalClassName
+         *
+         * @throws Exception
+         * @throws \InvalidArgumentException
+         */
+        protected function createConfiguredMock($originalClassName, array $configuration) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Returns a partial test double for the specified class.
+         *
+         * @param string|string[] $originalClassName
+         * @param string[]        $methods
+         *
+         * @throws Exception
+         * @throws \InvalidArgumentException
+         */
+        protected function createPartialMock($originalClassName, array $methods) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Returns a test proxy for the specified class.
+         *
+         * @throws Exception
+         * @throws \InvalidArgumentException
+         */
+        protected function createTestProxy(string $originalClassName, array $constructorArguments = []) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Mocks the specified class and returns the name of the mocked class.
+         *
+         * @param string $originalClassName
+         * @param array  $methods
+         * @param string $mockClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         * @param bool   $cloneArguments
+         *
+         * @throws Exception
+         * @throws ReflectionException
+         * @throws \InvalidArgumentException
+         */
+        protected function getMockClass($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = false, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false) : string
+        {
+        }
+        /**
+         * Returns a mock object for the specified abstract class with all abstract
+         * methods of the class mocked. Concrete methods are not mocked by default.
+         * To mock concrete methods, use the 7th parameter ($mockedMethods).
+         *
+         * @param string $originalClassName
+         * @param string $mockClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         * @param array  $mockedMethods
+         * @param bool   $cloneArguments
+         *
+         * @throws Exception
+         * @throws ReflectionException
+         * @throws \InvalidArgumentException
+         */
+        protected function getMockForAbstractClass($originalClassName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = false) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Returns a mock object based on the given WSDL file.
+         *
+         * @param string $wsdlFile
+         * @param string $originalClassName
+         * @param string $mockClassName
+         * @param bool   $callOriginalConstructor
+         * @param array  $options                 An array of options passed to SOAPClient::_construct
+         *
+         * @throws Exception
+         * @throws ReflectionException
+         * @throws \InvalidArgumentException
+         */
+        protected function getMockFromWsdl($wsdlFile, $originalClassName = '', $mockClassName = '', array $methods = [], $callOriginalConstructor = true, array $options = []) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Returns a mock object for the specified trait with all abstract methods
+         * of the trait mocked. Concrete methods to mock can be specified with the
+         * `$mockedMethods` parameter.
+         *
+         * @param string $traitName
+         * @param string $mockClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         * @param array  $mockedMethods
+         * @param bool   $cloneArguments
+         *
+         * @throws Exception
+         * @throws ReflectionException
+         * @throws \InvalidArgumentException
+         */
+        protected function getMockForTrait($traitName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = false) : \PHPUnit\Framework\MockObject\MockObject
+        {
+        }
+        /**
+         * Returns an object for the specified trait.
+         *
+         * @param string $traitName
+         * @param string $traitClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         *
+         * @throws Exception
+         * @throws ReflectionException
+         * @throws \InvalidArgumentException
+         *
+         * @return object
+         */
+        protected function getObjectForTrait($traitName, array $arguments = [], $traitClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
+        {
+        }
+        /**
+         * @param null|string $classOrInterface
+         *
+         * @throws Prophecy\Exception\Doubler\ClassNotFoundException
+         * @throws Prophecy\Exception\Doubler\DoubleException
+         * @throws Prophecy\Exception\Doubler\InterfaceNotFoundException
+         */
+        protected function prophesize($classOrInterface = null) : \Prophecy\Prophecy\ObjectProphecy
+        {
+        }
+        /**
+         * Creates a default TestResult object.
+         */
+        protected function createResult() : \PHPUnit\Framework\TestResult
+        {
+        }
+        /**
          * Performs assertions shared by all tests of a test case.
          *
-         * This method is called before the execution of a test starts
-         * and after setUp() is called.
+         * This method is called between setUp() and test.
          */
         protected function assertPreConditions()
         {
@@ -2608,155 +2284,186 @@ namespace PHPUnit\Framework {
         /**
          * Performs assertions shared by all tests of a test case.
          *
-         * This method is called after the execution of a test ends
-         * and before tearDown() is called.
+         * This method is called between test and tearDown().
          */
         protected function assertPostConditions()
         {
         }
         /**
-         * Tears down the fixture, for example, close a network connection.
-         * This method is called after a test is executed.
-         */
-        protected function tearDown()
-        {
-        }
-        /**
-         * This method is called after the last test of this test class is run.
-         */
-        public static function tearDownAfterClass()
-        {
-        }
-        /**
          * This method is called when a test method did not execute successfully.
-         *
-         * @param Throwable $t
          *
          * @throws Throwable
          */
         protected function onNotSuccessfulTest(\Throwable $t)
         {
         }
-        /**
-         * Performs custom preparations on the process isolation template.
-         *
-         * @param Text_Template $template
-         */
-        protected function prepareTemplate(\Text_Template $template)
+        private function setExpectedExceptionFromAnnotation() : void
+        {
+        }
+        private function setUseErrorHandlerFromAnnotation() : void
+        {
+        }
+        private function checkRequirements() : void
+        {
+        }
+        private function verifyMockObjects() : void
+        {
+        }
+        private function handleDependencies() : bool
+        {
+        }
+        private function markSkippedForMissingDependecy(string $dependency) : void
+        {
+        }
+        private function markWarningForUncallableDependency(string $dependency) : void
         {
         }
         /**
          * Get the mock object generator, creating it if it doesn't exist.
-         *
-         * @return MockGenerator
          */
-        private function getMockObjectGenerator()
+        private function getMockObjectGenerator() : \PHPUnit\Framework\MockObject\Generator
         {
         }
-        private function startOutputBuffering()
-        {
-        }
-        private function stopOutputBuffering()
-        {
-        }
-        private function snapshotGlobalState()
-        {
-        }
-        private function restoreGlobalState()
+        private function startOutputBuffering() : void
         {
         }
         /**
-         * @param bool $backupGlobals
-         *
-         * @return Snapshot
-         */
-        private function createGlobalStateSnapshot($backupGlobals)
-        {
-        }
-        /**
-         * @param Snapshot $before
-         * @param Snapshot $after
-         *
          * @throws RiskyTestError
          */
-        private function compareGlobalStateSnapshots(\SebastianBergmann\GlobalState\Snapshot $before, \SebastianBergmann\GlobalState\Snapshot $after)
+        private function stopOutputBuffering() : void
+        {
+        }
+        private function snapshotGlobalState() : void
         {
         }
         /**
-         * @param array  $before
-         * @param array  $after
-         * @param string $header
-         *
+         * @throws RiskyTestError
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         * @throws \InvalidArgumentException
+         */
+        private function restoreGlobalState() : void
+        {
+        }
+        private function createGlobalStateSnapshot(bool $backupGlobals) : \SebastianBergmann\GlobalState\Snapshot
+        {
+        }
+        /**
+         * @throws RiskyTestError
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         * @throws \InvalidArgumentException
+         */
+        private function compareGlobalStateSnapshots(\SebastianBergmann\GlobalState\Snapshot $before, \SebastianBergmann\GlobalState\Snapshot $after) : void
+        {
+        }
+        /**
          * @throws RiskyTestError
          */
-        private function compareGlobalStateSnapshotPart(array $before, array $after, $header)
+        private function compareGlobalStateSnapshotPart(array $before, array $after, string $header) : void
+        {
+        }
+        private function getProphet() : \Prophecy\Prophet
         {
         }
         /**
-         * @return Prophecy\Prophet
+         * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
          */
-        private function getProphet()
+        private function shouldInvocationMockerBeReset(\PHPUnit\Framework\MockObject\MockObject $mock) : bool
         {
         }
         /**
-         * @param MockObject $mock
-         *
-         * @return bool
+         * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
+         * @throws \SebastianBergmann\ObjectReflector\InvalidArgumentException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        private function shouldInvocationMockerBeReset(\PHPUnit\Framework\MockObject\MockObject $mock)
+        private function registerMockObjectsFromTestArguments(array $testArguments, array &$visited = []) : void
+        {
+        }
+        private function setDoesNotPerformAssertionsFromAnnotation() : void
+        {
+        }
+        private function isCloneable(\PHPUnit\Framework\MockObject\MockObject $testArgument) : bool
+        {
+        }
+        private function unregisterCustomComparators() : void
+        {
+        }
+        private function cleanupIniSettings() : void
+        {
+        }
+        private function cleanupLocaleSettings() : void
         {
         }
         /**
-         * @param array $testArguments
-         * @param array $visited
+         * @throws ReflectionException
          */
-        private function registerMockObjectsFromTestArguments(array $testArguments, array &$visited = [])
-        {
-        }
-        private function setDoesNotPerformAssertionsFromAnnotation()
-        {
-        }
-        /**
-         * @param MockObject $testArgument
-         *
-         * @return bool
-         */
-        private function isCloneable(\PHPUnit\Framework\MockObject\MockObject $testArgument)
-        {
-        }
-        private function unregisterCustomComparators()
-        {
-        }
-        private function cleanupIniSettings()
-        {
-        }
-        private function cleanupLocaleSettings()
-        {
-        }
         private function checkExceptionExpectations(\Throwable $throwable) : bool
+        {
+        }
+        private function runInSeparateProcess() : bool
         {
         }
     }
 }
 namespace {
-    class Issue1570Test extends \PHPUnit\Framework\TestCase
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    /**
+     * @runClassInSeparateProcess
+     */
+    class SeparateClassRunMethodInNewProcessTest extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public const PROCESS_ID_FILE_PATH = __DIR__ . '/parent_process_id.txt';
+        public const INITIAL_MASTER_PID = 0;
+        public const INITIAL_PID1 = 1;
+        public static $masterPid = self::INITIAL_MASTER_PID;
+        public static $pid1 = self::INITIAL_PID1;
+        public static function setUpBeforeClass() : void
+        {
+        }
+        public static function tearDownAfterClass() : void
+        {
+        }
+        public function testMethodShouldGetDifferentPidThanMaster() : void
         {
         }
     }
+    class Issue1570Test extends \PHPUnit\Framework\TestCase
+    {
+        public function testOne() : void
+        {
+        }
+    }
+}
+namespace Issue3107 {
+    class Issue3107Test extends \PHPUnit\Framework\TestCase
+    {
+        public static function setUpBeforeClass() : void
+        {
+        }
+        public function testOne() : void
+        {
+        }
+    }
+}
+namespace {
     class Issue322Test extends \PHPUnit\Framework\TestCase
     {
         /**
          * @group one
          */
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @group two
          */
-        public function testTwo()
+        public function testTwo() : void
         {
         }
     }
@@ -2766,32 +2473,40 @@ namespace {
         /**
          * @runInSeparateProcess
          */
-        public function testFailurePre()
+        public function testFailurePre() : void
         {
         }
-        public function testFailurePost()
+        public function testFailurePost() : void
         {
         }
         /**
          * @runInSeparateProcess
          */
-        public function testExceptionPre()
+        public function testExceptionPre() : void
         {
         }
-        public function testExceptionPost()
+        public function testExceptionPost() : void
         {
         }
-        public function testPhpCoreLanguageException()
+        public function testPhpCoreLanguageException() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class ChildProcessClass1351
     {
     }
     class Issue797Test extends \PHPUnit\Framework\TestCase
     {
         protected $preserveGlobalState = \false;
-        public function testBootstrapPhpIsExecutedInIsolation()
+        public function testBootstrapPhpIsExecutedInIsolation() : void
         {
         }
     }
@@ -2801,43 +2516,87 @@ namespace {
      */
     class Issue1335Test extends \PHPUnit\Framework\TestCase
     {
-        public function testGlobalString()
+        public function testGlobalString() : void
         {
         }
-        public function testGlobalIntTruthy()
+        public function testGlobalIntTruthy() : void
         {
         }
-        public function testGlobalIntFalsey()
+        public function testGlobalIntFalsey() : void
         {
         }
-        public function testGlobalFloat()
+        public function testGlobalFloat() : void
         {
         }
-        public function testGlobalBoolTrue()
+        public function testGlobalBoolTrue() : void
         {
         }
-        public function testGlobalBoolFalse()
+        public function testGlobalBoolFalse() : void
         {
         }
-        public function testGlobalNull()
+        public function testGlobalNull() : void
         {
         }
-        public function testGlobalArray()
+        public function testGlobalArray() : void
         {
         }
-        public function testGlobalNestedArray()
+        public function testGlobalNestedArray() : void
         {
         }
-        public function testGlobalObject()
+        public function testGlobalObject() : void
         {
         }
-        public function testGlobalObjectWithBackSlashString()
+        public function testGlobalObjectWithBackSlashString() : void
         {
         }
-        public function testGlobalObjectWithDoubleBackSlashString()
+        public function testGlobalObjectWithDoubleBackSlashString() : void
         {
         }
     }
+    class Issue3364SetupBeforeClassTest extends \PHPUnit\Framework\TestCase
+    {
+        public static function setUpBeforeClass() : void
+        {
+        }
+        public function testOneWithClassSetupException() : void
+        {
+        }
+        public function testTwoWithClassSetupException() : void
+        {
+        }
+    }
+    class Issue3364SetupTest extends \PHPUnit\Framework\TestCase
+    {
+        public function setUp() : void
+        {
+        }
+        public function testOneWithSetupException() : void
+        {
+        }
+        public function testTwoWithSetupException() : void
+        {
+        }
+    }
+}
+namespace Test {
+    class Issue3156Test extends \PHPUnit\Framework\TestCase
+    {
+        public function testConstants() : \stdClass
+        {
+        }
+        public function dataSelectOperatorsProvider() : array
+        {
+        }
+        /**
+         * @depends testConstants
+         * @dataProvider dataSelectOperatorsProvider
+         */
+        public function testDependsRequire(string $val, \stdClass $obj) : void
+        {
+        }
+    }
+}
+namespace {
     class Issue498Test extends \PHPUnit\Framework\TestCase
     {
         /**
@@ -2845,7 +2604,7 @@ namespace {
          * @dataProvider shouldBeTrueDataProvider
          * @group falseOnly
          */
-        public function shouldBeTrue($testData)
+        public function shouldBeTrue($testData) : void
         {
         }
         /**
@@ -2853,7 +2612,7 @@ namespace {
          * @dataProvider shouldBeFalseDataProvider
          * @group trueOnly
          */
-        public function shouldBeFalse($testData)
+        public function shouldBeFalse($testData) : void
         {
         }
         public function shouldBeTrueDataProvider()
@@ -2865,7 +2624,7 @@ namespace {
     }
     class Issue2366
     {
-        public function foo()
+        public function foo() : bool
         {
         }
     }
@@ -2874,7 +2633,7 @@ namespace {
         /**
          * @dataProvider provider
          */
-        public function testOne($o)
+        public function testOne($o) : void
         {
         }
         public function provider()
@@ -2885,7 +2644,7 @@ namespace {
 namespace Issue2972 {
     class Issue2972Test extends \PHPUnit\Framework\TestCase
     {
-        public function testHello()
+        public function testHello() : void
         {
         }
     }
@@ -2893,67 +2652,30 @@ namespace Issue2972 {
 namespace {
     class Issue1472Test extends \PHPUnit\Framework\TestCase
     {
-        public function testAssertEqualXMLStructure()
-        {
-        }
-    }
-    /**
-     * @runTestsInSeparateProcesses
-     * @preserveGlobalState enabled
-     */
-    class Issue2591_SeparateFunctionPreserveTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testChangedGlobalString()
-        {
-        }
-        public function testGlobalString()
-        {
-        }
-    }
-    /**
-     * @runClassInSeparateProcess
-     * @preserveGlobalState enabled
-     */
-    class Issue2591_SeparateClassPreserveTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testOriginalGlobalString()
-        {
-        }
-        public function testChangedGlobalString()
-        {
-        }
-        public function testGlobalString()
-        {
-        }
-    }
-    /**
-     * @runTestsInSeparateProcesses
-     * @preserveGlobalState disabled
-     */
-    class Issue2591_SeparateFunctionNoPreserveTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testChangedGlobalString()
-        {
-        }
-        public function testGlobalString()
+        public function testAssertEqualXMLStructure() : void
         {
         }
     }
     class Issue1330Test extends \PHPUnit\Framework\TestCase
     {
-        public function testTrue()
+        public function testTrue() : void
         {
         }
     }
-    /**
-     * @runClassInSeparateProcess
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
      */
     class Issue2830Test extends \PHPUnit\Framework\TestCase
     {
         /**
          * @dataProvider simpleDataProvider
          */
-        public function testMethodUsesDataProvider()
+        public function testMethodUsesDataProvider() : void
         {
         }
         public function simpleDataProvider()
@@ -2962,87 +2684,137 @@ namespace {
     }
     class Issue1437Test extends \PHPUnit\Framework\TestCase
     {
-        public function testFailure()
+        public function testFailure() : void
         {
         }
     }
     class Issue1216Test extends \PHPUnit\Framework\TestCase
     {
-        public function testConfigAvailableInBootstrap()
+        public function testConfigAvailableInBootstrap() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class Issue3093Test extends \PHPUnit\Framework\TestCase
+    {
+        public function someDataProvider() : array
+        {
+        }
+        public function testFirstWithoutDependencies() : void
+        {
+        }
+        /**
+         * @depends testFirstWithoutDependencies
+         * @dataProvider someDataProvider
+         */
+        public function testSecondThatDependsOnFirstAndDataprovider($value)
         {
         }
     }
     class Issue74Test extends \PHPUnit\Framework\TestCase
     {
-        public function testCreateAndThrowNewExceptionInProcessIsolation()
+        public function testCreateAndThrowNewExceptionInProcessIsolation() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class NewException extends \Exception
     {
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Issue2145Test extends \PHPUnit\Framework\TestCase
     {
-        public static function setUpBeforeClass()
+        public static function setUpBeforeClass() : void
         {
         }
-        public function testOne()
+        public function testOne() : void
         {
         }
-        public function testTwo()
+        public function testTwo() : void
         {
         }
     }
     class Issue1265Test extends \PHPUnit\Framework\TestCase
     {
-        public function testTrue()
+        public function testTrue() : void
         {
         }
     }
     class Issue433Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOutputWithExpectationBefore()
+        public function testOutputWithExpectationBefore() : void
         {
         }
-        public function testOutputWithExpectationAfter()
+        public function testOutputWithExpectationAfter() : void
         {
         }
-        public function testNotMatchingOutput()
+        public function testNotMatchingOutput() : void
         {
         }
     }
     class Issue445Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOutputWithExpectationBefore()
+        public function testOutputWithExpectationBefore() : void
         {
         }
-        public function testOutputWithExpectationAfter()
+        public function testOutputWithExpectationAfter() : void
         {
         }
-        public function testNotMatchingOutput()
+        public function testNotMatchingOutput() : void
         {
         }
     }
     class Issue1471Test extends \PHPUnit\Framework\TestCase
     {
-        public function testFailure()
+        public function testFailure() : void
         {
         }
     }
     class Issue581Test extends \PHPUnit\Framework\TestCase
     {
-        public function testExportingObjectsDoesNotBreakWindowsLineFeeds()
+        public function testExportingObjectsDoesNotBreakWindowsLineFeeds() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Issue2137Test extends \PHPUnit\Framework\TestCase
     {
         /**
          * @dataProvider provideBrandService
-         * @param $provided
-         * @param $expected
+         *
+         * @throws Exception
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function testBrandService($provided, $expected)
+        public function testBrandService($provided, $expected) : void
         {
         }
         public function provideBrandService()
@@ -3050,16 +2822,18 @@ namespace {
         }
         /**
          * @dataProvider provideBrandService
-         * @param $provided
-         * @param $expected
+         *
+         * @throws Exception
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function testSomethingElseInvalid($provided, $expected)
+        public function testSomethingElseInvalid($provided, $expected) : void
         {
         }
     }
     class Issue503Test extends \PHPUnit\Framework\TestCase
     {
-        public function testCompareDifferentLineEndings()
+        public function testCompareDifferentLineEndings() : void
         {
         }
     }
@@ -3068,7 +2842,7 @@ namespace {
         /**
          * @dataProvider generatorData
          */
-        public function testGeneratorProvider($data)
+        public function testGeneratorProvider($data) : void
         {
         }
         /**
@@ -3078,12 +2852,17 @@ namespace {
         {
         }
     }
-    /**
-     * @group
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
      */
     class Issue2435Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
     }
@@ -3092,7 +2871,7 @@ namespace {
         /**
          * @todo Implement this test
          */
-        public function testFailure()
+        public function testFailure() : void
         {
         }
     }
@@ -3102,28 +2881,28 @@ namespace {
          * @expectedException Issue244Exception
          * @expectedExceptionCode 123StringCode
          */
-        public function testWorks()
+        public function testWorks() : void
         {
         }
         /**
          * @expectedException Issue244Exception
          * @expectedExceptionCode OtherString
          */
-        public function testFails()
+        public function testFails() : void
         {
         }
         /**
          * @expectedException Issue244Exception
          * @expectedExceptionCode 123
          */
-        public function testFailsTooIfExpectationIsANumber()
+        public function testFailsTooIfExpectationIsANumber() : void
         {
         }
         /**
          * @expectedException Issue244ExceptionIntCode
          * @expectedExceptionCode 123String
          */
-        public function testFailsTooIfExceptionCodeIsANumber()
+        public function testFailsTooIfExceptionCodeIsANumber() : void
         {
         }
     }
@@ -3144,16 +2923,24 @@ namespace {
         /**
          * @dataProvider dataProvider
          */
-        public function testProvider($a)
+        public function testProvider($a) : void
         {
         }
         public function dataProvider()
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Issue2811Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
     }
@@ -3164,45 +2951,166 @@ namespace Issue2725 {
      */
     class BeforeAfterClassPidTest extends \PHPUnit\Framework\TestCase
     {
+        public const PID_VARIABLE = 'current_pid';
         /**
          * @beforeClass
          */
-        public static function showPidBefore()
-        {
-        }
-        public function testComparePids()
-        {
-        }
-        public function testThatClassDidNotReload()
+        public static function showPidBefore() : void
         {
         }
         /**
          * @afterClass
          */
-        public static function showPidAfter()
+        public static function showPidAfter() : void
+        {
+        }
+        public function testMethod1WithItsBeforeAndAfter() : void
+        {
+        }
+        public function testMethod2WithItsBeforeAndAfter() : void
         {
         }
     }
 }
 namespace {
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Issue2731Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
+        {
+        }
+    }
+}
+namespace Test {
+    class Issue3379Test extends \PHPUnit\Framework\TestCase
+    {
+        public function testOne() : void
+        {
+        }
+        /**
+         * @depends testOne
+         */
+        public function testTwo() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework {
+    /**
+     * A Listener for test progress.
+     */
+    interface TestListener
+    {
+        /**
+         * An error occurred.
+         */
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
+        /**
+         * A warning occurred.
+         */
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void;
+        /**
+         * A failure occurred.
+         */
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void;
+        /**
+         * Incomplete test.
+         */
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
+        /**
+         * Risky test.
+         */
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
+        /**
+         * Skipped test.
+         */
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
+        /**
+         * A test suite started.
+         */
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void;
+        /**
+         * A test suite ended.
+         */
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void;
+        /**
+         * A test started.
+         */
+        public function startTest(\PHPUnit\Framework\Test $test) : void;
+        /**
+         * A test ended.
+         */
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void;
+    }
+    trait TestListenerDefaultImplementation
+    {
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
+        {
+        }
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
+        {
+        }
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+        public function startTest(\PHPUnit\Framework\Test $test) : void
+        {
+        }
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
+        {
+        }
+    }
+}
+namespace {
+    class Issue3379TestListener implements \PHPUnit\Framework\TestListener
+    {
+        use \PHPUnit\Framework\TestListenerDefaultImplementation;
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
     }
     class Issue1348Test extends \PHPUnit\Framework\TestCase
     {
-        public function testSTDOUT()
+        public function testSTDOUT() : void
         {
         }
-        public function testSTDERR()
+        public function testSTDERR() : void
         {
         }
     }
@@ -3211,13 +3119,19 @@ namespace {
      */
     class Issue1374Test extends \PHPUnit\Framework\TestCase
     {
-        protected function setUp()
+        protected function setUp() : void
         {
         }
-        public function testSomething()
+        protected function tearDown() : void
         {
         }
-        protected function tearDown()
+        public function testSomething() : void
+        {
+        }
+    }
+    class Issue2085Test extends \PHPUnit\Framework\TestCase
+    {
+        public function testShouldAbortSlowTestByEnforcingTimeLimit() : void
         {
         }
     }
@@ -3226,7 +3140,7 @@ namespace {
         /**
          * Set constant in main process
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
         /**
@@ -3235,35 +3149,35 @@ namespace {
          *
          * @runInSeparateProcess
          */
-        public function testSomethingElse()
+        public function testSomethingElse() : void
         {
         }
     }
     class Issue765Test extends \PHPUnit\Framework\TestCase
     {
-        public function testDependee()
+        public function testDependee() : void
         {
         }
         /**
          * @depends testDependee
          * @dataProvider dependentProvider
          */
-        public function testDependent($a)
+        public function testDependent($a) : void
         {
         }
-        public function dependentProvider()
+        public function dependentProvider() : void
         {
         }
     }
     class Issue1149Test extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @runInSeparateProcess
          */
-        public function testTwo()
+        public function testTwo() : void
         {
         }
     }
@@ -3272,7 +3186,7 @@ namespace {
         /**
          * @dataProvider dataProvider
          */
-        public function testOne($test)
+        public function testOne($test) : void
         {
         }
         public function dataProvider()
@@ -3281,7 +3195,7 @@ namespace {
     }
     class Issue523Test extends \PHPUnit\Framework\TestCase
     {
-        public function testAttributeEquals()
+        public function testAttributeEquals() : void
         {
         }
     }
@@ -3291,13 +3205,13 @@ namespace {
     }
     class Issue578Test extends \PHPUnit\Framework\TestCase
     {
-        public function testNoticesDoublePrintStackTrace()
+        public function testNoticesDoublePrintStackTrace() : void
         {
         }
-        public function testWarningsDoublePrintStackTrace()
+        public function testWarningsDoublePrintStackTrace() : void
         {
         }
-        public function testUnexpectedExceptionsPrintsCorrectly()
+        public function testUnexpectedExceptionsPrintsCorrectly() : void
         {
         }
     }
@@ -3306,7 +3220,7 @@ namespace {
      */
     class TwoTest extends \PHPUnit\Framework\TestCase
     {
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -3327,7 +3241,7 @@ namespace {
      */
     class OneTest extends \PHPUnit\Framework\TestCase
     {
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -3339,3314 +3253,16 @@ namespace {
         /**
          * @dataProvider provider
          */
-        public function testSomething($data)
+        public function testSomething($data) : void
         {
         }
         /**
          * @depends testSomething
          */
-        public function testSomethingElse()
+        public function testSomethingElse() : void
         {
         }
         public function provider()
-        {
-        }
-    }
-}
-namespace PHPUnit\Runner\Filter {
-    class NameFilterIteratorTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testCaseSensitiveMatch()
-        {
-        }
-        public function testCaseInsensitiveMatch()
-        {
-        }
-        private function createFilter(string $filter) : \PHPUnit\Runner\Filter\NameFilterIterator
-        {
-        }
-    }
-}
-namespace PHPUnit\Runner {
-    class PhptTestCaseTest extends \PHPUnit\Framework\TestCase
-    {
-        const EXPECT_CONTENT = <<<EOF
---TEST--
-EXPECT test
---FILE--
-<?php echo "Hello PHPUnit!"; ?>
---EXPECT--
-Hello PHPUnit!
-EOF;
-        const EXPECTF_CONTENT = <<<EOF
---TEST--
-EXPECTF test
---FILE--
-<?php echo "Hello PHPUnit!"; ?>
---EXPECTF--
-Hello %s!
-EOF;
-        const EXPECTREGEX_CONTENT = <<<EOF
---TEST--
-EXPECTREGEX test
---FILE--
-<?php echo "Hello PHPUnit!"; ?>
---EXPECTREGEX--
-Hello [HPU]{4}[nit]{3}!
-EOF;
-        const FILE_SECTION = <<<EOF
-<?php echo "Hello PHPUnit!"; ?>
-
-EOF;
-        /**
-         * @var string
-         */
-        private $dirname;
-        /**
-         * @var string
-         */
-        private $filename;
-        /**
-         * @var PhptTestCase
-         */
-        private $testCase;
-        /**
-         * @var AbstractPhpProcess|\PHPUnit\Framework\MockObject\MockObject
-         */
-        private $phpProcess;
-        protected function setUp()
-        {
-        }
-        protected function tearDown()
-        {
-        }
-        /**
-         * Defines the content of the current PHPT test.
-         *
-         * @param string $content
-         */
-        private function setPhpContent($content)
-        {
-        }
-        /**
-         * Ensures the correct line ending is used for comparison
-         *
-         * @param string $content
-         *
-         * @return string
-         */
-        private function ensureCorrectEndOfLine($content)
-        {
-        }
-        public function testShouldRunFileSectionAsTest()
-        {
-        }
-        public function testRenderFileSection()
-        {
-        }
-        public function testRenderSkipifSection()
-        {
-        }
-        public function testShouldRunSkipifSectionWhenExists()
-        {
-        }
-        public function testShouldNotRunTestSectionIfSkipifSectionReturnsOutputWithSkipWord()
-        {
-        }
-        public function testShouldRunCleanSectionWhenDefined()
-        {
-        }
-        public function testShouldThrowsAnExceptionWhenPhptFileIsEmpty()
-        {
-        }
-        public function testShouldThrowsAnExceptionWhenFileSectionIsMissing()
-        {
-        }
-        public function testShouldThrowsAnExceptionWhenThereIsNoExpecOrExpectifOrExpecregexSectionInPhptFile()
-        {
-        }
-        public function testShouldValidateExpectSession()
-        {
-        }
-        public function testShouldValidateExpectfSession()
-        {
-        }
-        public function testShouldValidateExpectregexSession()
-        {
-        }
-    }
-}
-namespace PHPUnit\Util {
-    class ConfigurationGeneratorTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testGeneratesConfigurationCorrectly()
-        {
-        }
-    }
-    class XmlTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider charProvider
-         */
-        public function testPrepareString($char)
-        {
-        }
-        public function charProvider()
-        {
-        }
-        public function testLoadEmptyString()
-        {
-        }
-        public function testLoadArray()
-        {
-        }
-        public function testLoadBoolean()
-        {
-        }
-        public function testNestedXmlToVariable()
-        {
-        }
-        public function testXmlToVariableCanHandleMultipleOfTheSameArgumentType()
-        {
-        }
-        public function testXmlToVariableCanConstructObjectsWithConstructorArgumentsRecursively()
-        {
-        }
-    }
-    class GlobalStateTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testIncludedFilesAsStringSkipsVfsProtocols()
-        {
-        }
-    }
-    class GetoptTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testItIncludeTheLongOptionsAfterTheArgument()
-        {
-        }
-        public function testItIncludeTheShortOptionsAfterTheArgument()
-        {
-        }
-        public function testShortOptionUnrecognizedException()
-        {
-        }
-        public function testShortOptionRequiresAnArgumentException()
-        {
-        }
-        public function testShortOptionHandleAnOptionalValue()
-        {
-        }
-        public function testLongOptionIsAmbiguousException()
-        {
-        }
-        public function testLongOptionUnrecognizedException()
-        {
-        }
-        public function testLongOptionRequiresAnArgumentException()
-        {
-        }
-        public function testLongOptionDoesNotAllowAnArgumentException()
-        {
-        }
-        public function testItHandlesLongParametesWithValues()
-        {
-        }
-        public function testItHandlesShortParametesWithValues()
-        {
-        }
-    }
-}
-namespace PHPUnit\Util\PHP {
-    class AbstractPhpProcessTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @var AbstractPhpProcess|\PHPUnit\Framework\MockObject\MockObject
-         */
-        private $phpProcess;
-        protected function setUp()
-        {
-        }
-        public function testShouldNotUseStderrRedirectionByDefault()
-        {
-        }
-        public function testShouldDefinedIfUseStderrRedirection()
-        {
-        }
-        public function testShouldDefinedIfDoNotUseStderrRedirection()
-        {
-        }
-        public function testShouldThrowsExceptionWhenStderrRedirectionVariableIsNotABoolean()
-        {
-        }
-        public function testShouldUseGivenSettingsToCreateCommand()
-        {
-        }
-        public function testShouldRedirectStderrToStdoutWhenDefined()
-        {
-        }
-        public function testShouldUseArgsToCreateCommand()
-        {
-        }
-        public function testShouldHaveFileToCreateCommand()
-        {
-        }
-        public function testStdinGetterAndSetter()
-        {
-        }
-        public function testArgsGetterAndSetter()
-        {
-        }
-        public function testEnvGetterAndSetter()
-        {
-        }
-        public function testTimeoutGetterAndSetter()
-        {
-        }
-    }
-}
-namespace PHPUnit\Util {
-    class JsonTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider canonicalizeProvider
-         */
-        public function testCanonicalize($actual, $expected, $expectError)
-        {
-        }
-        /**
-         * @return array
-         */
-        public function canonicalizeProvider()
-        {
-        }
-        /**
-         * @dataProvider prettifyProvider
-         */
-        public function testPrettify($actual, $expected)
-        {
-        }
-        /**
-         * @return array
-         */
-        public function prettifyProvider()
-        {
-        }
-        /**
-         * @dataProvider prettifyExceptionProvider
-         * @expectedException \PHPUnit\Framework\Exception
-         * @expectedExceptionMessage Cannot prettify invalid json
-         */
-        public function testPrettifyException($json)
-        {
-        }
-        /**
-         * @return array
-         */
-        public function prettifyExceptionProvider()
-        {
-        }
-    }
-    class TestTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @todo Split up in separate tests
-         */
-        public function testGetExpectedException()
-        {
-        }
-        public function testGetExpectedRegExp()
-        {
-        }
-        /**
-         * @dataProvider requirementsProvider
-         */
-        public function testGetRequirements($test, $result)
-        {
-        }
-        public function requirementsProvider()
-        {
-        }
-        /**
-         * @dataProvider requirementsWithVersionConstraintsProvider
-         */
-        public function testGetRequirementsWithVersionConstraints($test, array $result)
-        {
-        }
-        public function requirementsWithVersionConstraintsProvider()
-        {
-        }
-        /**
-         * @dataProvider requirementsWithInvalidVersionConstraintsThrowsExceptionProvider
-         */
-        public function testGetRequirementsWithInvalidVersionConstraintsThrowsException($test)
-        {
-        }
-        public function requirementsWithInvalidVersionConstraintsThrowsExceptionProvider()
-        {
-        }
-        public function testGetRequirementsMergesClassAndMethodDocBlocks()
-        {
-        }
-        /**
-         * @dataProvider missingRequirementsProvider
-         */
-        public function testGetMissingRequirements($test, $result)
-        {
-        }
-        public function missingRequirementsProvider()
-        {
-        }
-        /**
-         * @todo   This test does not really test functionality of \PHPUnit\Util\Test
-         */
-        public function testGetProvidedDataRegEx()
-        {
-        }
-        /**
-         * Check if all data providers are being merged.
-         */
-        public function testMultipleDataProviders()
-        {
-        }
-        public function testMultipleYieldIteratorDataProviders()
-        {
-        }
-        public function testWithVariousIterableDataProviders()
-        {
-        }
-        public function testTestWithEmptyAnnotation()
-        {
-        }
-        public function testTestWithSimpleCase()
-        {
-        }
-        public function testTestWithMultiLineMultiParameterCase()
-        {
-        }
-        public function testTestWithVariousTypes()
-        {
-        }
-        public function testTestWithAnnotationAfter()
-        {
-        }
-        public function testTestWithSimpleTextAfter()
-        {
-        }
-        public function testTestWithCharacterEscape()
-        {
-        }
-        public function testTestWithThrowsProperExceptionIfDatasetCannotBeParsed()
-        {
-        }
-        public function testTestWithThrowsProperExceptionIfMultiLineDatasetCannotBeParsed()
-        {
-        }
-        /**
-         * @todo Not sure what this test tests (name is misleading at least)
-         */
-        public function testParseAnnotation()
-        {
-        }
-        /**
-         * @depends Foo
-         * @depends ほげ
-         *
-         * @todo Remove fixture from test class
-         */
-        public function methodForTestParseAnnotation()
-        {
-        }
-        public function testParseAnnotationThatIsOnlyOneLine()
-        {
-        }
-        /** @depends Bar */
-        public function methodForTestParseAnnotationThatIsOnlyOneLine()
-        {
-        }
-        /**
-         * @dataProvider getLinesToBeCoveredProvider
-         */
-        public function testGetLinesToBeCovered($test, $lines)
-        {
-        }
-        public function testGetLinesToBeCovered2()
-        {
-        }
-        public function testGetLinesToBeCovered3()
-        {
-        }
-        public function testGetLinesToBeCovered4()
-        {
-        }
-        public function testGetLinesToBeCoveredSkipsNonExistentMethods()
-        {
-        }
-        public function testTwoCoversDefaultClassAnnotationsAreNotAllowed()
-        {
-        }
-        public function testFunctionParenthesesAreAllowed()
-        {
-        }
-        public function testFunctionParenthesesAreAllowedWithWhitespace()
-        {
-        }
-        public function testMethodParenthesesAreAllowed()
-        {
-        }
-        public function testMethodParenthesesAreAllowedWithWhitespace()
-        {
-        }
-        public function testNamespacedFunctionCanBeCoveredOrUsed()
-        {
-        }
-        public function getLinesToBeCoveredProvider()
-        {
-        }
-        public function testParseTestMethodAnnotationsIncorporatesTraits()
-        {
-        }
-    }
-}
-namespace PHPUnit\Util\TestDox {
-    class NamePrettifierTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @var NamePrettifier
-         */
-        private $namePrettifier;
-        protected function setUp()
-        {
-        }
-        public function testTitleHasSensibleDefaults()
-        {
-        }
-        public function testCaterForUserDefinedSuffix()
-        {
-        }
-        public function testCaterForUserDefinedPrefix()
-        {
-        }
-        public function testTestNameIsConvertedToASentence()
-        {
-        }
-        /**
-         * @ticket 224
-         */
-        public function testTestNameIsNotGroupedWhenNotInSequence()
-        {
-        }
-        public function testReturnsEmptyStringForInvalidMethodName()
-        {
-        }
-    }
-}
-namespace PHPUnit\Util {
-    class ConfigurationTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @var Configuration
-         */
-        protected $configuration;
-        protected function setUp()
-        {
-        }
-        public function testExceptionIsThrownForNotExistingConfigurationFile()
-        {
-        }
-        public function testShouldReadColorsWhenTrueInConfigurationFile()
-        {
-        }
-        public function testShouldReadColorsWhenFalseInConfigurationFile()
-        {
-        }
-        public function testShouldReadColorsWhenEmptyInConfigurationFile()
-        {
-        }
-        public function testShouldReadColorsWhenInvalidInConfigurationFile()
-        {
-        }
-        public function testFilterConfigurationIsReadCorrectly()
-        {
-        }
-        public function testGroupConfigurationIsReadCorrectly()
-        {
-        }
-        public function testTestdoxGroupConfigurationIsReadCorrectly()
-        {
-        }
-        public function testListenerConfigurationIsReadCorrectly()
-        {
-        }
-        public function testLoggingConfigurationIsReadCorrectly()
-        {
-        }
-        public function testPHPConfigurationIsReadCorrectly()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         */
-        public function testPHPConfigurationIsHandledCorrectly()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         *
-         * @see https://github.com/sebastianbergmann/phpunit/issues/1181
-         */
-        public function testHandlePHPConfigurationDoesNotOverwrittenExistingEnvArrayVariables()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         *
-         * @see https://github.com/sebastianbergmann/phpunit/issues/2353
-         */
-        public function testHandlePHPConfigurationDoesForceOverwrittenExistingEnvArrayVariables()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         *
-         * @see https://github.com/sebastianbergmann/phpunit/issues/1181
-         */
-        public function testHandlePHPConfigurationDoesNotOverriteVariablesFromPutEnv()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         *
-         * @see https://github.com/sebastianbergmann/phpunit/issues/1181
-         */
-        public function testHandlePHPConfigurationDoesOverwriteVariablesFromPutEnvWhenForced()
-        {
-        }
-        public function testPHPUnitConfigurationIsReadCorrectly()
-        {
-        }
-        public function testXincludeInConfiguration()
-        {
-        }
-        /**
-         * @ticket 1311
-         */
-        public function testWithEmptyConfigurations()
-        {
-        }
-        /**
-         * Asserts that the values in $actualConfiguration equal $expectedConfiguration.
-         *
-         * @param Configuration $expectedConfiguration
-         * @param Configuration $actualConfiguration
-         */
-        protected function assertConfigurationEquals(\PHPUnit\Util\Configuration $expectedConfiguration, \PHPUnit\Util\Configuration $actualConfiguration)
-        {
-        }
-        public function testGetTestSuiteNamesReturnsTheNamesIfDefined()
-        {
-        }
-        public function testTestSuiteConfigurationForASingleFileInASuite()
-        {
-        }
-    }
-    class RegularExpressionTest extends \PHPUnit\Framework\TestCase
-    {
-        public function validRegexpProvider()
-        {
-        }
-        public function invalidRegexpProvider()
-        {
-        }
-        /**
-         * @dataProvider validRegexpProvider
-         */
-        public function testValidRegex($pattern, $subject, $return)
-        {
-        }
-        /**
-         * @dataProvider invalidRegexpProvider
-         */
-        public function testInvalidRegex($pattern, $subject)
-        {
-        }
-    }
-}
-namespace PHPUnit\Framework {
-    class BaseTestListenerTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @var TestResult
-         */
-        private $result;
-        public function testEndEventsAreCounted()
-        {
-        }
-    }
-    class AssertTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testFail()
-        {
-        }
-        public function testAssertSplObjectStorageContainsObject()
-        {
-        }
-        public function testAssertArrayContainsObject()
-        {
-        }
-        public function testAssertArrayContainsString()
-        {
-        }
-        public function testAssertArrayContainsNonObject()
-        {
-        }
-        public function testAssertContainsOnlyInstancesOf()
-        {
-        }
-        public function testAssertContainsEmptyStringInString()
-        {
-        }
-        public function testAssertArrayHasKeyThrowsExceptionForInvalidFirstArgument()
-        {
-        }
-        public function testAssertArrayHasKeyThrowsExceptionForInvalidSecondArgument()
-        {
-        }
-        public function testAssertArrayHasIntegerKey()
-        {
-        }
-        public function testAssertArraySubset()
-        {
-        }
-        public function testAssertArraySubsetWithDeepNestedArrays()
-        {
-        }
-        public function testAssertArraySubsetWithNoStrictCheckAndObjects()
-        {
-        }
-        public function testAssertArraySubsetWithStrictCheckAndObjects()
-        {
-        }
-        /**
-         * @dataProvider assertArraySubsetInvalidArgumentProvider
-         */
-        public function testAssertArraySubsetRaisesExceptionForInvalidArguments($partial, $subject)
-        {
-        }
-        /**
-         * @return array
-         */
-        public function assertArraySubsetInvalidArgumentProvider()
-        {
-        }
-        public function testAssertArrayNotHasKeyThrowsExceptionForInvalidFirstArgument()
-        {
-        }
-        public function testAssertArrayNotHasKeyThrowsExceptionForInvalidSecondArgument()
-        {
-        }
-        public function testAssertArrayNotHasIntegerKey()
-        {
-        }
-        public function testAssertArrayHasStringKey()
-        {
-        }
-        public function testAssertArrayNotHasStringKey()
-        {
-        }
-        public function testAssertArrayHasKeyAcceptsArrayObjectValue()
-        {
-        }
-        public function testAssertArrayHasKeyProperlyFailsWithArrayObjectValue()
-        {
-        }
-        public function testAssertArrayHasKeyAcceptsArrayAccessValue()
-        {
-        }
-        public function testAssertArrayHasKeyProperlyFailsWithArrayAccessValue()
-        {
-        }
-        public function testAssertArrayNotHasKeyAcceptsArrayAccessValue()
-        {
-        }
-        public function testAssertArrayNotHasKeyPropertlyFailsWithArrayAccessValue()
-        {
-        }
-        public function testAssertContainsThrowsException()
-        {
-        }
-        public function testAssertIteratorContainsObject()
-        {
-        }
-        public function testAssertIteratorContainsString()
-        {
-        }
-        public function testAssertStringContainsString()
-        {
-        }
-        public function testAssertStringContainsStringForUtf8()
-        {
-        }
-        public function testAssertStringContainsStringForUtf8WhenIgnoreCase()
-        {
-        }
-        public function testAssertNotContainsThrowsException()
-        {
-        }
-        public function testAssertSplObjectStorageNotContainsObject()
-        {
-        }
-        public function testAssertArrayNotContainsObject()
-        {
-        }
-        public function testAssertArrayNotContainsString()
-        {
-        }
-        public function testAssertArrayNotContainsNonObject()
-        {
-        }
-        public function testAssertStringNotContainsString()
-        {
-        }
-        public function testAssertStringNotContainsStringForUtf8()
-        {
-        }
-        public function testAssertStringNotContainsStringForUtf8WhenIgnoreCase()
-        {
-        }
-        public function testAssertContainsOnlyThrowsException()
-        {
-        }
-        public function testAssertNotContainsOnlyThrowsException()
-        {
-        }
-        public function testAssertContainsOnlyInstancesOfThrowsException()
-        {
-        }
-        public function testAssertArrayContainsOnlyIntegers()
-        {
-        }
-        public function testAssertArrayNotContainsOnlyIntegers()
-        {
-        }
-        public function testAssertArrayContainsOnlyStdClass()
-        {
-        }
-        public function testAssertArrayNotContainsOnlyStdClass()
-        {
-        }
-        protected function sameValues()
-        {
-        }
-        protected function notEqualValues()
-        {
-        }
-        protected function equalValues()
-        {
-        }
-        public function equalProvider()
-        {
-        }
-        public function notEqualProvider()
-        {
-        }
-        public function sameProvider()
-        {
-        }
-        public function notSameProvider()
-        {
-        }
-        /**
-         * @dataProvider equalProvider
-         */
-        public function testAssertEqualsSucceeds($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-        {
-        }
-        /**
-         * @dataProvider notEqualProvider
-         */
-        public function testAssertEqualsFails($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-        {
-        }
-        /**
-         * @dataProvider notEqualProvider
-         */
-        public function testAssertNotEqualsSucceeds($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-        {
-        }
-        /**
-         * @dataProvider equalProvider
-         */
-        public function testAssertNotEqualsFails($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
-        {
-        }
-        /**
-         * @dataProvider sameProvider
-         */
-        public function testAssertSameSucceeds($a, $b)
-        {
-        }
-        /**
-         * @dataProvider notSameProvider
-         */
-        public function testAssertSameFails($a, $b)
-        {
-        }
-        /**
-         * @dataProvider notSameProvider
-         */
-        public function testAssertNotSameSucceeds($a, $b)
-        {
-        }
-        /**
-         * @dataProvider sameProvider
-         */
-        public function testAssertNotSameFails($a, $b)
-        {
-        }
-        public function testAssertXmlFileEqualsXmlFile()
-        {
-        }
-        public function testAssertXmlFileNotEqualsXmlFile()
-        {
-        }
-        public function testAssertXmlStringEqualsXmlFile()
-        {
-        }
-        public function testXmlStringNotEqualsXmlFile()
-        {
-        }
-        public function testAssertXmlStringEqualsXmlString()
-        {
-        }
-        /**
-         * @ticket 1860
-         */
-        public function testAssertXmlStringEqualsXmlString2()
-        {
-        }
-        /**
-         * @ticket 1860
-         */
-        public function testAssertXmlStringEqualsXmlString3()
-        {
-        }
-        public function testAssertXmlStringNotEqualsXmlString()
-        {
-        }
-        public function testXMLStructureIsSame()
-        {
-        }
-        public function testXMLStructureWrongNumberOfAttributes()
-        {
-        }
-        public function testXMLStructureWrongNumberOfNodes()
-        {
-        }
-        public function testXMLStructureIsSameButDataIsNot()
-        {
-        }
-        public function testXMLStructureAttributesAreSameButValuesAreNot()
-        {
-        }
-        public function testXMLStructureIgnoreTextNodes()
-        {
-        }
-        public function testAssertStringEqualsNumeric()
-        {
-        }
-        public function testAssertStringEqualsNumeric2()
-        {
-        }
-        public function testAssertIsReadableThrowsException()
-        {
-        }
-        public function testAssertIsReadable()
-        {
-        }
-        public function testAssertNotIsReadableThrowsException()
-        {
-        }
-        public function testAssertNotIsReadable()
-        {
-        }
-        public function testAssertIsWritableThrowsException()
-        {
-        }
-        public function testAssertIsWritable()
-        {
-        }
-        public function testAssertNotIsWritableThrowsException()
-        {
-        }
-        public function testAssertNotIsWritable()
-        {
-        }
-        public function testAssertDirectoryExistsThrowsException()
-        {
-        }
-        public function testAssertDirectoryExists()
-        {
-        }
-        public function testAssertDirectoryNotExistsThrowsException()
-        {
-        }
-        public function testAssertDirectoryNotExists()
-        {
-        }
-        public function testAssertDirectoryIsReadableThrowsException()
-        {
-        }
-        public function testAssertDirectoryIsReadable()
-        {
-        }
-        public function testAssertDirectoryNotIsReadableThrowsException()
-        {
-        }
-        public function testAssertDirectoryIsWritableThrowsException()
-        {
-        }
-        public function testAssertDirectoryIsWritable()
-        {
-        }
-        public function testAssertDirectoryNotIsWritableThrowsException()
-        {
-        }
-        public function testAssertFileExistsThrowsException()
-        {
-        }
-        public function testAssertFileExists()
-        {
-        }
-        public function testAssertFileNotExistsThrowsException()
-        {
-        }
-        public function testAssertFileNotExists()
-        {
-        }
-        public function testAssertFileIsReadableThrowsException()
-        {
-        }
-        public function testAssertFileIsReadable()
-        {
-        }
-        public function testAssertFileNotIsReadableThrowsException()
-        {
-        }
-        public function testAssertFileIsWritableThrowsException()
-        {
-        }
-        public function testAssertFileIsWritable()
-        {
-        }
-        public function testAssertFileNotIsWritableThrowsException()
-        {
-        }
-        public function testAssertObjectHasAttribute()
-        {
-        }
-        public function testAssertObjectNotHasAttribute()
-        {
-        }
-        public function testAssertFinite()
-        {
-        }
-        public function testAssertInfinite()
-        {
-        }
-        public function testAssertNan()
-        {
-        }
-        public function testAssertNull()
-        {
-        }
-        public function testAssertNotNull()
-        {
-        }
-        public function testAssertTrue()
-        {
-        }
-        public function testAssertNotTrue()
-        {
-        }
-        public function testAssertFalse()
-        {
-        }
-        public function testAssertNotFalse()
-        {
-        }
-        public function testAssertRegExpThrowsException()
-        {
-        }
-        public function testAssertRegExpThrowsException2()
-        {
-        }
-        public function testAssertNotRegExpThrowsException()
-        {
-        }
-        public function testAssertNotRegExpThrowsException2()
-        {
-        }
-        public function testAssertRegExp()
-        {
-        }
-        public function testAssertNotRegExp()
-        {
-        }
-        public function testAssertSame()
-        {
-        }
-        public function testAssertSame2()
-        {
-        }
-        public function testAssertNotSame()
-        {
-        }
-        public function testAssertNotSame2()
-        {
-        }
-        public function testAssertNotSameFailsNull()
-        {
-        }
-        public function testGreaterThan()
-        {
-        }
-        public function testAttributeGreaterThan()
-        {
-        }
-        public function testGreaterThanOrEqual()
-        {
-        }
-        public function testAttributeGreaterThanOrEqual()
-        {
-        }
-        public function testLessThan()
-        {
-        }
-        public function testAttributeLessThan()
-        {
-        }
-        public function testLessThanOrEqual()
-        {
-        }
-        public function testAttributeLessThanOrEqual()
-        {
-        }
-        public function testReadAttribute()
-        {
-        }
-        public function testReadAttribute2()
-        {
-        }
-        public function testReadAttribute3()
-        {
-        }
-        public function testReadAttribute4()
-        {
-        }
-        public function testReadAttribute5()
-        {
-        }
-        public function testReadAttributeIfAttributeNameIsNotValid()
-        {
-        }
-        public function testGetStaticAttributeRaisesExceptionForInvalidFirstArgument()
-        {
-        }
-        public function testGetStaticAttributeRaisesExceptionForInvalidFirstArgument2()
-        {
-        }
-        public function testGetStaticAttributeRaisesExceptionForInvalidSecondArgument()
-        {
-        }
-        public function testGetStaticAttributeRaisesExceptionForInvalidSecondArgument2()
-        {
-        }
-        public function testGetStaticAttributeRaisesExceptionForInvalidSecondArgument3()
-        {
-        }
-        public function testGetObjectAttributeRaisesExceptionForInvalidFirstArgument()
-        {
-        }
-        public function testGetObjectAttributeRaisesExceptionForInvalidSecondArgument()
-        {
-        }
-        public function testGetObjectAttributeRaisesExceptionForInvalidSecondArgument2()
-        {
-        }
-        public function testGetObjectAttributeRaisesExceptionForInvalidSecondArgument3()
-        {
-        }
-        public function testGetObjectAttributeWorksForInheritedAttributes()
-        {
-        }
-        public function testAssertPublicAttributeContains()
-        {
-        }
-        public function testAssertPublicAttributeContainsOnly()
-        {
-        }
-        public function testAssertPublicAttributeNotContains()
-        {
-        }
-        public function testAssertPublicAttributeNotContainsOnly()
-        {
-        }
-        public function testAssertProtectedAttributeContains()
-        {
-        }
-        public function testAssertProtectedAttributeNotContains()
-        {
-        }
-        public function testAssertPrivateAttributeContains()
-        {
-        }
-        public function testAssertPrivateAttributeNotContains()
-        {
-        }
-        public function testAssertAttributeContainsNonObject()
-        {
-        }
-        public function testAssertAttributeNotContainsNonObject()
-        {
-        }
-        public function testAssertPublicAttributeEquals()
-        {
-        }
-        public function testAssertPublicAttributeNotEquals()
-        {
-        }
-        public function testAssertPublicAttributeSame()
-        {
-        }
-        public function testAssertPublicAttributeNotSame()
-        {
-        }
-        public function testAssertProtectedAttributeEquals()
-        {
-        }
-        public function testAssertProtectedAttributeNotEquals()
-        {
-        }
-        public function testAssertPrivateAttributeEquals()
-        {
-        }
-        public function testAssertPrivateAttributeNotEquals()
-        {
-        }
-        public function testAssertPublicStaticAttributeEquals()
-        {
-        }
-        public function testAssertPublicStaticAttributeNotEquals()
-        {
-        }
-        public function testAssertProtectedStaticAttributeEquals()
-        {
-        }
-        public function testAssertProtectedStaticAttributeNotEquals()
-        {
-        }
-        public function testAssertPrivateStaticAttributeEquals()
-        {
-        }
-        public function testAssertPrivateStaticAttributeNotEquals()
-        {
-        }
-        public function testAssertClassHasAttributeThrowsException()
-        {
-        }
-        public function testAssertClassHasAttributeThrowsException2()
-        {
-        }
-        public function testAssertClassHasAttributeThrowsExceptionIfAttributeNameIsNotValid()
-        {
-        }
-        public function testAssertClassNotHasAttributeThrowsException()
-        {
-        }
-        public function testAssertClassNotHasAttributeThrowsException2()
-        {
-        }
-        public function testAssertClassNotHasAttributeThrowsExceptionIfAttributeNameIsNotValid()
-        {
-        }
-        public function testAssertClassHasStaticAttributeThrowsException()
-        {
-        }
-        public function testAssertClassHasStaticAttributeThrowsException2()
-        {
-        }
-        public function testAssertClassHasStaticAttributeThrowsExceptionIfAttributeNameIsNotValid()
-        {
-        }
-        public function testAssertClassNotHasStaticAttributeThrowsException()
-        {
-        }
-        public function testAssertClassNotHasStaticAttributeThrowsException2()
-        {
-        }
-        public function testAssertClassNotHasStaticAttributeThrowsExceptionIfAttributeNameIsNotValid()
-        {
-        }
-        public function testAssertObjectHasAttributeThrowsException()
-        {
-        }
-        public function testAssertObjectHasAttributeThrowsException2()
-        {
-        }
-        public function testAssertObjectHasAttributeThrowsExceptionIfAttributeNameIsNotValid()
-        {
-        }
-        public function testAssertObjectNotHasAttributeThrowsException()
-        {
-        }
-        public function testAssertObjectNotHasAttributeThrowsException2()
-        {
-        }
-        public function testAssertObjectNotHasAttributeThrowsExceptionIfAttributeNameIsNotValid()
-        {
-        }
-        public function testClassHasPublicAttribute()
-        {
-        }
-        public function testClassNotHasPublicAttribute()
-        {
-        }
-        public function testClassHasPublicStaticAttribute()
-        {
-        }
-        public function testClassNotHasPublicStaticAttribute()
-        {
-        }
-        public function testObjectHasPublicAttribute()
-        {
-        }
-        public function testObjectNotHasPublicAttribute()
-        {
-        }
-        public function testObjectHasOnTheFlyAttribute()
-        {
-        }
-        public function testObjectNotHasOnTheFlyAttribute()
-        {
-        }
-        public function testObjectHasProtectedAttribute()
-        {
-        }
-        public function testObjectNotHasProtectedAttribute()
-        {
-        }
-        public function testObjectHasPrivateAttribute()
-        {
-        }
-        public function testObjectNotHasPrivateAttribute()
-        {
-        }
-        public function testAssertThatAttributeEquals()
-        {
-        }
-        public function testAssertThatAttributeEquals2()
-        {
-        }
-        public function testAssertThatAttributeEqualTo()
-        {
-        }
-        /**
-         * @doesNotPerformAssertions
-         */
-        public function testAssertThatAnything()
-        {
-        }
-        public function testAssertThatIsTrue()
-        {
-        }
-        public function testAssertThatIsFalse()
-        {
-        }
-        public function testAssertThatIsJson()
-        {
-        }
-        /**
-         * @doesNotPerformAssertions
-         */
-        public function testAssertThatAnythingAndAnything()
-        {
-        }
-        /**
-         * @doesNotPerformAssertions
-         */
-        public function testAssertThatAnythingOrAnything()
-        {
-        }
-        /**
-         * @doesNotPerformAssertions
-         */
-        public function testAssertThatAnythingXorNotAnything()
-        {
-        }
-        public function testAssertThatContains()
-        {
-        }
-        public function testAssertThatStringContains()
-        {
-        }
-        public function testAssertThatContainsOnly()
-        {
-        }
-        public function testAssertThatContainsOnlyInstancesOf()
-        {
-        }
-        public function testAssertThatArrayHasKey()
-        {
-        }
-        public function testAssertThatClassHasAttribute()
-        {
-        }
-        public function testAssertThatClassHasStaticAttribute()
-        {
-        }
-        public function testAssertThatObjectHasAttribute()
-        {
-        }
-        public function testAssertThatEqualTo()
-        {
-        }
-        public function testAssertThatIdenticalTo()
-        {
-        }
-        public function testAssertThatIsInstanceOf()
-        {
-        }
-        public function testAssertThatIsType()
-        {
-        }
-        public function testAssertThatIsEmpty()
-        {
-        }
-        public function testAssertThatFileExists()
-        {
-        }
-        public function testAssertThatGreaterThan()
-        {
-        }
-        public function testAssertThatGreaterThanOrEqual()
-        {
-        }
-        public function testAssertThatLessThan()
-        {
-        }
-        public function testAssertThatLessThanOrEqual()
-        {
-        }
-        public function testAssertThatMatchesRegularExpression()
-        {
-        }
-        public function testAssertThatCallback()
-        {
-        }
-        public function testAssertThatCountOf()
-        {
-        }
-        public function testAssertFileEquals()
-        {
-        }
-        public function testAssertFileNotEquals()
-        {
-        }
-        public function testAssertStringEqualsFile()
-        {
-        }
-        public function testAssertStringNotEqualsFile()
-        {
-        }
-        public function testAssertStringStartsWithThrowsException()
-        {
-        }
-        public function testAssertStringStartsWithThrowsException2()
-        {
-        }
-        public function testAssertStringStartsNotWithThrowsException()
-        {
-        }
-        public function testAssertStringStartsNotWithThrowsException2()
-        {
-        }
-        public function testAssertStringEndsWithThrowsException()
-        {
-        }
-        public function testAssertStringEndsWithThrowsException2()
-        {
-        }
-        public function testAssertStringEndsNotWithThrowsException()
-        {
-        }
-        public function testAssertStringEndsNotWithThrowsException2()
-        {
-        }
-        public function testAssertStringStartsWith()
-        {
-        }
-        public function testAssertStringStartsNotWith()
-        {
-        }
-        public function testAssertStringEndsWith()
-        {
-        }
-        public function testAssertStringEndsNotWith()
-        {
-        }
-        public function testAssertStringMatchesFormatRaisesExceptionForInvalidFirstArgument()
-        {
-        }
-        public function testAssertStringMatchesFormatRaisesExceptionForInvalidSecondArgument()
-        {
-        }
-        public function testAssertStringMatchesFormat()
-        {
-        }
-        public function testAssertStringMatchesFormatFailure()
-        {
-        }
-        public function testAssertStringNotMatchesFormatRaisesExceptionForInvalidFirstArgument()
-        {
-        }
-        public function testAssertStringNotMatchesFormatRaisesExceptionForInvalidSecondArgument()
-        {
-        }
-        public function testAssertStringNotMatchesFormat()
-        {
-        }
-        public function testAssertEmpty()
-        {
-        }
-        public function testAssertNotEmpty()
-        {
-        }
-        public function testAssertAttributeEmpty()
-        {
-        }
-        public function testAssertAttributeNotEmpty()
-        {
-        }
-        public function testMarkTestIncomplete()
-        {
-        }
-        public function testMarkTestSkipped()
-        {
-        }
-        public function testAssertCount()
-        {
-        }
-        public function testAssertCountTraversable()
-        {
-        }
-        public function testAssertCountThrowsExceptionIfExpectedCountIsNoInteger()
-        {
-        }
-        public function testAssertCountThrowsExceptionIfElementIsNotCountable()
-        {
-        }
-        public function testAssertAttributeCount()
-        {
-        }
-        public function testAssertNotCount()
-        {
-        }
-        public function testAssertNotCountThrowsExceptionIfExpectedCountIsNoInteger()
-        {
-        }
-        public function testAssertNotCountThrowsExceptionIfElementIsNotCountable()
-        {
-        }
-        public function testAssertAttributeNotCount()
-        {
-        }
-        public function testAssertSameSize()
-        {
-        }
-        public function testAssertSameSizeThrowsExceptionIfExpectedIsNotCountable()
-        {
-        }
-        public function testAssertSameSizeThrowsExceptionIfActualIsNotCountable()
-        {
-        }
-        public function testAssertNotSameSize()
-        {
-        }
-        public function testAssertNotSameSizeThrowsExceptionIfExpectedIsNotCountable()
-        {
-        }
-        public function testAssertNotSameSizeThrowsExceptionIfActualIsNotCountable()
-        {
-        }
-        public function testAssertJsonRaisesExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertJson()
-        {
-        }
-        public function testAssertJsonStringEqualsJsonString()
-        {
-        }
-        /**
-         * @dataProvider validInvalidJsonDataprovider
-         */
-        public function testAssertJsonStringEqualsJsonStringErrorRaised($expected, $actual)
-        {
-        }
-        public function testAssertJsonStringNotEqualsJsonString()
-        {
-        }
-        /**
-         * @dataProvider validInvalidJsonDataprovider
-         */
-        public function testAssertJsonStringNotEqualsJsonStringErrorRaised($expected, $actual)
-        {
-        }
-        public function testAssertJsonStringEqualsJsonFile()
-        {
-        }
-        public function testAssertJsonStringEqualsJsonFileExpectingExpectationFailedException()
-        {
-        }
-        public function testAssertJsonStringEqualsJsonFileExpectingException()
-        {
-        }
-        public function testAssertJsonStringNotEqualsJsonFile()
-        {
-        }
-        public function testAssertJsonStringNotEqualsJsonFileExpectingException()
-        {
-        }
-        public function testAssertJsonFileNotEqualsJsonFile()
-        {
-        }
-        public function testAssertJsonFileEqualsJsonFile()
-        {
-        }
-        public function testAssertInstanceOf()
-        {
-        }
-        public function testAssertInstanceOfThrowsExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertAttributeInstanceOf()
-        {
-        }
-        public function testAssertNotInstanceOf()
-        {
-        }
-        public function testAssertNotInstanceOfThrowsExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertAttributeNotInstanceOf()
-        {
-        }
-        public function testAssertInternalType()
-        {
-        }
-        public function testAssertInternalTypeDouble()
-        {
-        }
-        public function testAssertInternalTypeThrowsExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertAttributeInternalType()
-        {
-        }
-        public function testAssertNotInternalType()
-        {
-        }
-        public function testAssertNotInternalTypeThrowsExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertAttributeNotInternalType()
-        {
-        }
-        public function testAssertStringMatchesFormatFileThrowsExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertStringMatchesFormatFileThrowsExceptionForInvalidArgument2()
-        {
-        }
-        public function testAssertStringMatchesFormatFile()
-        {
-        }
-        public function testAssertStringNotMatchesFormatFileThrowsExceptionForInvalidArgument()
-        {
-        }
-        public function testAssertStringNotMatchesFormatFileThrowsExceptionForInvalidArgument2()
-        {
-        }
-        public function testAssertStringNotMatchesFormatFile()
-        {
-        }
-        /**
-         * @return array<string, string[]>
-         */
-        public static function validInvalidJsonDataprovider()
-        {
-        }
-    }
-    class TestImplementorTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testSuccessfulRun()
-        {
-        }
-    }
-    class ConstraintTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testConstraintArrayNotHasKey()
-        {
-        }
-        public function testConstraintArrayNotHasKey2()
-        {
-        }
-        public function testConstraintFileNotExists()
-        {
-        }
-        public function testConstraintFileNotExists2()
-        {
-        }
-        public function testConstraintNotGreaterThan()
-        {
-        }
-        public function testConstraintNotGreaterThan2()
-        {
-        }
-        public function testConstraintGreaterThanOrEqual()
-        {
-        }
-        public function testConstraintGreaterThanOrEqual2()
-        {
-        }
-        public function testConstraintNotGreaterThanOrEqual()
-        {
-        }
-        public function testConstraintNotGreaterThanOrEqual2()
-        {
-        }
-        public function testConstraintIsAnything()
-        {
-        }
-        public function testConstraintNotIsAnything()
-        {
-        }
-        public function testConstraintIsNotEqual()
-        {
-        }
-        public function testConstraintIsNotEqual2()
-        {
-        }
-        public function testConstraintIsNotIdentical()
-        {
-        }
-        public function testConstraintIsNotIdentical2()
-        {
-        }
-        public function testConstraintIsNotIdentical3()
-        {
-        }
-        public function testConstraintIsInstanceOf()
-        {
-        }
-        public function testConstraintIsInstanceOf2()
-        {
-        }
-        public function testConstraintIsNotInstanceOf()
-        {
-        }
-        public function testConstraintIsNotInstanceOf2()
-        {
-        }
-        public function testConstraintIsNotType()
-        {
-        }
-        public function testConstraintIsNotType2()
-        {
-        }
-        public function testConstraintIsNotNull()
-        {
-        }
-        public function testConstraintIsNotNull2()
-        {
-        }
-        public function testConstraintNotLessThan()
-        {
-        }
-        public function testConstraintNotLessThan2()
-        {
-        }
-        public function testConstraintLessThanOrEqual()
-        {
-        }
-        public function testConstraintLessThanOrEqual2()
-        {
-        }
-        public function testConstraintNotLessThanOrEqual()
-        {
-        }
-        public function testConstraintNotLessThanOrEqual2()
-        {
-        }
-        public function testConstraintClassNotHasAttribute()
-        {
-        }
-        public function testConstraintClassNotHasAttribute2()
-        {
-        }
-        public function testConstraintClassNotHasStaticAttribute()
-        {
-        }
-        public function testConstraintClassNotHasStaticAttribute2()
-        {
-        }
-        public function testConstraintObjectNotHasAttribute()
-        {
-        }
-        public function testConstraintObjectNotHasAttribute2()
-        {
-        }
-        public function testConstraintPCRENotMatch()
-        {
-        }
-        public function testConstraintPCRENotMatch2()
-        {
-        }
-        public function testConstraintStringStartsNotWith()
-        {
-        }
-        public function testConstraintStringStartsNotWith2()
-        {
-        }
-        public function testConstraintStringNotContains()
-        {
-        }
-        public function testConstraintStringNotContainsWhenIgnoreCase()
-        {
-        }
-        public function testConstraintStringNotContainsForUtf8StringWhenNotIgnoreCase()
-        {
-        }
-        public function testConstraintStringNotContains2()
-        {
-        }
-        public function testConstraintStringEndsNotWith()
-        {
-        }
-        public function testConstraintStringEndsNotWith2()
-        {
-        }
-        public function testConstraintArrayNotContains()
-        {
-        }
-        public function testConstraintArrayNotContains2()
-        {
-        }
-        public function testAttributeNotEqualTo()
-        {
-        }
-        public function testAttributeNotEqualTo2()
-        {
-        }
-        public function testConstraintCountWithAnArray()
-        {
-        }
-        public function testConstraintCountWithAnIteratorWhichDoesNotImplementCountable()
-        {
-        }
-        public function testConstraintCountWithAnObjectImplementingCountable()
-        {
-        }
-        public function testConstraintCountFailing()
-        {
-        }
-        public function testConstraintNotCountFailing()
-        {
-        }
-        public function testConstraintNotSameSizeFailing()
-        {
-        }
-        public function testConstraintException()
-        {
-        }
-        /**
-         * Removes spaces in front of newlines
-         *
-         * @param string $string
-         *
-         * @return string
-         */
-        private function trimnl($string)
-        {
-        }
-    }
-}
-namespace PHPUnit\Framework\Constraint {
-    abstract class ConstraintTestCase extends \PHPUnit\Framework\TestCase
-    {
-        public final function testIsCountable()
-        {
-        }
-        public final function testIsSelfDescribing()
-        {
-        }
-        /**
-         * Returns the class name of the constraint.
-         *
-         * @return string
-         */
-        protected final function className() : string
-        {
-        }
-    }
-    class ClassHasStaticAttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintClassHasStaticAttribute()
-        {
-        }
-        public function testConstraintClassHasStaticAttribute2()
-        {
-        }
-    }
-    class IsEqualTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsEqual()
-        {
-        }
-        /**
-         * @dataProvider isEqualProvider
-         */
-        public function testConstraintIsEqual2($expected, $actual, $message)
-        {
-        }
-        public function isEqualProvider()
-        {
-        }
-        /**
-         * Removes spaces in front of newlines
-         *
-         * @param string $string
-         *
-         * @return string
-         */
-        private function trimnl($string)
-        {
-        }
-    }
-    class JsonMatchesTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        /**
-         * @dataProvider evaluateDataprovider
-         */
-        public function testEvaluate($expected, $jsonOther, $jsonValue)
-        {
-        }
-        /**
-         * @dataProvider evaluateThrowsExpectationFailedExceptionWhenJsonIsValidButDoesNotMatchDataprovider
-         */
-        public function testEvaluateThrowsExpectationFailedExceptionWhenJsonIsValidButDoesNotMatch($jsonOther, $jsonValue)
-        {
-        }
-        public function testToString()
-        {
-        }
-        public static function evaluateDataprovider()
-        {
-        }
-        public static function evaluateThrowsExpectationFailedExceptionWhenJsonIsValidButDoesNotMatchDataprovider()
-        {
-        }
-    }
-    class CountTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testCount()
-        {
-        }
-        public function testCountDoesNotChangeIteratorKey()
-        {
-        }
-        public function testCountGeneratorsDoNotRewind()
-        {
-        }
-        public function testCountTraversable()
-        {
-        }
-    }
-    class IsEmptyTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsEmpty()
-        {
-        }
-        public function testConstraintIsEmpty2()
-        {
-        }
-    }
-    class DirectoryExistsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testDefaults()
-        {
-        }
-        public function testEvaluateReturnsFalseWhenDirectoryDoesNotExist()
-        {
-        }
-        public function testEvaluateReturnsTrueWhenDirectoryExists()
-        {
-        }
-        public function testEvaluateThrowsExpectationFailedExceptionWhenDirectoryDoesNotExist()
-        {
-        }
-    }
-    class LessThanTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintLessThan()
-        {
-        }
-        public function testConstraintLessThan2()
-        {
-        }
-    }
-    class IsIdenticalTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsIdentical()
-        {
-        }
-        public function testConstraintIsIdentical2()
-        {
-        }
-        public function testConstraintIsIdentical3()
-        {
-        }
-    }
-    class CallbackTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function callbackReturningTrue()
-        {
-        }
-        public static function staticCallbackReturningTrue()
-        {
-        }
-        public function testConstraintCallback()
-        {
-        }
-        public function testConstraintCallbackFailure()
-        {
-        }
-    }
-    class ArraySubsetTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        /**
-         * @param bool               $expected
-         * @param array|\Traversable $subset
-         * @param array|\Traversable $other
-         * @param bool               $strict
-         * @dataProvider evaluateDataProvider
-         */
-        public function testEvaluate($expected, $subset, $other, $strict)
-        {
-        }
-        public static function evaluateDataProvider()
-        {
-        }
-        public function testEvaluateWithArrayAccess()
-        {
-        }
-        public function testEvaluateFailMessage()
-        {
-        }
-    }
-    class ExceptionMessageRegExpTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @expectedException \Exception
-         * @expectedExceptionMessageRegExp /^A polymorphic \w+ message/
-         */
-        public function testRegexMessage()
-        {
-        }
-        /**
-         * @expectedException \Exception
-         * @expectedExceptionMessageRegExp /^a poly[a-z]+ [a-zA-Z0-9_]+ me(s){2}age$/i
-         */
-        public function testRegexMessageExtreme()
-        {
-        }
-        /**
-         * @runInSeparateProcess
-         * @requires extension xdebug
-         * @expectedException \Exception
-         * @expectedExceptionMessageRegExp #Screaming preg_match#
-         */
-        public function testMessageXdebugScreamCompatibility()
-        {
-        }
-        /**
-         * @expectedException \Exception variadic
-         * @expectedExceptionMessageRegExp /^A variadic \w+ message/
-         */
-        public function testSimultaneousLiteralAndRegExpExceptionMessage()
-        {
-        }
-    }
-    class TraversableContainsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintTraversableCheckForObjectIdentityForDefaultCase()
-        {
-        }
-        public function testConstraintTraversableCheckForObjectIdentityForPrimitiveType()
-        {
-        }
-        public function testConstraintTraversableWithRightValue()
-        {
-        }
-        public function testConstraintTraversableWithFailValue()
-        {
-        }
-        public function testConstraintTraversableCountMethods()
-        {
-        }
-        public function testConstraintTraversableEvaluateMethodWithFailExample()
-        {
-        }
-        public function testConstraintTraversableEvaluateMethodWithFailExampleWithCustomMessage()
-        {
-        }
-        public function testConstraintTraversableToStringMethodsWithStdClass()
-        {
-        }
-        public function testConstraintTraversableToStringMethods()
-        {
-        }
-        public function testConstraintTraversableToStringMethodsWithSplObjectStorage()
-        {
-        }
-        public function testConstraintTraversableStdClassForFailSplObjectStorage()
-        {
-        }
-        public function testConstraintTraversableStdClassForFailSplObjectStorageWithCustomMessage()
-        {
-        }
-    }
-}
-namespace Framework\Constraint {
-    final class LogicalXorTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testFromConstraintsReturnsConstraint()
-        {
-        }
-    }
-}
-namespace PHPUnit\Framework\Constraint {
-    class IsWritableTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsWritable()
-        {
-        }
-    }
-    final class LogicalAndTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testSetConstraintsRejectsInvalidConstraint()
-        {
-        }
-        public function testCountReturnsCountOfComposedConstraints()
-        {
-        }
-        public function testToStringReturnsImplodedStringRepresentationOfComposedConstraintsGluedWithAnd()
-        {
-        }
-        /**
-         * @dataProvider providerFailingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateReturnsFalseIfAnyOfTheComposedConstraintsEvaluateToFalse(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerSucceedingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateReturnsTrueIfAllOfTheComposedConstraintsEvaluateToTrue(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerFailingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateThrowsExceptionIfAnyOfTheComposedConstraintsEvaluateToFalse(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerFailingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateThrowsExceptionWithCustomMessageIfAnyOfTheComposedConstraintsEvaluateToFalse(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerSucceedingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateReturnsNothingIfAllOfTheComposedConstraintsEvaluateToTrue(array $constraints)
-        {
-        }
-        public function providerFailingConstraints() : \Generator
-        {
-        }
-        public function providerSucceedingConstraints() : \Generator
-        {
-        }
-        private function stringify(array $constraints) : string
-        {
-        }
-    }
-    class ExceptionMessageTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @expectedException \Exception
-         * @expectedExceptionMessage A literal exception message
-         */
-        public function testLiteralMessage()
-        {
-        }
-        /**
-         * @expectedException \Exception
-         * @expectedExceptionMessage A partial
-         */
-        public function testPartialMessageBegin()
-        {
-        }
-        /**
-         * @expectedException \Exception
-         * @expectedExceptionMessage partial exception
-         */
-        public function testPartialMessageMiddle()
-        {
-        }
-        /**
-         * @expectedException \Exception
-         * @expectedExceptionMessage exception message
-         */
-        public function testPartialMessageEnd()
-        {
-        }
-    }
-    class StringMatchesFormatDescriptionTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintStringMatches()
-        {
-        }
-        public function testConstraintStringMatches2()
-        {
-        }
-        public function testConstraintStringMatches3()
-        {
-        }
-        public function testConstraintStringMatches4()
-        {
-        }
-        public function testConstraintStringMatches5()
-        {
-        }
-        public function testConstraintStringMatches6()
-        {
-        }
-    }
-    class IsNullTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsNull()
-        {
-        }
-        public function testConstraintIsNull2()
-        {
-        }
-    }
-    final class LogicalOrTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testSetConstraintsDecoratesNonConstraintWithIsEqual()
-        {
-        }
-        public function testCountReturnsCountOfComposedConstraints()
-        {
-        }
-        public function testToStringReturnsImplodedStringRepresentationOfComposedConstraintsGluedWithOr()
-        {
-        }
-        /**
-         * @dataProvider providerFailingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateReturnsFalseIfAllOfTheComposedConstraintsEvaluateToFalse(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerSucceedingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateReturnsTrueIfAnyOfTheComposedConstraintsEvaluateToTrue(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerFailingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateThrowsExceptionIfAllOfTheComposedConstraintsEvaluateToFalse(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerFailingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateThrowsExceptionWithCustomMessageIfAllOfTheComposedConstraintsEvaluateToFalse(array $constraints)
-        {
-        }
-        /**
-         * @dataProvider providerSucceedingConstraints
-         *
-         * @param Constraint[] $constraints
-         */
-        public function testEvaluateReturnsNothingIfAnyOfTheComposedConstraintsEvaluateToTrue(array $constraints)
-        {
-        }
-        public function providerFailingConstraints() : \Generator
-        {
-        }
-        public function providerSucceedingConstraints() : \Generator
-        {
-        }
-        private function stringify(array $constraints) : string
-        {
-        }
-    }
-    class JsonMatchesErrorMessageProviderTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider translateTypeToPrefixDataprovider
-         */
-        public function testTranslateTypeToPrefix($expected, $type)
-        {
-        }
-        /**
-         * @dataProvider determineJsonErrorDataprovider
-         */
-        public function testDetermineJsonError($expected, $error, $prefix)
-        {
-        }
-        public static function determineJsonErrorDataprovider()
-        {
-        }
-        public static function translateTypeToPrefixDataprovider()
-        {
-        }
-    }
-    class ObjectHasAttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintObjectHasAttribute()
-        {
-        }
-        public function testConstraintObjectHasAttribute2()
-        {
-        }
-    }
-    class IsTypeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsType()
-        {
-        }
-        public function testConstraintIsType2()
-        {
-        }
-        /**
-         * @dataProvider resources
-         */
-        public function testConstraintIsResourceTypeEvaluatesCorrectlyWithResources($resource)
-        {
-        }
-        public function resources()
-        {
-        }
-        /**
-         * Removes spaces in front of newlines
-         *
-         * @param string $string
-         *
-         * @return string
-         */
-        private function trimnl($string)
-        {
-        }
-    }
-    class StringEndsWithTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintStringEndsWithCorrectValueAndReturnResult()
-        {
-        }
-        public function testConstraintStringEndsWithNotCorrectValueAndReturnResult()
-        {
-        }
-        public function testConstraintStringEndsWithToStringMethod()
-        {
-        }
-        public function testConstraintStringEndsWithCountMethod()
-        {
-        }
-        public function testConstraintStringEndsWithNotCorrectValueAndExpectation()
-        {
-        }
-        public function testConstraintStringEndsWithNotCorrectValueExceptionAndCustomMessage()
-        {
-        }
-    }
-    class GreaterThanTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintGreaterThan()
-        {
-        }
-        public function testConstraintGreaterThan2()
-        {
-        }
-    }
-    class SameSizeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintSameSizeWithAnArray()
-        {
-        }
-        public function testConstraintSameSizeWithAnIteratorWhichDoesNotImplementCountable()
-        {
-        }
-        public function testConstraintSameSizeWithAnObjectImplementingCountable()
-        {
-        }
-        public function testConstraintSameSizeFailing()
-        {
-        }
-    }
-    class ArrayHasKeyTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintArrayHasKey()
-        {
-        }
-        public function testConstraintArrayHasKey2()
-        {
-        }
-    }
-    class FileExistsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintFileExists()
-        {
-        }
-        public function testConstraintFileExists2()
-        {
-        }
-    }
-    class IsReadableTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintIsReadable()
-        {
-        }
-    }
-    class AttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testAttributeEqualTo()
-        {
-        }
-        public function testAttributeEqualTo2()
-        {
-        }
-    }
-    class ClassHasAttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintClassHasAttribute()
-        {
-        }
-        public function testConstraintClassHasAttribute2()
-        {
-        }
-    }
-    class RegularExpressionTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintRegularExpression()
-        {
-        }
-        public function testConstraintRegularExpression2()
-        {
-        }
-    }
-    class StringContainsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintStringContains()
-        {
-        }
-        public function testConstraintStringContainsWhenIgnoreCase()
-        {
-        }
-        public function testConstraintStringContainsForUtf8StringWhenNotIgnoreCase()
-        {
-        }
-        public function testConstraintStringContains2()
-        {
-        }
-    }
-    class StringStartsWithTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        public function testConstraintStringStartsWithCorrectValueAndReturnResult()
-        {
-        }
-        public function testConstraintStringStartsWithNotCorrectValueAndReturnResult()
-        {
-        }
-        public function testConstraintStringStartsWithToStringMethod()
-        {
-        }
-        public function testConstraintStringStartsWitCountMethod()
-        {
-        }
-        public function testConstraintStringStartsWithNotCorrectValueAndExpectation()
-        {
-        }
-        public function testConstraintStringStartsWithNotCorrectValueExceptionAndCustomMessage()
-        {
-        }
-    }
-    class IsJsonTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
-    {
-        /**
-         * @dataProvider evaluateDataprovider
-         */
-        public function testEvaluate($expected, $jsonOther)
-        {
-        }
-        public static function evaluateDataprovider()
-        {
-        }
-    }
-}
-namespace PHPUnit\Framework {
-    /**
-     * A Listener for test progress.
-     */
-    interface TestListener
-    {
-        /**
-         * An error occurred.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
-         */
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time);
-        /**
-         * A warning occurred.
-         *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
-         */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time);
-        /**
-         * A failure occurred.
-         *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
-         */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time);
-        /**
-         * Incomplete test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
-         */
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time);
-        /**
-         * Risky test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
-         */
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time);
-        /**
-         * Skipped test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
-         */
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time);
-        /**
-         * A test suite started.
-         *
-         * @param TestSuite $suite
-         */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite);
-        /**
-         * A test suite ended.
-         *
-         * @param TestSuite $suite
-         */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite);
-        /**
-         * A test started.
-         *
-         * @param Test $test
-         */
-        public function startTest(\PHPUnit\Framework\Test $test);
-        /**
-         * A test ended.
-         *
-         * @param Test  $test
-         * @param float $time
-         */
-        public function endTest(\PHPUnit\Framework\Test $test, $time);
-    }
-    class TestListenerTest extends \PHPUnit\Framework\TestCase implements \PHPUnit\Framework\TestListener
-    {
-        protected $endCount;
-        protected $errorCount;
-        protected $failureCount;
-        protected $warningCount;
-        protected $notImplementedCount;
-        protected $riskyCount;
-        protected $skippedCount;
-        protected $result;
-        protected $startCount;
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
-        {
-        }
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
-        {
-        }
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
-        {
-        }
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
-        {
-        }
-        public function startTest(\PHPUnit\Framework\Test $test)
-        {
-        }
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
-        {
-        }
-        protected function setUp()
-        {
-        }
-        public function testError()
-        {
-        }
-        public function testFailure()
-        {
-        }
-        public function testStartStop()
-        {
-        }
-    }
-    class TestFailureTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testToString()
-        {
-        }
-        public function testToStringForError()
-        {
-        }
-        public function testgetExceptionAsString()
-        {
-        }
-    }
-    class SuiteTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @var TestResult
-         */
-        private $result;
-        protected function setUp()
-        {
-        }
-        public static function suite()
-        {
-        }
-        public function testAddTestSuite()
-        {
-        }
-        public function testInheritedTests()
-        {
-        }
-        public function testNoTestCases()
-        {
-        }
-        public function testNoTestCaseClass()
-        {
-        }
-        public function testNotExistingTestCase()
-        {
-        }
-        public function testNotPublicTestCase()
-        {
-        }
-        public function testNotVoidTestCase()
-        {
-        }
-        public function testOneTestCase()
-        {
-        }
-        public function testShadowedTests()
-        {
-        }
-        public function testBeforeClassAndAfterClassAnnotations()
-        {
-        }
-        public function testBeforeClassWithDataProviders()
-        {
-        }
-        public function testBeforeAnnotation()
-        {
-        }
-        public function testTestWithAnnotation()
-        {
-        }
-        public function testSkippedTestDataProvider()
-        {
-        }
-        public function testTestDataProviderDependency()
-        {
-        }
-        public function testIncompleteTestDataProvider()
-        {
-        }
-        public function testRequirementsBeforeClassHook()
-        {
-        }
-        public function testDoNotSkipInheritedClass()
-        {
-        }
-    }
-    class TestCaseTest extends \PHPUnit\Framework\TestCase
-    {
-        protected $backupGlobalsBlacklist = ['i', 'singleton'];
-        protected static $testStatic = 0;
-        public static function setUpBeforeClass()
-        {
-        }
-        public static function tearDownAfterClass()
-        {
-        }
-        public function testCaseToString()
-        {
-        }
-        public function testSuccess()
-        {
-        }
-        public function testFailure()
-        {
-        }
-        public function testError()
-        {
-        }
-        public function testSkipped()
-        {
-        }
-        public function testIncomplete()
-        {
-        }
-        public function testExceptionInSetUp()
-        {
-        }
-        public function testExceptionInAssertPreConditions()
-        {
-        }
-        public function testExceptionInTest()
-        {
-        }
-        public function testExceptionInAssertPostConditions()
-        {
-        }
-        public function testExceptionInTearDown()
-        {
-        }
-        public function testNoArgTestCasePasses()
-        {
-        }
-        public function testWasRun()
-        {
-        }
-        public function testException()
-        {
-        }
-        public function testExceptionWithEmptyMessage()
-        {
-        }
-        public function testExceptionWithNullMessage()
-        {
-        }
-        public function testExceptionWithMessage()
-        {
-        }
-        public function testExceptionWithWrongMessage()
-        {
-        }
-        public function testExceptionWithRegexpMessage()
-        {
-        }
-        public function testExceptionWithWrongRegexpMessage()
-        {
-        }
-        public function testExceptionWithInvalidRegexpMessage()
-        {
-        }
-        public function testNoException()
-        {
-        }
-        public function testWrongException()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         */
-        public function testGlobalsBackupPre()
-        {
-        }
-        public function testGlobalsBackupPost()
-        {
-        }
-        /**
-         * @backupGlobals enabled
-         * @backupStaticAttributes enabled
-         *
-         * @doesNotPerformAssertions
-         */
-        public function testStaticAttributesBackupPre()
-        {
-        }
-        /**
-         * @depends testStaticAttributesBackupPre
-         */
-        public function testStaticAttributesBackupPost()
-        {
-        }
-        public function testIsInIsolationReturnsFalse()
-        {
-        }
-        public function testIsInIsolationReturnsTrue()
-        {
-        }
-        public function testExpectOutputStringFooActualFoo()
-        {
-        }
-        public function testExpectOutputStringFooActualBar()
-        {
-        }
-        public function testExpectOutputRegexFooActualFoo()
-        {
-        }
-        public function testExpectOutputRegexFooActualBar()
-        {
-        }
-        public function testSkipsIfRequiresHigherVersionOfPHPUnit()
-        {
-        }
-        public function testSkipsIfRequiresHigherVersionOfPHP()
-        {
-        }
-        public function testSkipsIfRequiresNonExistingOs()
-        {
-        }
-        public function testSkipsIfRequiresNonExistingOsFamily()
-        {
-        }
-        public function testSkipsIfRequiresNonExistingFunction()
-        {
-        }
-        public function testSkipsIfRequiresNonExistingExtension()
-        {
-        }
-        public function testSkipsIfRequiresExtensionWithAMinimumVersion()
-        {
-        }
-        public function testSkipsProvidesMessagesForAllSkippingReasons()
-        {
-        }
-        public function testRequiringAnExistingMethodDoesNotSkip()
-        {
-        }
-        public function testRequiringAnExistingFunctionDoesNotSkip()
-        {
-        }
-        public function testRequiringAnExistingExtensionDoesNotSkip()
-        {
-        }
-        public function testRequiringAnExistingOsDoesNotSkip()
-        {
-        }
-        public function testCurrentWorkingDirectoryIsRestored()
-        {
-        }
-        /**
-         * @requires PHP 7
-         * @expectedException \TypeError
-         */
-        public function testTypeErrorCanBeExpected()
-        {
-        }
-        public function testCreateMockFromClassName()
-        {
-        }
-        public function testCreateMockMocksAllMethods()
-        {
-        }
-        public function testCreatePartialMockDoesNotMockAllMethods()
-        {
-        }
-        public function testCreatePartialMockCanMockNoMethods()
-        {
-        }
-        public function testCreateMockSkipsConstructor()
-        {
-        }
-        public function testCreateMockDisablesOriginalClone()
-        {
-        }
-        public function testConfiguredMockCanBeCreated()
-        {
-        }
-        public function testProvidingOfAutoreferencedArray()
-        {
-        }
-        /**
-         * @return array<string, array>
-         */
-        private function getAutoreferencedArray()
-        {
-        }
-        public function testProvidingArrayThatMixesObjectsAndScalars()
-        {
-        }
-    }
-}
-namespace PHPUnit\TextUI {
-    class TestRunnerTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testTestIsRunnable()
-        {
-        }
-        public function testSuiteIsRunnable()
-        {
-        }
-        /**
-         * @return \PHPUnit\TextUI\ResultPrinter
-         */
-        private function getResultPrinterMock()
-        {
-        }
-        /**
-         * @return \PHPUnit\Framework\TestSuite
-         */
-        private function getSuiteMock()
-        {
-        }
-    }
-}
-namespace {
-    class NotExistingCoveredElementTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @covers NotExistingClass
-         */
-        public function testOne()
-        {
-        }
-        /**
-         * @covers NotExistingClass::notExistingMethod
-         */
-        public function testTwo()
-        {
-        }
-        /**
-         * @covers NotExistingClass::<public>
-         */
-        public function testThree()
-        {
-        }
-    }
-    class StopOnWarningTestSuite
-    {
-        public static function suite()
-        {
-        }
-    }
-    class TestSkipped extends \PHPUnit\Framework\TestCase
-    {
-        protected function runTest()
-        {
-        }
-    }
-    class TestGeneratorMaker
-    {
-        public function create($array = [])
-        {
-        }
-    }
-    class NothingTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testNothing()
-        {
-        }
-    }
-    class StackTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testPush()
-        {
-        }
-        /**
-         * @depends testPush
-         */
-        public function testPop(array $stack)
-        {
-        }
-    }
-    class DataProviderIncompleteTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider incompleteTestProviderMethod
-         */
-        public function testIncomplete($a, $b, $c)
-        {
-        }
-        /**
-         * @dataProvider providerMethod
-         */
-        public function testAdd($a, $b, $c)
-        {
-        }
-        public function incompleteTestProviderMethod()
-        {
-        }
-        public static function providerMethod()
-        {
-        }
-    }
-    class DataProviderDebugTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider provider
-         */
-        public function testProvider()
-        {
-        }
-        public static function provider()
-        {
-        }
-    }
-}
-namespace Foo\DataProviderIssue2859 {
-    class TestWithDataProviderTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider provide
-         */
-        public function testFirst($x)
-        {
-        }
-        public function provide()
-        {
-        }
-    }
-}
-namespace {
-    class StopsOnWarningTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testOne()
-        {
-        }
-    }
-}
-namespace Foo {
-    class CoveredParentClass
-    {
-        private function privateMethod()
-        {
-        }
-        protected function protectedMethod()
-        {
-        }
-        public function publicMethod()
-        {
-        }
-    }
-    class CoveredClass extends \Foo\CoveredParentClass
-    {
-        private function privateMethod()
-        {
-        }
-        protected function protectedMethod()
-        {
-        }
-        public function publicMethod()
-        {
-        }
-    }
-}
-namespace {
-    class NotPublicTestCase extends \PHPUnit\Framework\TestCase
-    {
-        public function testPublic()
-        {
-        }
-        protected function testNotPublic()
-        {
-        }
-    }
-    class EmptyTestCaseTest extends \PHPUnit\Framework\TestCase
-    {
-    }
-    class ParentClassWithPrivateAttributes
-    {
-        private static $privateStaticParentAttribute = 'foo';
-        private $privateParentAttribute = 'bar';
-    }
-    class ParentClassWithProtectedAttributes extends \ParentClassWithPrivateAttributes
-    {
-        protected static $protectedStaticParentAttribute = 'foo';
-        protected $protectedParentAttribute = 'bar';
-    }
-    class ClassWithNonPublicAttributes extends \ParentClassWithProtectedAttributes
-    {
-        public static $publicStaticAttribute = 'foo';
-        protected static $protectedStaticAttribute = 'bar';
-        protected static $privateStaticAttribute = 'baz';
-        public $publicAttribute = 'foo';
-        public $foo = 1;
-        public $bar = 2;
-        protected $protectedAttribute = 'bar';
-        protected $privateAttribute = 'baz';
-        public $publicArray = ['foo'];
-        protected $protectedArray = ['bar'];
-        protected $privateArray = ['baz'];
-    }
-    abstract class AbstractTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testOne()
-        {
-        }
-    }
-    class Failure extends \PHPUnit\Framework\TestCase
-    {
-        protected function runTest()
-        {
-        }
-    }
-    class NamespaceCoverageMethodTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @covers Foo\CoveredClass::publicMethod
-         */
-        public function testSomething()
-        {
-        }
-    }
-    class DataProviderDependencyTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testReference()
-        {
-        }
-        /**
-         * @see https://github.com/sebastianbergmann/phpunit/issues/1896
-         * @depends testReference
-         * @dataProvider provider
-         */
-        public function testDependency($param)
-        {
-        }
-        public function provider()
-        {
-        }
-    }
-    class InheritanceB extends \PHPUnit\Framework\TestCase
-    {
-        public function testSomething()
-        {
-        }
-    }
-    class InheritanceA extends \InheritanceB
-    {
-    }
-    class Struct
-    {
-        public $var;
-        public function __construct($var)
-        {
-        }
-    }
-    class NotVoidTestCase extends \PHPUnit\Framework\TestCase
-    {
-    }
-    class BeforeClassWithOnlyDataProviderTest extends \PHPUnit\Framework\TestCase
-    {
-        public static $setUpBeforeClassWasCalled;
-        public static $beforeClassWasCalled;
-        public static function resetProperties()
-        {
-        }
-        public static function setUpBeforeClass()
-        {
-        }
-        /**
-         * @beforeClass
-         */
-        public static function someAnnotatedSetupMethod()
-        {
-        }
-        public function dummyProvider()
-        {
-        }
-        /**
-         * @dataProvider dummyProvider
-         * delete annotation to fail test case
-         */
-        public function testDummy()
-        {
-        }
-    }
-    class CoveragePublicTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @covers CoveredClass::<public>
-         */
-        public function testSomething()
-        {
-        }
-    }
-    /**
-     * Tests for the BankAccount class.
-     */
-    class BankAccountTest extends \PHPUnit\Framework\TestCase
-    {
-        protected $ba;
-        protected function setUp()
-        {
-        }
-        /**
-         * @covers BankAccount::getBalance
-         * @group balanceIsInitiallyZero
-         * @group specification
-         */
-        public function testBalanceIsInitiallyZero()
-        {
-        }
-        /**
-         * @covers BankAccount::withdrawMoney
-         * @group balanceCannotBecomeNegative
-         * @group specification
-         */
-        public function testBalanceCannotBecomeNegative()
-        {
-        }
-        /**
-         * @covers BankAccount::depositMoney
-         * @group balanceCannotBecomeNegative
-         * @group specification
-         */
-        public function testBalanceCannotBecomeNegative2()
-        {
-        }
-        /*
-         * @covers BankAccount::getBalance
-         * @covers BankAccount::depositMoney
-         * @covers BankAccount::withdrawMoney
-         * @group balanceCannotBecomeNegative
-         */
-        /*
-        public function testDepositingAndWithdrawingMoneyWorks()
-        {
-            $this->assertEquals(0, $this->ba->getBalance());
-            $this->ba->depositMoney(1);
-            $this->assertEquals(1, $this->ba->getBalance());
-            $this->ba->withdrawMoney(1);
-            $this->assertEquals(0, $this->ba->getBalance());
-        }
-        */
-    }
-    class FatalTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testFatalError()
-        {
-        }
-    }
-    class NamespaceCoverageNotPublicTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @covers Foo\CoveredClass::<!public>
-         */
-        public function testSomething()
-        {
-        }
-    }
-}
-namespace Foo\DataProviderIssue2922 {
-    // the name of the class cannot match file name - if they match all is fine
-    class SecondHelloWorldTest extends \PHPUnit\Framework\TestCase
-    {
-        public function testSecond()
-        {
-        }
-    }
-    /**
-     * @group foo
-     */
-    class FirstTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @dataProvider provide
-         */
-        public function testFirst($x)
-        {
-        }
-        public function provide()
-        {
-        }
-    }
-}
-namespace {
-    class TestIterator implements \Iterator
-    {
-        protected $array;
-        protected $position = 0;
-        public function __construct($array = [])
-        {
-        }
-        public function rewind()
-        {
-        }
-        public function valid()
-        {
-        }
-        public function key()
-        {
-        }
-        public function current()
-        {
-        }
-        public function next()
         {
         }
     }
@@ -6674,7 +3290,7 @@ namespace PHPUnit\Util {
         /**
          * Constructor.
          *
-         * @param mixed $out
+         * @param null|mixed $out
          *
          * @throws Exception
          */
@@ -6684,7 +3300,7 @@ namespace PHPUnit\Util {
         /**
          * Flush buffer and close output if it's not to a PHP stream
          */
-        public function flush()
+        public function flush() : void
         {
         }
         /**
@@ -6694,21 +3310,16 @@ namespace PHPUnit\Util {
          * since the flush() function may close the file being written to, rendering
          * the current object no longer usable.
          */
-        public function incrementalFlush()
+        public function incrementalFlush() : void
         {
         }
-        /**
-         * @param string $buffer
-         */
-        public function write($buffer)
+        public function write(string $buffer) : void
         {
         }
         /**
          * Check auto-flush mode.
-         *
-         * @return bool
          */
-        public function getAutoFlush()
+        public function getAutoFlush() : bool
         {
         }
         /**
@@ -6716,13 +3327,4688 @@ namespace PHPUnit\Util {
          *
          * If set, *incremental* flushes will be done after each write. This should
          * not be confused with the different effects of this class' flush() method.
-         *
-         * @param bool $autoFlush
          */
-        public function setAutoFlush($autoFlush)
+        public function setAutoFlush(bool $autoFlush) : void
         {
         }
-        private function createDirectory(string $directory) : bool
+    }
+}
+namespace PHPUnit\Test {
+    final class NullPrinter extends \PHPUnit\Util\Printer implements \PHPUnit\Framework\TestListener
+    {
+        use \PHPUnit\Framework\TestListenerDefaultImplementation;
+    }
+}
+namespace PHPUnit\Runner {
+    interface Hook
+    {
+    }
+    interface TestHook extends \PHPUnit\Runner\Hook
+    {
+    }
+    interface AfterIncompleteTestHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterIncompleteTest(string $test, string $message, float $time) : void;
+    }
+    interface AfterLastTestHook extends \PHPUnit\Runner\Hook
+    {
+        public function executeAfterLastTest() : void;
+    }
+    interface AfterRiskyTestHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterRiskyTest(string $test, string $message, float $time) : void;
+    }
+    interface AfterSkippedTestHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterSkippedTest(string $test, string $message, float $time) : void;
+    }
+    interface AfterSuccessfulTestHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterSuccessfulTest(string $test, float $time) : void;
+    }
+    interface AfterTestErrorHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterTestError(string $test, string $message, float $time) : void;
+    }
+    interface AfterTestFailureHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterTestFailure(string $test, string $message, float $time) : void;
+    }
+    interface AfterTestHook extends \PHPUnit\Runner\Hook
+    {
+        /**
+         * This hook will fire after any test, regardless of the result.
+         *
+         * For more fine grained control, have a look at the other hooks
+         * that extend PHPUnit\Runner\Hook.
+         */
+        public function executeAfterTest(string $test, float $time) : void;
+    }
+    interface AfterTestWarningHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeAfterTestWarning(string $test, string $message, float $time) : void;
+    }
+    interface BeforeFirstTestHook extends \PHPUnit\Runner\Hook
+    {
+        public function executeBeforeFirstTest() : void;
+    }
+    interface BeforeTestHook extends \PHPUnit\Runner\TestHook
+    {
+        public function executeBeforeTest(string $test) : void;
+    }
+}
+namespace PHPUnit\Test {
+    final class Extension implements \PHPUnit\Runner\AfterIncompleteTestHook, \PHPUnit\Runner\AfterLastTestHook, \PHPUnit\Runner\AfterRiskyTestHook, \PHPUnit\Runner\AfterSkippedTestHook, \PHPUnit\Runner\AfterSuccessfulTestHook, \PHPUnit\Runner\AfterTestErrorHook, \PHPUnit\Runner\AfterTestFailureHook, \PHPUnit\Runner\AfterTestHook, \PHPUnit\Runner\AfterTestWarningHook, \PHPUnit\Runner\BeforeFirstTestHook, \PHPUnit\Runner\BeforeTestHook
+    {
+        private $amountOfInjectedArguments = 0;
+        public function __construct()
+        {
+        }
+        public function tellAmountOfInjectedArguments() : void
+        {
+        }
+        public function executeBeforeFirstTest() : void
+        {
+        }
+        public function executeBeforeTest(string $test) : void
+        {
+        }
+        public function executeAfterTest(string $test, float $time) : void
+        {
+        }
+        public function executeAfterSuccessfulTest(string $test, float $time) : void
+        {
+        }
+        public function executeAfterIncompleteTest(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterRiskyTest(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterSkippedTest(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterTestError(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterTestFailure(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterTestWarning(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterLastTest() : void
+        {
+        }
+    }
+    final class HookTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testSuccess() : void
+        {
+        }
+        public function testFailure() : void
+        {
+        }
+        public function testError() : void
+        {
+        }
+        public function testIncomplete() : void
+        {
+        }
+        public function testRisky() : void
+        {
+        }
+        public function testSkipped() : void
+        {
+        }
+        public function testWarning() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Runner\Filter {
+    class NameFilterIteratorTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testCaseSensitiveMatch() : void
+        {
+        }
+        public function testCaseInsensitiveMatch() : void
+        {
+        }
+        private function createFilter(string $filter) : \PHPUnit\Runner\Filter\NameFilterIterator
+        {
+        }
+    }
+}
+namespace PHPUnit\Runner {
+    /**
+     * @group test-reorder
+     */
+    class ResultCacheExtensionTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var TestResultCache
+         */
+        protected $cache;
+        /**
+         * @var ResultCacheExtension
+         */
+        protected $extension;
+        /**
+         * @var TestResult
+         */
+        protected $result;
+        protected function setUp() : void
+        {
+        }
+        /**
+         * @dataProvider longTestNamesDataprovider
+         */
+        public function testStripsDataproviderParametersFromTestName(string $testName, string $expectedTestName) : void
+        {
+        }
+        public function longTestNamesDataprovider() : array
+        {
+        }
+        public function testError() : void
+        {
+        }
+        public function testFailure() : void
+        {
+        }
+        public function testSkipped() : void
+        {
+        }
+        public function testIncomplete() : void
+        {
+        }
+        public function testPassedTestsOnlyCacheTime() : void
+        {
+        }
+        public function testWarning() : void
+        {
+        }
+        public function testRisky() : void
+        {
+        }
+        public function testEmptySuite() : void
+        {
+        }
+    }
+    /**
+     * @group test-reorder
+     */
+    class TestSuiteSorterTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * Constants to improve clarity of @dataprovider
+         */
+        private const IGNORE_DEPENDENCIES = false;
+        private const RESOLVE_DEPENDENCIES = true;
+        private const MULTIDEPENDENCYTEST_EXECUTION_ORDER = [\MultiDependencyTest::class . '::testOne', \MultiDependencyTest::class . '::testTwo', \MultiDependencyTest::class . '::testThree', \MultiDependencyTest::class . '::testFour', \MultiDependencyTest::class . '::testFive'];
+        public function testThrowsExceptionWhenUsingInvalidOrderOption() : void
+        {
+        }
+        public function testThrowsExceptionWhenUsingInvalidOrderDefectsOption() : void
+        {
+        }
+        /**
+         * @dataProvider suiteSorterOptionPermutationsProvider
+         */
+        public function testShouldNotAffectEmptyTestSuite(int $order, bool $resolveDependencies, int $orderDefects) : void
+        {
+        }
+        /**
+         * @dataProvider commonSorterOptionsProvider
+         */
+        public function testBasicExecutionOrderOptions(int $order, bool $resolveDependencies, array $expectedOrder) : void
+        {
+        }
+        public function testCanSetRandomizationWithASeed() : void
+        {
+        }
+        public function testCanSetRandomizationWithASeedAndResolveDependencies() : void
+        {
+        }
+        /**
+         * @dataProvider orderDurationWithoutCacheProvider
+         */
+        public function testOrderDurationWithoutCache(bool $resolveDependencies, array $expected) : void
+        {
+        }
+        public function orderDurationWithoutCacheProvider() : array
+        {
+        }
+        /**
+         * @dataProvider orderDurationWithCacheProvider
+         */
+        public function testOrderDurationWithCache(bool $resolveDependencies, array $testTimes, array $expected) : void
+        {
+        }
+        public function orderDurationWithCacheProvider() : array
+        {
+        }
+        /**
+         * @dataProvider defectsSorterOptionsProvider
+         */
+        public function testSuiteSorterDefectsOptions(int $order, bool $resolveDependencies, array $runState, array $expected) : void
+        {
+        }
+        /**
+         * A @dataprovider for basic execution reordering options based on MultiDependencyTest
+         * This class has the following relevant properties:
+         * - it has five tests 'testOne' ... 'testFive'
+         * - 'testThree' @depends on both 'testOne' and 'testTwo'
+         * - 'testFour' @depends on 'MultiDependencyTest::testThree' to test FQN @depends
+         * - 'testFive' has no dependencies
+         */
+        public function commonSorterOptionsProvider() : array
+        {
+        }
+        /**
+         * A @dataprovider for testing defects execution reordering options based on MultiDependencyTest
+         * This class has the following relevant properties:
+         * - it has five tests 'testOne' ... 'testFive'
+         * - 'testThree' @depends on both 'testOne' and 'testTwo'
+         * - 'testFour' @depends on 'MultiDependencyTest::testThree' to test FQN @depends
+         * - 'testFive' has no dependencies
+         */
+        public function defectsSorterOptionsProvider() : array
+        {
+        }
+        /**
+         * @see https://github.com/lstrojny/phpunit-clever-and-smart/issues/38
+         */
+        public function testCanHandleSuiteWithEmptyTestCase() : void
+        {
+        }
+        public function suiteSorterOptionPermutationsProvider() : array
+        {
+        }
+    }
+    class PhptTestCaseTest extends \PHPUnit\Framework\TestCase
+    {
+        private const EXPECT_CONTENT = <<<EOF
+--TEST--
+EXPECT test
+--FILE--
+<?php echo "Hello PHPUnit!"; ?>
+--EXPECT--
+Hello PHPUnit!
+EOF;
+        private const EXPECTF_CONTENT = <<<EOF
+--TEST--
+EXPECTF test
+--FILE--
+<?php echo "Hello PHPUnit!"; ?>
+--EXPECTF--
+Hello %s!
+EOF;
+        private const EXPECTREGEX_CONTENT = <<<EOF
+--TEST--
+EXPECTREGEX test
+--FILE--
+<?php echo "Hello PHPUnit!"; ?>
+--EXPECTREGEX--
+Hello [HPU]{4}[nit]{3}!
+EOF;
+        private const FILE_SECTION = <<<EOF
+<?php echo "Hello PHPUnit!"; ?>
+
+EOF;
+        /**
+         * @var string
+         */
+        private $dirname;
+        /**
+         * @var string
+         */
+        private $filename;
+        /**
+         * @var PhptTestCase
+         */
+        private $testCase;
+        /**
+         * @var AbstractPhpProcess|\PHPUnit\Framework\MockObject\MockObject
+         */
+        private $phpProcess;
+        protected function setUp() : void
+        {
+        }
+        protected function tearDown() : void
+        {
+        }
+        public function testAlwaysReportsNumberOfAssertionsIsOne() : void
+        {
+        }
+        public function testAlwaysReportsItDoesNotUseADataprovider() : void
+        {
+        }
+        public function testShouldRunFileSectionAsTest() : void
+        {
+        }
+        public function testRenderFileSection() : void
+        {
+        }
+        public function testRenderSkipifSection() : void
+        {
+        }
+        public function testShouldRunSkipifSectionWhenExists() : void
+        {
+        }
+        public function testShouldNotRunTestSectionIfSkipifSectionReturnsOutputWithSkipWord() : void
+        {
+        }
+        public function testShouldRunCleanSectionWhenDefined() : void
+        {
+        }
+        public function testShouldSkipTestWhenPhptFileIsEmpty() : void
+        {
+        }
+        public function testShouldSkipTestWhenFileSectionIsMissing() : void
+        {
+        }
+        public function testShouldSkipTestWhenThereIsNoExpecOrExpectifOrExpecregexSectionInPhptFile() : void
+        {
+        }
+        public function testShouldSkipTestWhenSectionHeaderIsMalformed() : void
+        {
+        }
+        public function testShouldValidateExpectSession() : void
+        {
+        }
+        public function testShouldValidateExpectfSession() : void
+        {
+        }
+        public function testShouldValidateExpectregexSession() : void
+        {
+        }
+        /**
+         * Defines the content of the current PHPT test.
+         *
+         * @param string $content
+         */
+        private function setPhpContent($content) : void
+        {
+        }
+        /**
+         * Ensures the correct line ending is used for comparison
+         *
+         * @param string $content
+         *
+         * @return string
+         */
+        private function ensureCorrectEndOfLine($content)
+        {
+        }
+    }
+}
+namespace PHPUnit\Util {
+    class ConfigurationGeneratorTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testGeneratesConfigurationCorrectly() : void
+        {
+        }
+    }
+    class XmlTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @dataProvider charProvider
+         */
+        public function testPrepareString(string $char) : void
+        {
+        }
+        public function charProvider() : array
+        {
+        }
+        public function testLoadEmptyString() : void
+        {
+        }
+        public function testLoadArray() : void
+        {
+        }
+        public function testLoadBoolean() : void
+        {
+        }
+        public function testNestedXmlToVariable() : void
+        {
+        }
+        public function testXmlToVariableCanHandleMultipleOfTheSameArgumentType() : void
+        {
+        }
+        public function testXmlToVariableCanConstructObjectsWithConstructorArgumentsRecursively() : void
+        {
+        }
+    }
+    class GlobalStateTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testIncludedFilesAsStringSkipsVfsProtocols() : void
+        {
+        }
+    }
+    class GetoptTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testItIncludeTheLongOptionsAfterTheArgument() : void
+        {
+        }
+        public function testItIncludeTheShortOptionsAfterTheArgument() : void
+        {
+        }
+        public function testShortOptionUnrecognizedException() : void
+        {
+        }
+        public function testShortOptionRequiresAnArgumentException() : void
+        {
+        }
+        public function testShortOptionHandleAnOptionalValue() : void
+        {
+        }
+        public function testLongOptionIsAmbiguousException() : void
+        {
+        }
+        public function testLongOptionUnrecognizedException() : void
+        {
+        }
+        public function testLongOptionRequiresAnArgumentException() : void
+        {
+        }
+        public function testLongOptionDoesNotAllowAnArgumentException() : void
+        {
+        }
+        public function testItHandlesLongParametesWithValues() : void
+        {
+        }
+        public function testItHandlesShortParametesWithValues() : void
+        {
+        }
+    }
+}
+namespace {
+    /**
+     * @group test-reorder
+     */
+    class TestResultCacheTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testReadsCacheFromProvidedFilename() : void
+        {
+        }
+        public function testDoesClearCacheBeforeLoad() : void
+        {
+        }
+        public function testShouldNotSerializePassedTestsAsDefectButTimeIsStored() : void
+        {
+        }
+        public function testCanPersistCacheToFile() : void
+        {
+        }
+        public function testShouldReturnEmptyCacheWhenFileDoesNotExist() : void
+        {
+        }
+        public function testShouldReturnEmptyCacheFromInvalidFile() : void
+        {
+        }
+        public function isSerializedEmptyCache(string $data) : bool
+        {
+        }
+    }
+    /**
+     * @group test-reorder
+     */
+    class NullTestResultCacheTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testHasWorkingStubs() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Util\PHP {
+    class AbstractPhpProcessTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var AbstractPhpProcess|\PHPUnit\Framework\MockObject\MockObject
+         */
+        private $phpProcess;
+        protected function setUp() : void
+        {
+        }
+        protected function tearDown() : void
+        {
+        }
+        public function testShouldNotUseStderrRedirectionByDefault() : void
+        {
+        }
+        public function testShouldDefinedIfUseStderrRedirection() : void
+        {
+        }
+        public function testShouldDefinedIfDoNotUseStderrRedirection() : void
+        {
+        }
+        public function testShouldUseGivenSettingsToCreateCommand() : void
+        {
+        }
+        public function testShouldRedirectStderrToStdoutWhenDefined() : void
+        {
+        }
+        public function testShouldUseArgsToCreateCommand() : void
+        {
+        }
+        public function testShouldHaveFileToCreateCommand() : void
+        {
+        }
+        public function testStdinGetterAndSetter() : void
+        {
+        }
+        public function testArgsGetterAndSetter() : void
+        {
+        }
+        public function testEnvGetterAndSetter() : void
+        {
+        }
+        public function testTimeoutGetterAndSetter() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Util {
+    class JsonTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @dataProvider canonicalizeProvider
+         *
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testCanonicalize($actual, $expected, $expectError) : void
+        {
+        }
+        public function canonicalizeProvider() : array
+        {
+        }
+        /**
+         * @dataProvider prettifyProvider
+         *
+         * @throws \PHPUnit\Framework\Exception
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testPrettify($actual, $expected) : void
+        {
+        }
+        public function prettifyProvider() : array
+        {
+        }
+        /**
+         * @dataProvider prettifyExceptionProvider
+         */
+        public function testPrettifyException($json) : void
+        {
+        }
+        public function prettifyExceptionProvider() : array
+        {
+        }
+    }
+    class TestTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @todo Split up in separate tests
+         */
+        public function testGetExpectedException() : void
+        {
+        }
+        public function testGetExpectedRegExp() : void
+        {
+        }
+        /**
+         * @dataProvider requirementsProvider
+         *
+         * @throws Warning
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testGetRequirements($test, $result) : void
+        {
+        }
+        public function requirementsProvider() : array
+        {
+        }
+        /**
+         * @dataProvider requirementsWithVersionConstraintsProvider
+         *
+         * @throws Exception
+         * @throws Warning
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testGetRequirementsWithVersionConstraints($test, array $result) : void
+        {
+        }
+        public function requirementsWithVersionConstraintsProvider() : array
+        {
+        }
+        /**
+         * @dataProvider requirementsWithInvalidVersionConstraintsThrowsExceptionProvider
+         *
+         * @throws Warning
+         */
+        public function testGetRequirementsWithInvalidVersionConstraintsThrowsException($test) : void
+        {
+        }
+        public function requirementsWithInvalidVersionConstraintsThrowsExceptionProvider() : array
+        {
+        }
+        public function testGetRequirementsMergesClassAndMethodDocBlocks() : void
+        {
+        }
+        /**
+         * @dataProvider missingRequirementsProvider
+         *
+         * @throws Warning
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testGetMissingRequirements($test, $result) : void
+        {
+        }
+        public function missingRequirementsProvider() : array
+        {
+        }
+        /**
+         * @todo This test does not really test functionality of \PHPUnit\Util\Test
+         */
+        public function testGetProvidedDataRegEx() : void
+        {
+        }
+        /**
+         * Check if all data providers are being merged.
+         */
+        public function testMultipleDataProviders() : void
+        {
+        }
+        public function testMultipleYieldIteratorDataProviders() : void
+        {
+        }
+        public function testWithVariousIterableDataProviders() : void
+        {
+        }
+        public function testTestWithEmptyAnnotation() : void
+        {
+        }
+        public function testTestWithSimpleCase() : void
+        {
+        }
+        public function testTestWithMultiLineMultiParameterCase() : void
+        {
+        }
+        public function testTestWithVariousTypes() : void
+        {
+        }
+        public function testTestWithAnnotationAfter() : void
+        {
+        }
+        public function testTestWithSimpleTextAfter() : void
+        {
+        }
+        public function testTestWithCharacterEscape() : void
+        {
+        }
+        public function testTestWithThrowsProperExceptionIfDatasetCannotBeParsed() : void
+        {
+        }
+        public function testTestWithThrowsProperExceptionIfMultiLineDatasetCannotBeParsed() : void
+        {
+        }
+        /**
+         * @todo Not sure what this test tests (name is misleading at least)
+         */
+        public function testParseAnnotation() : void
+        {
+        }
+        /**
+         * @depends Foo
+         * @depends ほげ
+         *
+         * @todo Remove fixture from test class
+         */
+        public function methodForTestParseAnnotation() : void
+        {
+        }
+        public function testParseAnnotationThatIsOnlyOneLine() : void
+        {
+        }
+        /** @depends Bar */
+        public function methodForTestParseAnnotationThatIsOnlyOneLine() : void
+        {
+        }
+        /**
+         * @dataProvider getLinesToBeCoveredProvider
+         *
+         * @throws CodeCoverageException
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testGetLinesToBeCovered($test, $lines) : void
+        {
+        }
+        public function testGetLinesToBeCovered2() : void
+        {
+        }
+        public function testGetLinesToBeCovered3() : void
+        {
+        }
+        public function testGetLinesToBeCovered4() : void
+        {
+        }
+        public function testGetLinesToBeCoveredSkipsNonExistentMethods() : void
+        {
+        }
+        public function testTwoCoversDefaultClassAnnotationsAreNotAllowed() : void
+        {
+        }
+        public function testFunctionParenthesesAreAllowed() : void
+        {
+        }
+        public function testFunctionParenthesesAreAllowedWithWhitespace() : void
+        {
+        }
+        public function testMethodParenthesesAreAllowed() : void
+        {
+        }
+        public function testMethodParenthesesAreAllowedWithWhitespace() : void
+        {
+        }
+        public function testNamespacedFunctionCanBeCoveredOrUsed() : void
+        {
+        }
+        public function getLinesToBeCoveredProvider() : array
+        {
+        }
+        public function testParseTestMethodAnnotationsIncorporatesTraits() : void
+        {
+        }
+        public function testCoversAnnotationIncludesTraitsUsedByClass() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Util\TestDox {
+    class NamePrettifierTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var NamePrettifier
+         */
+        private $namePrettifier;
+        protected function setUp() : void
+        {
+        }
+        protected function tearDown() : void
+        {
+        }
+        public function testTitleHasSensibleDefaults() : void
+        {
+        }
+        public function testTestNameIsConvertedToASentence() : void
+        {
+        }
+        /**
+         * @ticket 224
+         */
+        public function testTestNameIsNotGroupedWhenNotInSequence() : void
+        {
+        }
+        public function testPhpDoxIgnoreDataKeys() : void
+        {
+        }
+        public function testPhpDoxUsesDefaultValue() : void
+        {
+        }
+        public function testPhpDoxArgumentExporting() : void
+        {
+        }
+        public function testPhpDoxReplacesLongerVariablesFirst() : void
+        {
+        }
+    }
+    final class CliTestDoxPrinterTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var TestableCliTestDoxPrinter
+         */
+        private $printer;
+        /**
+         * @var TestableCliTestDoxPrinter
+         */
+        private $verbosePrinter;
+        protected function setUp() : void
+        {
+        }
+        protected function tearDown() : void
+        {
+        }
+        public function testPrintsTheClassNameOfTheTestClass() : void
+        {
+        }
+        public function testPrintsThePrettifiedMethodName() : void
+        {
+        }
+        public function testPrintsCheckMarkForSuccessfulTest() : void
+        {
+        }
+        public function testDoesNotPrintAdditionalInformationForSuccessfulTest() : void
+        {
+        }
+        public function testPrintsCrossForTestWithError() : void
+        {
+        }
+        public function testPrintsAdditionalInformationForTestWithError() : void
+        {
+        }
+        public function testPrintsCrossForTestWithWarning() : void
+        {
+        }
+        public function testPrintsAdditionalInformationForTestWithWarning() : void
+        {
+        }
+        public function testPrintsCrossForTestWithFailure() : void
+        {
+        }
+        public function testPrintsAdditionalInformationForTestWithFailure() : void
+        {
+        }
+        public function testPrintsEmptySetSymbolForTestWithFailure() : void
+        {
+        }
+        public function testDoesNotPrintAdditionalInformationForIncompleteTestByDefault() : void
+        {
+        }
+        public function testPrintsAdditionalInformationForIncompleteTestInVerboseMode() : void
+        {
+        }
+        public function testPrintsRadioactiveSymbolForRiskyTest() : void
+        {
+        }
+        public function testDoesNotPrintAdditionalInformationForRiskyTestByDefault() : void
+        {
+        }
+        public function testPrintsAdditionalInformationForRiskyTestInVerboseMode() : void
+        {
+        }
+        public function testPrintsArrowForSkippedTest() : void
+        {
+        }
+        public function testDoesNotPrintAdditionalInformationForSkippedTestByDefault() : void
+        {
+        }
+        public function testPrintsAdditionalInformationForSkippedTestInVerboseMode() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Util {
+    class ConfigurationTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var Configuration
+         */
+        protected $configuration;
+        protected function setUp() : void
+        {
+        }
+        public function testExceptionIsThrownForNotExistingConfigurationFile() : void
+        {
+        }
+        public function testShouldReadColorsWhenTrueInConfigurationFile() : void
+        {
+        }
+        public function testShouldReadColorsWhenFalseInConfigurationFile() : void
+        {
+        }
+        public function testShouldReadColorsWhenEmptyInConfigurationFile() : void
+        {
+        }
+        public function testShouldReadColorsWhenInvalidInConfigurationFile() : void
+        {
+        }
+        public function testInvalidConfigurationGeneratesValidationErrors() : void
+        {
+        }
+        public function testShouldUseDefaultValuesForInvalidIntegers() : void
+        {
+        }
+        /**
+         * @dataProvider configurationRootOptionsProvider
+         *
+         * @group test-reorder
+         *
+         * @param bool|int|string $expected
+         */
+        public function testShouldParseXmlConfigurationRootAttributes(string $optionName, string $optionValue, $expected) : void
+        {
+        }
+        public function configurationRootOptionsProvider() : array
+        {
+        }
+        public function testShouldParseXmlConfigurationExecutionOrderCombined() : void
+        {
+        }
+        public function testFilterConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testGroupConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testTestdoxGroupConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testListenerConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testExtensionConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testLoggingConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testPHPConfigurationIsReadCorrectly() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         */
+        public function testPHPConfigurationIsHandledCorrectly() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/1181
+         */
+        public function testHandlePHPConfigurationDoesNotOverwrittenExistingEnvArrayVariables() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/2353
+         */
+        public function testHandlePHPConfigurationDoesForceOverwrittenExistingEnvArrayVariables() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/1181
+         */
+        public function testHandlePHPConfigurationDoesNotOverriteVariablesFromPutEnv() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/1181
+         */
+        public function testHandlePHPConfigurationDoesOverwriteVariablesFromPutEnvWhenForced() : void
+        {
+        }
+        public function testPHPUnitConfigurationIsReadCorrectly() : void
+        {
+        }
+        public function testXincludeInConfiguration() : void
+        {
+        }
+        /**
+         * @ticket 1311
+         */
+        public function testWithEmptyConfigurations() : void
+        {
+        }
+        public function testGetTestSuiteNamesReturnsTheNamesIfDefined() : void
+        {
+        }
+        public function testTestSuiteConfigurationForASingleFileInASuite() : void
+        {
+        }
+        /**
+         * Asserts that the values in $actualConfiguration equal $expectedConfiguration.
+         *
+         * @throws Exception
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        protected function assertConfigurationEquals(\PHPUnit\Util\Configuration $expectedConfiguration, \PHPUnit\Util\Configuration $actualConfiguration) : void
+        {
+        }
+    }
+    class XDebugFilterScriptGeneratorTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers \PHPUnit\Util\XdebugFilterScriptGenerator::generate
+         */
+        public function testReturnsExpectedScript() : void
+        {
+        }
+    }
+    class RegularExpressionTest extends \PHPUnit\Framework\TestCase
+    {
+        public function validRegexpProvider() : array
+        {
+        }
+        public function invalidRegexpProvider() : array
+        {
+        }
+        /**
+         * @dataProvider validRegexpProvider
+         *
+         * @throws \Exception
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         */
+        public function testValidRegex($pattern, $subject, $return) : void
+        {
+        }
+        /**
+         * @dataProvider invalidRegexpProvider
+         *
+         * @throws \Exception
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         */
+        public function testInvalidRegex($pattern, $subject) : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework {
+    /**
+     * @small
+     */
+    final class TestSuiteIteratorTest extends \PHPUnit\Framework\TestCase
+    {
+        /*
+         * tests for the initial state with empty test suite
+         */
+        public function testKeyForEmptyTestSuiteInitiallyReturnsZero() : void
+        {
+        }
+        public function testValidForEmptyTestSuiteInitiallyReturnsFalse() : void
+        {
+        }
+        public function testCurrentForEmptyTestSuiteInitiallyReturnsNull() : void
+        {
+        }
+        /*
+         * tests for the initial state with non-empty test suite
+         */
+        public function testKeyForNonEmptyTestSuiteInitiallyReturnsZero() : void
+        {
+        }
+        public function testValidForNonEmptyTestSuiteInitiallyReturnsTrue() : void
+        {
+        }
+        public function testCurrentForNonEmptyTestSuiteInitiallyReturnsFirstTest() : void
+        {
+        }
+        /*
+         * tests for rewind
+         */
+        public function testRewindResetsKeyToZero() : void
+        {
+        }
+        public function testRewindResetsCurrentToFirstElement() : void
+        {
+        }
+        /*
+         * tests for next
+         */
+        public function testNextIncreasesKeyFromZeroToOne() : void
+        {
+        }
+        public function testCurrentAfterLastElementReturnsNull() : void
+        {
+        }
+        public function testValidAfterLastElementReturnsFalse() : void
+        {
+        }
+        /*
+         * tests for getChildren
+         */
+        public function testGetChildrenForEmptyTestSuiteThrowsException() : void
+        {
+        }
+        public function testGetChildrenForCurrentTestThrowsException() : void
+        {
+        }
+        public function testGetChildrenReturnsNewInstanceWithCurrentTestSuite() : void
+        {
+        }
+        /*
+         * tests for hasChildren
+         */
+        public function testHasChildrenForCurrentTestSuiteReturnsTrue() : void
+        {
+        }
+        public function testHasChildrenForCurrentTestReturnsFalse() : void
+        {
+        }
+        public function testHasChildrenForNoTestsReturnsFalse() : void
+        {
+        }
+    }
+    class TestSuiteTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var TestResult
+         */
+        private $result;
+        protected function setUp() : void
+        {
+        }
+        protected function tearDown() : void
+        {
+        }
+        /**
+         * @testdox TestSuite can be created with name of existing non-TestCase class
+         */
+        public function testSuiteNameCanBeSameAsExistingNonTestClassName() : void
+        {
+        }
+        public function testAddTestSuite() : void
+        {
+        }
+        public function testInheritedTests() : void
+        {
+        }
+        public function testNoTestCases() : void
+        {
+        }
+        public function testNotPublicTestCase() : void
+        {
+        }
+        public function testNotVoidTestCase() : void
+        {
+        }
+        public function testOneTestCase() : void
+        {
+        }
+        public function testShadowedTests() : void
+        {
+        }
+        public function testBeforeClassAndAfterClassAnnotations() : void
+        {
+        }
+        public function testBeforeClassWithDataProviders() : void
+        {
+        }
+        public function testBeforeAnnotation() : void
+        {
+        }
+        public function testTestWithAnnotation() : void
+        {
+        }
+        public function testSkippedTestDataProvider() : void
+        {
+        }
+        public function testTestDataProviderDependency() : void
+        {
+        }
+        public function testIncompleteTestDataProvider() : void
+        {
+        }
+        public function testRequirementsBeforeClassHook() : void
+        {
+        }
+        public function testDoNotSkipInheritedClass() : void
+        {
+        }
+        public function testCreateTestForConstructorlessTestClass() : void
+        {
+        }
+        /**
+         * @testdox Handles exceptions in tearDownAfterClass()
+         */
+        public function testTearDownAfterClassInTestSuite() : void
+        {
+        }
+    }
+    class AssertTest extends \PHPUnit\Framework\TestCase
+    {
+        public static function validInvalidJsonDataprovider() : array
+        {
+        }
+        public function testFail() : void
+        {
+        }
+        public function testAssertSplObjectStorageContainsObject() : void
+        {
+        }
+        public function testAssertArrayContainsObject() : void
+        {
+        }
+        public function testAssertArrayContainsString() : void
+        {
+        }
+        public function testAssertArrayContainsNonObject() : void
+        {
+        }
+        public function testAssertContainsOnlyInstancesOf() : void
+        {
+        }
+        public function testAssertContainsPartialStringInString() : void
+        {
+        }
+        public function testAssertContainsNonCaseSensitiveStringInString() : void
+        {
+        }
+        public function testAssertContainsEmptyStringInString() : void
+        {
+        }
+        public function testAssertStringContainsNonString() : void
+        {
+        }
+        public function testAssertStringNotContainsNonString() : void
+        {
+        }
+        public function testAssertArrayHasKeyThrowsExceptionForInvalidFirstArgument() : void
+        {
+        }
+        public function testAssertArrayHasKeyThrowsExceptionForInvalidSecondArgument() : void
+        {
+        }
+        public function testAssertArrayHasIntegerKey() : void
+        {
+        }
+        public function testAssertArraySubset() : void
+        {
+        }
+        public function testAssertArraySubsetWithDeepNestedArrays() : void
+        {
+        }
+        public function testAssertArraySubsetWithNoStrictCheckAndObjects() : void
+        {
+        }
+        public function testAssertArraySubsetWithStrictCheckAndObjects() : void
+        {
+        }
+        /**
+         * @dataProvider assertArraySubsetInvalidArgumentProvider
+         *
+         * @throws Exception
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertArraySubsetRaisesExceptionForInvalidArguments($partial, $subject) : void
+        {
+        }
+        public function assertArraySubsetInvalidArgumentProvider() : array
+        {
+        }
+        public function testAssertArrayNotHasKeyThrowsExceptionForInvalidFirstArgument() : void
+        {
+        }
+        public function testAssertArrayNotHasKeyThrowsExceptionForInvalidSecondArgument() : void
+        {
+        }
+        public function testAssertArrayNotHasIntegerKey() : void
+        {
+        }
+        public function testAssertArrayHasStringKey() : void
+        {
+        }
+        public function testAssertArrayNotHasStringKey() : void
+        {
+        }
+        public function testAssertArrayHasKeyAcceptsArrayObjectValue() : void
+        {
+        }
+        public function testAssertArrayHasKeyProperlyFailsWithArrayObjectValue() : void
+        {
+        }
+        public function testAssertArrayHasKeyAcceptsArrayAccessValue() : void
+        {
+        }
+        public function testAssertArrayHasKeyProperlyFailsWithArrayAccessValue() : void
+        {
+        }
+        public function testAssertArrayNotHasKeyAcceptsArrayAccessValue() : void
+        {
+        }
+        public function testAssertArrayNotHasKeyPropertlyFailsWithArrayAccessValue() : void
+        {
+        }
+        public function testAssertContainsThrowsException() : void
+        {
+        }
+        public function testAssertIteratorContainsObject() : void
+        {
+        }
+        public function testAssertIteratorContainsString() : void
+        {
+        }
+        public function testAssertStringContainsString() : void
+        {
+        }
+        public function testAssertStringContainsStringForUtf8() : void
+        {
+        }
+        public function testAssertStringContainsStringForUtf8WhenIgnoreCase() : void
+        {
+        }
+        public function testAssertNotContainsThrowsException() : void
+        {
+        }
+        public function testAssertSplObjectStorageNotContainsObject() : void
+        {
+        }
+        public function testAssertArrayNotContainsObject() : void
+        {
+        }
+        public function testAssertArrayNotContainsString() : void
+        {
+        }
+        public function testAssertArrayNotContainsNonObject() : void
+        {
+        }
+        public function testAssertStringNotContainsString() : void
+        {
+        }
+        public function testAssertStringNotContainsStringForUtf8() : void
+        {
+        }
+        public function testAssertStringNotContainsStringForUtf8WhenIgnoreCase() : void
+        {
+        }
+        public function testAssertArrayContainsOnlyIntegers() : void
+        {
+        }
+        public function testAssertArrayNotContainsOnlyIntegers() : void
+        {
+        }
+        public function testAssertArrayContainsOnlyStdClass() : void
+        {
+        }
+        public function testAssertArrayNotContainsOnlyStdClass() : void
+        {
+        }
+        public function equalProvider() : array
+        {
+        }
+        public function notEqualProvider()
+        {
+        }
+        public function sameProvider() : array
+        {
+        }
+        public function notSameProvider() : array
+        {
+        }
+        /**
+         * @dataProvider equalProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertEqualsSucceeds($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false) : void
+        {
+        }
+        /**
+         * @dataProvider notEqualProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertEqualsFails($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false) : void
+        {
+        }
+        /**
+         * @dataProvider notEqualProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertNotEqualsSucceeds($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false) : void
+        {
+        }
+        /**
+         * @dataProvider equalProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertNotEqualsFails($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false) : void
+        {
+        }
+        /**
+         * @dataProvider sameProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertSameSucceeds($a, $b) : void
+        {
+        }
+        /**
+         * @dataProvider notSameProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertSameFails($a, $b) : void
+        {
+        }
+        /**
+         * @dataProvider notSameProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertNotSameSucceeds($a, $b) : void
+        {
+        }
+        /**
+         * @dataProvider sameProvider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertNotSameFails($a, $b) : void
+        {
+        }
+        public function testAssertXmlFileEqualsXmlFile() : void
+        {
+        }
+        public function testAssertXmlFileNotEqualsXmlFile() : void
+        {
+        }
+        public function testAssertXmlStringEqualsXmlFile() : void
+        {
+        }
+        public function testXmlStringNotEqualsXmlFile() : void
+        {
+        }
+        public function testAssertXmlStringEqualsXmlString() : void
+        {
+        }
+        /**
+         * @ticket 1860
+         */
+        public function testAssertXmlStringEqualsXmlString2() : void
+        {
+        }
+        /**
+         * @ticket 1860
+         */
+        public function testAssertXmlStringEqualsXmlString3() : void
+        {
+        }
+        public function testAssertXmlStringNotEqualsXmlString() : void
+        {
+        }
+        public function testXMLStructureIsSame() : void
+        {
+        }
+        public function testXMLStructureWrongNumberOfAttributes() : void
+        {
+        }
+        public function testXMLStructureWrongNumberOfNodes() : void
+        {
+        }
+        public function testXMLStructureIsSameButDataIsNot() : void
+        {
+        }
+        public function testXMLStructureAttributesAreSameButValuesAreNot() : void
+        {
+        }
+        public function testXMLStructureIgnoreTextNodes() : void
+        {
+        }
+        public function testAssertStringEqualsNumeric() : void
+        {
+        }
+        public function testAssertStringEqualsNumeric2() : void
+        {
+        }
+        public function testAssertIsReadable() : void
+        {
+        }
+        public function testAssertNotIsReadable() : void
+        {
+        }
+        public function testAssertIsWritable() : void
+        {
+        }
+        public function testAssertNotIsWritable() : void
+        {
+        }
+        public function testAssertDirectoryExists() : void
+        {
+        }
+        public function testAssertDirectoryNotExists() : void
+        {
+        }
+        public function testAssertDirectoryIsReadable() : void
+        {
+        }
+        public function testAssertDirectoryIsWritable() : void
+        {
+        }
+        public function testAssertFileExists() : void
+        {
+        }
+        public function testAssertFileNotExists() : void
+        {
+        }
+        public function testAssertFileIsReadable() : void
+        {
+        }
+        public function testAssertFileIsWritable() : void
+        {
+        }
+        public function testAssertObjectHasAttribute() : void
+        {
+        }
+        public function testAssertObjectHasAttributeNumericAttribute() : void
+        {
+        }
+        public function testAssertObjectHasAttributeMultiByteAttribute() : void
+        {
+        }
+        public function testAssertObjectNotHasAttribute() : void
+        {
+        }
+        public function testAssertObjectNotHasAttributeNumericAttribute() : void
+        {
+        }
+        public function testAssertObjectNotHasAttributeMultiByteAttribute() : void
+        {
+        }
+        public function testAssertFinite() : void
+        {
+        }
+        public function testAssertInfinite() : void
+        {
+        }
+        public function testAssertNan() : void
+        {
+        }
+        public function testAssertNull() : void
+        {
+        }
+        public function testAssertNotNull() : void
+        {
+        }
+        public function testAssertTrue() : void
+        {
+        }
+        public function testAssertNotTrue() : void
+        {
+        }
+        public function testAssertFalse() : void
+        {
+        }
+        public function testAssertNotFalse() : void
+        {
+        }
+        public function testAssertRegExp() : void
+        {
+        }
+        public function testAssertNotRegExp() : void
+        {
+        }
+        public function testAssertSame() : void
+        {
+        }
+        public function testAssertSame2() : void
+        {
+        }
+        public function testAssertNotSame() : void
+        {
+        }
+        public function testAssertNotSame2() : void
+        {
+        }
+        public function testAssertNotSameFailsNull() : void
+        {
+        }
+        public function testGreaterThan() : void
+        {
+        }
+        public function testAttributeGreaterThan() : void
+        {
+        }
+        public function testGreaterThanOrEqual() : void
+        {
+        }
+        public function testAttributeGreaterThanOrEqual() : void
+        {
+        }
+        public function testLessThan() : void
+        {
+        }
+        public function testAttributeLessThan() : void
+        {
+        }
+        public function testLessThanOrEqual() : void
+        {
+        }
+        public function testAttributeLessThanOrEqual() : void
+        {
+        }
+        public function testReadAttribute() : void
+        {
+        }
+        public function testReadAttribute2() : void
+        {
+        }
+        public function testReadAttribute4() : void
+        {
+        }
+        public function testReadAttribute5() : void
+        {
+        }
+        public function testReadAttributeIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testGetStaticAttributeRaisesExceptionForInvalidFirstArgument2() : void
+        {
+        }
+        public function testGetStaticAttributeRaisesExceptionForInvalidSecondArgument2() : void
+        {
+        }
+        public function testGetStaticAttributeRaisesExceptionForInvalidSecondArgument3() : void
+        {
+        }
+        public function testGetObjectAttributeRaisesExceptionForInvalidFirstArgument() : void
+        {
+        }
+        public function testGetObjectAttributeRaisesExceptionForInvalidSecondArgument2() : void
+        {
+        }
+        public function testGetObjectAttributeRaisesExceptionForInvalidSecondArgument3() : void
+        {
+        }
+        public function testGetObjectAttributeWorksForInheritedAttributes() : void
+        {
+        }
+        public function testAssertPublicAttributeContains() : void
+        {
+        }
+        public function testAssertPublicAttributeContainsOnly() : void
+        {
+        }
+        public function testAssertPublicAttributeNotContains() : void
+        {
+        }
+        public function testAssertPublicAttributeNotContainsOnly() : void
+        {
+        }
+        public function testAssertProtectedAttributeContains() : void
+        {
+        }
+        public function testAssertProtectedAttributeNotContains() : void
+        {
+        }
+        public function testAssertPrivateAttributeContains() : void
+        {
+        }
+        public function testAssertPrivateAttributeNotContains() : void
+        {
+        }
+        public function testAssertAttributeContainsNonObject() : void
+        {
+        }
+        public function testAssertAttributeNotContainsNonObject() : void
+        {
+        }
+        public function testAssertPublicAttributeEquals() : void
+        {
+        }
+        public function testAssertPublicAttributeNotEquals() : void
+        {
+        }
+        public function testAssertPublicAttributeSame() : void
+        {
+        }
+        public function testAssertPublicAttributeNotSame() : void
+        {
+        }
+        public function testAssertProtectedAttributeEquals() : void
+        {
+        }
+        public function testAssertProtectedAttributeNotEquals() : void
+        {
+        }
+        public function testAssertPrivateAttributeEquals() : void
+        {
+        }
+        public function testAssertPrivateAttributeNotEquals() : void
+        {
+        }
+        public function testAssertPublicStaticAttributeEquals() : void
+        {
+        }
+        public function testAssertPublicStaticAttributeNotEquals() : void
+        {
+        }
+        public function testAssertProtectedStaticAttributeEquals() : void
+        {
+        }
+        public function testAssertProtectedStaticAttributeNotEquals() : void
+        {
+        }
+        public function testAssertPrivateStaticAttributeEquals() : void
+        {
+        }
+        public function testAssertPrivateStaticAttributeNotEquals() : void
+        {
+        }
+        public function testAssertClassHasAttributeThrowsExceptionIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testAssertClassHasAttributeThrowsExceptionIfClassDoesNotExist() : void
+        {
+        }
+        public function testAssertClassNotHasAttributeThrowsExceptionIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testAssertClassNotHasAttributeThrowsExceptionIfClassDoesNotExist() : void
+        {
+        }
+        public function testAssertClassHasStaticAttributeThrowsExceptionIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testAssertClassHasStaticAttributeThrowsExceptionIfClassDoesNotExist() : void
+        {
+        }
+        public function testAssertClassNotHasStaticAttributeThrowsExceptionIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testAssertClassNotHasStaticAttributeThrowsExceptionIfClassDoesNotExist() : void
+        {
+        }
+        public function testAssertObjectHasAttributeThrowsException2() : void
+        {
+        }
+        public function testAssertObjectHasAttributeThrowsExceptionIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testAssertObjectNotHasAttributeThrowsException2() : void
+        {
+        }
+        public function testAssertObjectNotHasAttributeThrowsExceptionIfAttributeNameIsNotValid() : void
+        {
+        }
+        public function testClassHasPublicAttribute() : void
+        {
+        }
+        public function testClassNotHasPublicAttribute() : void
+        {
+        }
+        public function testClassHasPublicStaticAttribute() : void
+        {
+        }
+        public function testClassNotHasPublicStaticAttribute() : void
+        {
+        }
+        public function testObjectHasPublicAttribute() : void
+        {
+        }
+        public function testObjectNotHasPublicAttribute() : void
+        {
+        }
+        public function testObjectHasOnTheFlyAttribute() : void
+        {
+        }
+        public function testObjectNotHasOnTheFlyAttribute() : void
+        {
+        }
+        public function testObjectHasProtectedAttribute() : void
+        {
+        }
+        public function testObjectNotHasProtectedAttribute() : void
+        {
+        }
+        public function testObjectHasPrivateAttribute() : void
+        {
+        }
+        public function testObjectNotHasPrivateAttribute() : void
+        {
+        }
+        public function testAssertThatAttributeEquals() : void
+        {
+        }
+        public function testAssertThatAttributeEquals2() : void
+        {
+        }
+        public function testAssertThatAttributeEqualTo() : void
+        {
+        }
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testAssertThatAnything() : void
+        {
+        }
+        public function testAssertThatIsTrue() : void
+        {
+        }
+        public function testAssertThatIsFalse() : void
+        {
+        }
+        public function testAssertThatIsJson() : void
+        {
+        }
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testAssertThatAnythingAndAnything() : void
+        {
+        }
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testAssertThatAnythingOrAnything() : void
+        {
+        }
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testAssertThatAnythingXorNotAnything() : void
+        {
+        }
+        public function testAssertThatContains() : void
+        {
+        }
+        public function testAssertThatStringContains() : void
+        {
+        }
+        public function testAssertThatContainsOnly() : void
+        {
+        }
+        public function testAssertThatContainsOnlyInstancesOf() : void
+        {
+        }
+        public function testAssertThatArrayHasKey() : void
+        {
+        }
+        public function testAssertThatClassHasAttribute() : void
+        {
+        }
+        public function testAssertThatClassHasStaticAttribute() : void
+        {
+        }
+        public function testAssertThatObjectHasAttribute() : void
+        {
+        }
+        public function testAssertThatEqualTo() : void
+        {
+        }
+        public function testAssertThatIdenticalTo() : void
+        {
+        }
+        public function testAssertThatIsInstanceOf() : void
+        {
+        }
+        public function testAssertThatIsType() : void
+        {
+        }
+        public function testAssertThatIsEmpty() : void
+        {
+        }
+        public function testAssertThatFileExists() : void
+        {
+        }
+        public function testAssertThatGreaterThan() : void
+        {
+        }
+        public function testAssertThatGreaterThanOrEqual() : void
+        {
+        }
+        public function testAssertThatLessThan() : void
+        {
+        }
+        public function testAssertThatLessThanOrEqual() : void
+        {
+        }
+        public function testAssertThatMatchesRegularExpression() : void
+        {
+        }
+        public function testAssertThatCallback() : void
+        {
+        }
+        public function testAssertThatCountOf() : void
+        {
+        }
+        public function testAssertFileEquals() : void
+        {
+        }
+        public function testAssertFileNotEquals() : void
+        {
+        }
+        public function testAssertStringEqualsFile() : void
+        {
+        }
+        public function testAssertStringNotEqualsFile() : void
+        {
+        }
+        public function testAssertStringStartsNotWithThrowsException2() : void
+        {
+        }
+        public function testAssertStringStartsWith() : void
+        {
+        }
+        public function testAssertStringStartsNotWith() : void
+        {
+        }
+        public function testAssertStringEndsWith() : void
+        {
+        }
+        public function testAssertStringEndsNotWith() : void
+        {
+        }
+        public function testAssertStringMatchesFormat() : void
+        {
+        }
+        public function testAssertStringMatchesFormatFailure() : void
+        {
+        }
+        public function testAssertStringNotMatchesFormat() : void
+        {
+        }
+        public function testAssertEmpty() : void
+        {
+        }
+        public function testAssertNotEmpty() : void
+        {
+        }
+        public function testAssertAttributeEmpty() : void
+        {
+        }
+        public function testAssertAttributeNotEmpty() : void
+        {
+        }
+        public function testMarkTestIncomplete() : void
+        {
+        }
+        public function testMarkTestSkipped() : void
+        {
+        }
+        public function testAssertCount() : void
+        {
+        }
+        public function testAssertCountTraversable() : void
+        {
+        }
+        public function testAssertCountThrowsExceptionIfElementIsNotCountable() : void
+        {
+        }
+        public function testAssertAttributeCount() : void
+        {
+        }
+        public function testAssertNotCount() : void
+        {
+        }
+        public function testAssertNotCountThrowsExceptionIfElementIsNotCountable() : void
+        {
+        }
+        public function testAssertAttributeNotCount() : void
+        {
+        }
+        public function testAssertSameSize() : void
+        {
+        }
+        public function testAssertSameSizeThrowsExceptionIfExpectedIsNotCountable() : void
+        {
+        }
+        public function testAssertSameSizeThrowsExceptionIfActualIsNotCountable() : void
+        {
+        }
+        public function testAssertNotSameSize() : void
+        {
+        }
+        public function testAssertNotSameSizeThrowsExceptionIfExpectedIsNotCountable() : void
+        {
+        }
+        public function testAssertNotSameSizeThrowsExceptionIfActualIsNotCountable() : void
+        {
+        }
+        public function testAssertJson() : void
+        {
+        }
+        public function testAssertJsonStringEqualsJsonString() : void
+        {
+        }
+        /**
+         * @dataProvider validInvalidJsonDataprovider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertJsonStringEqualsJsonStringErrorRaised($expected, $actual) : void
+        {
+        }
+        public function testAssertJsonStringNotEqualsJsonString() : void
+        {
+        }
+        /**
+         * @dataProvider validInvalidJsonDataprovider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testAssertJsonStringNotEqualsJsonStringErrorRaised($expected, $actual) : void
+        {
+        }
+        public function testAssertJsonStringEqualsJsonFile() : void
+        {
+        }
+        public function testAssertJsonStringEqualsJsonFileExpectingExpectationFailedException() : void
+        {
+        }
+        public function testAssertJsonStringNotEqualsJsonFile() : void
+        {
+        }
+        public function testAssertJsonFileNotEqualsJsonFile() : void
+        {
+        }
+        public function testAssertJsonFileEqualsJsonFile() : void
+        {
+        }
+        public function testAssertInstanceOfThrowsExceptionIfTypeDoesNotExist() : void
+        {
+        }
+        public function testAssertInstanceOf() : void
+        {
+        }
+        public function testAssertAttributeInstanceOf() : void
+        {
+        }
+        public function testAssertNotInstanceOfThrowsExceptionIfTypeDoesNotExist() : void
+        {
+        }
+        public function testAssertNotInstanceOf() : void
+        {
+        }
+        public function testAssertAttributeNotInstanceOf() : void
+        {
+        }
+        public function testAssertInternalType() : void
+        {
+        }
+        public function testAssertInternalTypeDouble() : void
+        {
+        }
+        public function testAssertAttributeInternalType() : void
+        {
+        }
+        public function testAssertNotInternalType() : void
+        {
+        }
+        public function testAssertAttributeNotInternalType() : void
+        {
+        }
+        public function testAssertStringMatchesFormatFileThrowsExceptionForInvalidArgument() : void
+        {
+        }
+        public function testAssertStringMatchesFormatFile() : void
+        {
+        }
+        public function testAssertStringNotMatchesFormatFileThrowsExceptionForInvalidArgument() : void
+        {
+        }
+        public function testAssertStringNotMatchesFormatFile() : void
+        {
+        }
+        public function testStringsCanBeComparedForEqualityIgnoringCase() : void
+        {
+        }
+        public function testArraysOfStringsCanBeComparedForEqualityIgnoringCase() : void
+        {
+        }
+        public function testStringsCanBeComparedForEqualityWithDelta() : void
+        {
+        }
+        public function testArraysOfStringsCanBeComparedForEqualityWithDelta() : void
+        {
+        }
+        public function testArraysCanBeComparedForEqualityWithCanonicalization() : void
+        {
+        }
+        public function testArrayTypeCanBeAsserted() : void
+        {
+        }
+        public function testBoolTypeCanBeAsserted() : void
+        {
+        }
+        public function testFloatTypeCanBeAsserted() : void
+        {
+        }
+        public function testIntTypeCanBeAsserted() : void
+        {
+        }
+        public function testNumericTypeCanBeAsserted() : void
+        {
+        }
+        public function testObjectTypeCanBeAsserted() : void
+        {
+        }
+        public function testResourceTypeCanBeAsserted() : void
+        {
+        }
+        public function testStringTypeCanBeAsserted() : void
+        {
+        }
+        public function testScalarTypeCanBeAsserted() : void
+        {
+        }
+        public function testCallableTypeCanBeAsserted() : void
+        {
+        }
+        public function testIterableTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotArrayTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotBoolTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotFloatTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotIntTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotNumericTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotObjectTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotResourceTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotScalarTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotStringTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotCallableTypeCanBeAsserted() : void
+        {
+        }
+        public function testNotIterableTypeCanBeAsserted() : void
+        {
+        }
+        public function testLogicalAnd() : void
+        {
+        }
+        public function testLogicalOr() : void
+        {
+        }
+        public function testLogicalXor() : void
+        {
+        }
+        public function testStringContainsStringCanBeAsserted() : void
+        {
+        }
+        public function testStringNotContainsStringCanBeAsserted() : void
+        {
+        }
+        public function testStringContainsStringCanBeAssertedIgnoringCase() : void
+        {
+        }
+        public function testStringNotContainsStringCanBeAssertedIgnoringCase() : void
+        {
+        }
+        public function testIterableContainsSameObjectCanBeAsserted() : void
+        {
+        }
+        public function testIterableNotContainsSameObjectCanBeAsserted() : void
+        {
+        }
+        protected function sameValues() : array
+        {
+        }
+        protected function notEqualValues() : array
+        {
+        }
+        protected function equalValues() : array
+        {
+        }
+    }
+    class TestResultTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testRemoveListenerRemovesOnlyExpectedListener() : void
+        {
+        }
+        public function testAddErrorOfTypeIncompleteTest() : void
+        {
+        }
+        public function canSkipCoverageProvider() : array
+        {
+        }
+        /**
+         * @dataProvider canSkipCoverageProvider
+         */
+        public function testCanSkipCoverage($testCase, $expectedCanSkip) : void
+        {
+        }
+    }
+    class TestImplementorTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testSuccessfulRun() : void
+        {
+        }
+    }
+    class ConstraintTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testConstraintArrayNotHasKey() : void
+        {
+        }
+        public function testConstraintArrayNotHasKey2() : void
+        {
+        }
+        public function testConstraintFileNotExists() : void
+        {
+        }
+        public function testConstraintFileNotExists2() : void
+        {
+        }
+        public function testConstraintNotGreaterThan() : void
+        {
+        }
+        public function testConstraintNotGreaterThan2() : void
+        {
+        }
+        public function testConstraintGreaterThanOrEqual() : void
+        {
+        }
+        public function testConstraintGreaterThanOrEqual2() : void
+        {
+        }
+        public function testConstraintNotGreaterThanOrEqual() : void
+        {
+        }
+        public function testConstraintNotGreaterThanOrEqual2() : void
+        {
+        }
+        public function testConstraintIsAnything() : void
+        {
+        }
+        public function testConstraintNotIsAnything() : void
+        {
+        }
+        public function testConstraintIsNotEqual() : void
+        {
+        }
+        public function testConstraintIsNotEqual2() : void
+        {
+        }
+        public function testConstraintIsNotIdentical() : void
+        {
+        }
+        public function testConstraintIsNotIdentical2() : void
+        {
+        }
+        public function testConstraintIsNotIdentical3() : void
+        {
+        }
+        public function testConstraintIsInstanceOf() : void
+        {
+        }
+        public function testConstraintIsInstanceOf2() : void
+        {
+        }
+        public function testConstraintIsNotInstanceOf() : void
+        {
+        }
+        public function testConstraintIsNotInstanceOf2() : void
+        {
+        }
+        public function testConstraintIsNotType() : void
+        {
+        }
+        public function testConstraintIsNotType2() : void
+        {
+        }
+        public function testConstraintIsNotNull() : void
+        {
+        }
+        public function testConstraintIsNotNull2() : void
+        {
+        }
+        public function testConstraintNotLessThan() : void
+        {
+        }
+        public function testConstraintNotLessThan2() : void
+        {
+        }
+        public function testConstraintLessThanOrEqual() : void
+        {
+        }
+        public function testConstraintLessThanOrEqual2() : void
+        {
+        }
+        public function testConstraintNotLessThanOrEqual() : void
+        {
+        }
+        public function testConstraintNotLessThanOrEqual2() : void
+        {
+        }
+        public function testConstraintClassNotHasAttribute() : void
+        {
+        }
+        public function testConstraintClassNotHasAttribute2() : void
+        {
+        }
+        public function testConstraintClassNotHasStaticAttribute() : void
+        {
+        }
+        public function testConstraintClassNotHasStaticAttribute2() : void
+        {
+        }
+        public function testConstraintObjectNotHasAttribute() : void
+        {
+        }
+        public function testConstraintObjectNotHasAttribute2() : void
+        {
+        }
+        public function testConstraintPCRENotMatch() : void
+        {
+        }
+        public function testConstraintPCRENotMatch2() : void
+        {
+        }
+        public function testConstraintStringStartsNotWith() : void
+        {
+        }
+        public function testConstraintStringStartsNotWith2() : void
+        {
+        }
+        public function testConstraintStringNotContains() : void
+        {
+        }
+        public function testConstraintStringNotContainsWhenIgnoreCase() : void
+        {
+        }
+        public function testConstraintStringNotContainsForUtf8StringWhenNotIgnoreCase() : void
+        {
+        }
+        public function testConstraintStringNotContains2() : void
+        {
+        }
+        public function testConstraintStringEndsNotWith() : void
+        {
+        }
+        public function testConstraintStringEndsNotWith2() : void
+        {
+        }
+        public function testConstraintArrayNotContains() : void
+        {
+        }
+        public function testConstraintArrayNotContains2() : void
+        {
+        }
+        public function testAttributeNotEqualTo() : void
+        {
+        }
+        public function testAttributeNotEqualTo2() : void
+        {
+        }
+        public function testConstraintCountWithAnArray() : void
+        {
+        }
+        public function testConstraintCountWithAnIteratorWhichDoesNotImplementCountable() : void
+        {
+        }
+        public function testConstraintCountWithAnObjectImplementingCountable() : void
+        {
+        }
+        public function testConstraintCountFailing() : void
+        {
+        }
+        public function testConstraintNotCountFailing() : void
+        {
+        }
+        public function testConstraintNotSameSizeFailing() : void
+        {
+        }
+        public function testConstraintException() : void
+        {
+        }
+        /**
+         * Removes spaces in front of newlines
+         *
+         * @param string $string
+         *
+         * @return string
+         */
+        private function trimnl($string)
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework\Constraint {
+    abstract class ConstraintTestCase extends \PHPUnit\Framework\TestCase
+    {
+        public final function testIsCountable() : void
+        {
+        }
+        public final function testIsSelfDescribing() : void
+        {
+        }
+        /**
+         * Returns the class name of the constraint.
+         */
+        protected final function className() : string
+        {
+        }
+    }
+    final class IsInstanceOfTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintInstanceOf() : void
+        {
+        }
+        public function testConstraintFailsOnString() : void
+        {
+        }
+    }
+    class ClassHasStaticAttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintClassHasStaticAttribute() : void
+        {
+        }
+        public function testConstraintClassHasStaticAttribute2() : void
+        {
+        }
+    }
+    class IsEqualTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsEqual() : void
+        {
+        }
+        /**
+         * @dataProvider isEqualProvider
+         */
+        public function testConstraintIsEqual2($expected, $actual, $message) : void
+        {
+        }
+        public function isEqualProvider() : array
+        {
+        }
+        /**
+         * Removes spaces in front of newlines
+         *
+         * @param string $string
+         *
+         * @return string
+         */
+        private function trimnl($string)
+        {
+        }
+    }
+    class JsonMatchesTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public static function evaluateDataprovider() : array
+        {
+        }
+        public static function evaluateThrowsExpectationFailedExceptionWhenJsonIsValidButDoesNotMatchDataprovider() : array
+        {
+        }
+        /**
+         * @dataProvider evaluateDataprovider
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testEvaluate($expected, $jsonOther, $jsonValue) : void
+        {
+        }
+        /**
+         * @dataProvider evaluateThrowsExpectationFailedExceptionWhenJsonIsValidButDoesNotMatchDataprovider
+         *
+         * @throws ExpectationFailedException
+         * @throws \PHPUnit\Framework\AssertionFailedError
+         * @throws \PHPUnit\Framework\Exception
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testEvaluateThrowsExpectationFailedExceptionWhenJsonIsValidButDoesNotMatch($jsonOther, $jsonValue) : void
+        {
+        }
+        public function testToString() : void
+        {
+        }
+    }
+    class CountTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testCount() : void
+        {
+        }
+        public function testCountDoesNotChangeIteratorKey() : void
+        {
+        }
+        public function testCountGeneratorsDoNotRewind() : void
+        {
+        }
+        public function testCountTraversable() : void
+        {
+        }
+        /**
+         * @ticket https://github.com/sebastianbergmann/phpunit/issues/3743
+         */
+        public function test_EmptyIterator_is_handled_correctly() : void
+        {
+        }
+    }
+    class IsEmptyTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsEmpty() : void
+        {
+        }
+        public function testConstraintIsEmpty2() : void
+        {
+        }
+        /**
+         * @ticket https://github.com/sebastianbergmann/phpunit/issues/3743
+         */
+        public function test_EmptyIterator_is_handled_correctly() : void
+        {
+        }
+    }
+    class DirectoryExistsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testDefaults() : void
+        {
+        }
+        public function testEvaluateReturnsFalseWhenDirectoryDoesNotExist() : void
+        {
+        }
+        public function testEvaluateReturnsTrueWhenDirectoryExists() : void
+        {
+        }
+        public function testEvaluateThrowsExpectationFailedExceptionWhenDirectoryDoesNotExist() : void
+        {
+        }
+    }
+    class LessThanTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintLessThan() : void
+        {
+        }
+        public function testConstraintLessThan2() : void
+        {
+        }
+    }
+    class IsIdenticalTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsIdentical() : void
+        {
+        }
+        public function testConstraintIsIdentical2() : void
+        {
+        }
+        public function testConstraintIsIdentical3() : void
+        {
+        }
+        public function testConstraintIsIdenticalArrayDiff() : void
+        {
+        }
+        public function testConstraintIsIdenticalNestedArrayDiff() : void
+        {
+        }
+    }
+    class CallbackTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public static function staticCallbackReturningTrue()
+        {
+        }
+        public function callbackReturningTrue()
+        {
+        }
+        public function testConstraintCallback() : void
+        {
+        }
+        public function testConstraintCallbackFailure() : void
+        {
+        }
+    }
+    class ArraySubsetTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public static function evaluateDataProvider() : array
+        {
+        }
+        /**
+         * @param bool               $expected
+         * @param array|\Traversable $subset
+         * @param array|\Traversable $other
+         * @param bool               $strict
+         *
+         * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         * @dataProvider evaluateDataProvider
+         */
+        public function testEvaluate($expected, $subset, $other, $strict) : void
+        {
+        }
+        public function testEvaluateWithArrayAccess() : void
+        {
+        }
+        public function testEvaluateFailMessage() : void
+        {
+        }
+    }
+    class ExceptionMessageRegExpTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testRegexMessage() : void
+        {
+        }
+        public function testRegexMessageExtreme() : void
+        {
+        }
+        /**
+         * @runInSeparateProcess
+         * @requires extension xdebug
+         */
+        public function testMessageXdebugScreamCompatibility() : void
+        {
+        }
+        public function testSimultaneousLiteralAndRegExpExceptionMessage() : void
+        {
+        }
+    }
+    class TraversableContainsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintTraversableCheckForObjectIdentityForDefaultCase() : void
+        {
+        }
+        public function testConstraintTraversableCheckForObjectIdentityForPrimitiveType() : void
+        {
+        }
+        public function testConstraintTraversableWithRightValue() : void
+        {
+        }
+        public function testConstraintTraversableWithFailValue() : void
+        {
+        }
+        public function testConstraintTraversableCountMethods() : void
+        {
+        }
+        public function testConstraintTraversableEvaluateMethodWithFailExample() : void
+        {
+        }
+        public function testConstraintTraversableEvaluateMethodWithFailExampleWithCustomMessage() : void
+        {
+        }
+        public function testConstraintTraversableToStringMethodsWithStdClass() : void
+        {
+        }
+        public function testConstraintTraversableToStringMethods() : void
+        {
+        }
+        public function testConstraintTraversableToStringMethodsWithSplObjectStorage() : void
+        {
+        }
+        public function testConstraintTraversableStdClassForFailSplObjectStorage() : void
+        {
+        }
+        public function testConstraintTraversableStdClassForFailSplObjectStorageWithCustomMessage() : void
+        {
+        }
+    }
+}
+namespace Framework\Constraint {
+    final class LogicalXorTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testFromConstraintsReturnsConstraint() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework\Constraint {
+    class IsWritableTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsWritable() : void
+        {
+        }
+    }
+    final class LogicalAndTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testSetConstraintsRejectsInvalidConstraint() : void
+        {
+        }
+        public function testCountReturnsCountOfComposedConstraints() : void
+        {
+        }
+        public function testToStringReturnsImplodedStringRepresentationOfComposedConstraintsGluedWithAnd() : void
+        {
+        }
+        /**
+         * @dataProvider providerFailingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateReturnsFalseIfAnyOfTheComposedConstraintsEvaluateToFalse(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerSucceedingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateReturnsTrueIfAllOfTheComposedConstraintsEvaluateToTrue(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerFailingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateThrowsExceptionIfAnyOfTheComposedConstraintsEvaluateToFalse(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerFailingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateThrowsExceptionWithCustomMessageIfAnyOfTheComposedConstraintsEvaluateToFalse(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerSucceedingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateReturnsNothingIfAllOfTheComposedConstraintsEvaluateToTrue(array $constraints) : void
+        {
+        }
+        public function providerFailingConstraints() : \Generator
+        {
+        }
+        public function providerSucceedingConstraints() : \Generator
+        {
+        }
+        private function stringify(array $constraints) : string
+        {
+        }
+    }
+    class ExceptionMessageTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testLiteralMessage() : void
+        {
+        }
+        public function testPartialMessageBegin() : void
+        {
+        }
+        public function testPartialMessageMiddle() : void
+        {
+        }
+        public function testPartialMessageEnd() : void
+        {
+        }
+    }
+    class StringMatchesFormatDescriptionTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintStringMatchesDirectorySeparator() : void
+        {
+        }
+        public function testConstraintStringMatchesString() : void
+        {
+        }
+        public function testConstraintStringMatchesOptionalString() : void
+        {
+        }
+        public function testConstraintStringMatchesAnything() : void
+        {
+        }
+        public function testConstraintStringMatchesOptionalAnything() : void
+        {
+        }
+        public function testConstraintStringMatchesWhitespace() : void
+        {
+        }
+        public function testConstraintStringMatchesInteger() : void
+        {
+        }
+        public function testConstraintStringMatchesUnsignedInt() : void
+        {
+        }
+        public function testConstraintStringMatchesHexadecimal() : void
+        {
+        }
+        public function testConstraintStringMatchesFloat() : void
+        {
+        }
+        public function testConstraintStringMatchesCharacter() : void
+        {
+        }
+        public function testConstraintStringMatchesEscapedPercent() : void
+        {
+        }
+        public function testConstraintStringMatchesEscapedPercentThenPlaceholder() : void
+        {
+        }
+        public function testConstraintStringMatchesSlash() : void
+        {
+        }
+        public function testConstraintStringMatchesBackslash() : void
+        {
+        }
+        public function testConstraintStringMatchesBackslashSlash() : void
+        {
+        }
+        public function testConstraintStringMatchesNewline() : void
+        {
+        }
+        public function testFailureMessageWithNewlines() : void
+        {
+        }
+    }
+    class IsNullTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsNull() : void
+        {
+        }
+        public function testConstraintIsNull2() : void
+        {
+        }
+    }
+    final class LogicalOrTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testSetConstraintsDecoratesNonConstraintWithIsEqual() : void
+        {
+        }
+        public function testCountReturnsCountOfComposedConstraints() : void
+        {
+        }
+        public function testToStringReturnsImplodedStringRepresentationOfComposedConstraintsGluedWithOr() : void
+        {
+        }
+        /**
+         * @dataProvider providerFailingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateReturnsFalseIfAllOfTheComposedConstraintsEvaluateToFalse(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerSucceedingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateReturnsTrueIfAnyOfTheComposedConstraintsEvaluateToTrue(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerFailingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateThrowsExceptionIfAllOfTheComposedConstraintsEvaluateToFalse(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerFailingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateThrowsExceptionWithCustomMessageIfAllOfTheComposedConstraintsEvaluateToFalse(array $constraints) : void
+        {
+        }
+        /**
+         * @dataProvider providerSucceedingConstraints
+         *
+         * @param Constraint[] $constraints
+         */
+        public function testEvaluateReturnsNothingIfAnyOfTheComposedConstraintsEvaluateToTrue(array $constraints) : void
+        {
+        }
+        public function providerFailingConstraints() : \Generator
+        {
+        }
+        public function providerSucceedingConstraints() : \Generator
+        {
+        }
+        private function stringify(array $constraints) : string
+        {
+        }
+    }
+    class JsonMatchesErrorMessageProviderTest extends \PHPUnit\Framework\TestCase
+    {
+        public static function determineJsonErrorDataprovider() : array
+        {
+        }
+        public static function translateTypeToPrefixDataprovider() : array
+        {
+        }
+        /**
+         * @dataProvider translateTypeToPrefixDataprovider
+         *
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testTranslateTypeToPrefix($expected, $type) : void
+        {
+        }
+        /**
+         * @dataProvider determineJsonErrorDataprovider
+         *
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testDetermineJsonError($expected, $error, $prefix) : void
+        {
+        }
+    }
+    class ObjectHasAttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintObjectHasAttribute() : void
+        {
+        }
+        public function testConstraintObjectHasAttribute2() : void
+        {
+        }
+    }
+    class IsTypeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsType() : void
+        {
+        }
+        public function testConstraintIsType2() : void
+        {
+        }
+        /**
+         * @dataProvider resources
+         */
+        public function testConstraintIsResourceTypeEvaluatesCorrectlyWithResources($resource) : void
+        {
+        }
+        public function resources()
+        {
+        }
+        public function testIterableTypeIsSupported() : void
+        {
+        }
+        /**
+         * Removes spaces in front of newlines
+         *
+         * @param string $string
+         *
+         * @return string
+         */
+        private function trimnl($string)
+        {
+        }
+    }
+    class StringEndsWithTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintStringEndsWithCorrectValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringEndsWithNotCorrectValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringEndsWithCorrectNumericValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringEndsWithNotCorrectNumericValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringEndsWithToStringMethod() : void
+        {
+        }
+        public function testConstraintStringEndsWithCountMethod() : void
+        {
+        }
+        public function testConstraintStringEndsWithNotCorrectValueAndExpectation() : void
+        {
+        }
+        public function testConstraintStringEndsWithNotCorrectValueExceptionAndCustomMessage() : void
+        {
+        }
+    }
+    class GreaterThanTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintGreaterThan() : void
+        {
+        }
+        public function testConstraintGreaterThan2() : void
+        {
+        }
+    }
+    class SameSizeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintSameSizeWithAnArray() : void
+        {
+        }
+        public function testConstraintSameSizeWithAnIteratorWhichDoesNotImplementCountable() : void
+        {
+        }
+        public function testConstraintSameSizeWithAnObjectImplementingCountable() : void
+        {
+        }
+        public function testConstraintSameSizeFailing() : void
+        {
+        }
+    }
+    class ArrayHasKeyTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintArrayHasKey() : void
+        {
+        }
+        public function testConstraintArrayHasKey2() : void
+        {
+        }
+    }
+    class FileExistsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintFileExists() : void
+        {
+        }
+        public function testConstraintFileExists2() : void
+        {
+        }
+    }
+    class IsReadableTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintIsReadable() : void
+        {
+        }
+    }
+    class AttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testAttributeEqualTo() : void
+        {
+        }
+        public function testAttributeEqualTo2() : void
+        {
+        }
+    }
+    class ClassHasAttributeTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintClassHasAttribute() : void
+        {
+        }
+        public function testConstraintClassHasAttribute2() : void
+        {
+        }
+    }
+    class RegularExpressionTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintRegularExpression() : void
+        {
+        }
+        public function testConstraintRegularExpression2() : void
+        {
+        }
+    }
+    class StringContainsTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintStringContains() : void
+        {
+        }
+        public function testConstraintStringContainsWhenIgnoreCase() : void
+        {
+        }
+        public function testConstraintStringContainsForUtf8StringWhenNotIgnoreCase() : void
+        {
+        }
+        public function testConstraintStringContains2() : void
+        {
+        }
+    }
+    class StringStartsWithTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public function testConstraintStringStartsWithCorrectValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringStartsWithNotCorrectValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringStartsWithCorrectNumericValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringStartsWithCorrectSingleZeroAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringStartsWithNotCorrectNumericValueAndReturnResult() : void
+        {
+        }
+        public function testConstraintStringStartsWithToStringMethod() : void
+        {
+        }
+        public function testConstraintStringStartsWitCountMethod() : void
+        {
+        }
+        public function testConstraintStringStartsWithNotCorrectValueAndExpectation() : void
+        {
+        }
+        public function testConstraintStringStartsWithNotCorrectValueExceptionAndCustomMessage() : void
+        {
+        }
+    }
+    class IsJsonTest extends \PHPUnit\Framework\Constraint\ConstraintTestCase
+    {
+        public static function evaluateDataprovider() : array
+        {
+        }
+        /**
+         * @dataProvider evaluateDataprovider
+         *
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function testEvaluate($expected, $jsonOther) : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework {
+    final class TestListenerTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var TestResult
+         */
+        private $result;
+        /**
+         * @var MyTestListener
+         */
+        private $listener;
+        protected function setUp() : void
+        {
+        }
+        public function testError() : void
+        {
+        }
+        public function testFailure() : void
+        {
+        }
+        public function testStartStop() : void
+        {
+        }
+    }
+    class TestFailureTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testToString() : void
+        {
+        }
+        public function testToStringForError() : void
+        {
+        }
+        public function testToStringForNonSelfDescribing() : void
+        {
+        }
+        public function testgetExceptionAsString() : void
+        {
+        }
+        public function testExceptionToString() : void
+        {
+        }
+        public function testExceptionToStringForExpectationFailedException() : void
+        {
+        }
+        public function testExceptionToStringForExpectationFailedExceptionWithComparisonFailure() : void
+        {
+        }
+        public function testExceptionToStringForFrameworkError() : void
+        {
+        }
+        public function testExceptionToStringForExceptionWrapper() : void
+        {
+        }
+        public function testGetTestName() : void
+        {
+        }
+        public function testFailedTest() : void
+        {
+        }
+        public function testThrownException() : void
+        {
+        }
+        public function testExceptionMessage() : void
+        {
+        }
+        public function testIsFailure() : void
+        {
+        }
+        public function testIsFailureFalse() : void
+        {
+        }
+    }
+    class ExceptionWrapperTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @runInSeparateProcess
+         */
+        public function testGetOriginalException() : void
+        {
+        }
+        /**
+         * @runInSeparateProcess
+         */
+        public function testGetOriginalExceptionWithPrevious() : void
+        {
+        }
+        /**
+         * @runInSeparateProcess
+         */
+        public function testNoOriginalExceptionInStacktrace() : void
+        {
+        }
+    }
+}
+namespace {
+    class MockObjectTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testMockedMethodIsNeverCalled() : void
+        {
+        }
+        public function testMockedMethodIsNeverCalledWithParameter() : void
+        {
+        }
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testMockedMethodIsNotCalledWhenExpectsAnyWithParameter() : void
+        {
+        }
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testMockedMethodIsNotCalledWhenMethodSpecifiedDirectlyWithParameter() : void
+        {
+        }
+        public function testMockedMethodIsCalledAtLeastOnce() : void
+        {
+        }
+        public function testMockedMethodIsCalledAtLeastOnce2() : void
+        {
+        }
+        public function testMockedMethodIsCalledAtLeastTwice() : void
+        {
+        }
+        public function testMockedMethodIsCalledAtLeastTwice2() : void
+        {
+        }
+        public function testMockedMethodIsCalledAtMostTwice() : void
+        {
+        }
+        public function testMockedMethodIsCalledAtMosttTwice2() : void
+        {
+        }
+        public function testMockedMethodIsCalledOnce() : void
+        {
+        }
+        public function testMockedMethodIsCalledOnceWithParameter() : void
+        {
+        }
+        public function testMockedMethodIsCalledExactly() : void
+        {
+        }
+        public function testStubbedException() : void
+        {
+        }
+        public function testStubbedWillThrowException() : void
+        {
+        }
+        public function testStubbedReturnValue() : void
+        {
+        }
+        public function testStubbedReturnValueMap() : void
+        {
+        }
+        public function testStubbedReturnArgument() : void
+        {
+        }
+        public function testFunctionCallback() : void
+        {
+        }
+        public function testStubbedReturnSelf() : void
+        {
+        }
+        public function testStubbedReturnOnConsecutiveCalls() : void
+        {
+        }
+        public function testStaticMethodCallback() : void
+        {
+        }
+        public function testPublicMethodCallback() : void
+        {
+        }
+        public function testMockClassOnlyGeneratedOnce() : void
+        {
+        }
+        public function testMockClassDifferentForPartialMocks() : void
+        {
+        }
+        public function testMockClassStoreOverrulable() : void
+        {
+        }
+        public function testGetMockWithFixedClassNameCanProduceTheSameMockTwice() : void
+        {
+        }
+        public function testOriginalConstructorSettingConsidered() : void
+        {
+        }
+        public function testOriginalCloneSettingConsidered() : void
+        {
+        }
+        public function testGetMockForAbstractClass() : void
+        {
+        }
+        /**
+         * @dataProvider traversableProvider
+         */
+        public function testGetMockForTraversable($type) : void
+        {
+        }
+        public function testMultipleInterfacesCanBeMockedInSingleObject() : void
+        {
+        }
+        public function testGetMockForTrait() : void
+        {
+        }
+        public function testClonedMockObjectShouldStillEqualTheOriginal() : void
+        {
+        }
+        public function testMockObjectsConstructedIndepentantlyShouldBeEqual() : void
+        {
+        }
+        public function testMockObjectsConstructedIndepentantlyShouldNotBeTheSame() : void
+        {
+        }
+        public function testClonedMockObjectCanBeUsedInPlaceOfOriginalOne() : void
+        {
+        }
+        public function testClonedMockObjectIsNotIdenticalToOriginalOne() : void
+        {
+        }
+        public function testObjectMethodCallWithArgumentCloningEnabled() : void
+        {
+        }
+        public function testObjectMethodCallWithArgumentCloningDisabled() : void
+        {
+        }
+        public function testArgumentCloningOptionGeneratesUniqueMock() : void
+        {
+        }
+        public function testVerificationOfMethodNameFailsWithoutParameters() : void
+        {
+        }
+        public function testVerificationOfMethodNameFailsWithParameters() : void
+        {
+        }
+        public function testVerificationOfMethodNameFailsWithWrongParameters() : void
+        {
+        }
+        public function testVerificationOfNeverFailsWithEmptyParameters() : void
+        {
+        }
+        public function testVerificationOfNeverFailsWithAnyParameters() : void
+        {
+        }
+        public function testWithAnythingInsteadOfWithAnyParameters() : void
+        {
+        }
+        /**
+         * See https://github.com/sebastianbergmann/phpunit-mock-objects/issues/81
+         */
+        public function testMockArgumentsPassedByReference() : void
+        {
+        }
+        /**
+         * See https://github.com/sebastianbergmann/phpunit-mock-objects/issues/81
+         */
+        public function testMockArgumentsPassedByReference2() : void
+        {
+        }
+        /**
+         * @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/116
+         */
+        public function testMockArgumentsPassedByReference3() : void
+        {
+        }
+        /**
+         * @see https://github.com/sebastianbergmann/phpunit/issues/796
+         */
+        public function testMockArgumentsPassedByReference4() : void
+        {
+        }
+        /**
+         * @requires extension soap
+         */
+        public function testCreateMockFromWsdl() : void
+        {
+        }
+        /**
+         * @requires extension soap
+         */
+        public function testCreateNamespacedMockFromWsdl() : void
+        {
+        }
+        /**
+         * @requires extension soap
+         */
+        public function testCreateTwoMocksOfOneWsdlFile() : void
+        {
+        }
+        /**
+         * @see      https://github.com/sebastianbergmann/phpunit/issues/2573
+         * @ticket   2573
+         * @requires extension soap
+         */
+        public function testCreateMockOfWsdlFileWithSpecialChars() : void
+        {
+        }
+        /**
+         * @see    https://github.com/sebastianbergmann/phpunit-mock-objects/issues/156
+         * @ticket 156
+         */
+        public function testInterfaceWithStaticMethodCanBeStubbed() : void
+        {
+        }
+        public function testInvokingStubbedStaticMethodRaisesException() : void
+        {
+        }
+        /**
+         * @see    https://github.com/sebastianbergmann/phpunit-mock-objects/issues/171
+         * @ticket 171
+         */
+        public function testStubForClassThatImplementsSerializableCanBeCreatedWithoutInvokingTheConstructor() : void
+        {
+        }
+        public function testGetMockForClassWithSelfTypeHint() : void
+        {
+        }
+        public function testStringableClassDoesNotThrow() : void
+        {
+        }
+        public function testStringableClassCanBeMocked() : void
+        {
+        }
+        public function traversableProvider() : array
+        {
+        }
+        public function testParameterCallbackConstraintOnlyEvaluatedOnce() : void
+        {
+        }
+        public function testReturnTypesAreMockedCorrectly() : void
+        {
+        }
+        public function testDisableAutomaticReturnValueGeneration() : void
+        {
+        }
+        public function testDisableAutomaticReturnValueGenerationWithToString() : void
+        {
+        }
+        public function testVoidReturnTypeIsMockedCorrectly() : void
+        {
+        }
+        /**
+         * @requires PHP 7.2
+         */
+        public function testObjectReturnTypeIsMockedCorrectly() : void
+        {
+        }
+        public function testTraitCanBeDoubled() : void
+        {
+        }
+        public function testTraitWithConstructorCanBeDoubled() : void
+        {
+        }
+        private function resetMockObjects() : void
+        {
+        }
+    }
+    class ConsecutiveParametersTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testIntegration() : void
+        {
+        }
+        public function testIntegrationWithLessAssertionsThanMethodCalls() : void
+        {
+        }
+        public function testIntegrationExpectingException() : void
+        {
+        }
+        public function testIntegrationFailsWithNonIterableParameterGroup() : void
+        {
+        }
+    }
+    class InvocationMockerTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testWillReturnWithOneValue() : void
+        {
+        }
+        public function testWillReturnWithMultipleValues() : void
+        {
+        }
+        public function testWillReturnOnConsecutiveCalls() : void
+        {
+        }
+        public function testWillReturnByReference() : void
+        {
+        }
+        public function testWillFailWhenTryingToPerformExpectationUnconfigurableMethod() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework\MockObject {
+    class MockMethodTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testGetNameReturnsMethodName()
+        {
+        }
+        public function testFailWhenReturnTypeIsParentButThereIsNoParentClass()
+        {
+        }
+    }
+}
+namespace {
+    /**
+     * @covers \PHPUnit\Framework\MockObject\Generator
+     *
+     * @uses \PHPUnit\Framework\MockObject\InvocationMocker
+     * @uses \PHPUnit\Framework\MockObject\Builder\InvocationMocker
+     * @uses \PHPUnit\Framework\MockObject\Invocation\ObjectInvocation
+     * @uses \PHPUnit\Framework\MockObject\Invocation\StaticInvocation
+     * @uses \PHPUnit\Framework\MockObject\Matcher
+     * @uses \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder
+     * @uses \PHPUnit\Framework\MockObject\Matcher\MethodName
+     * @uses \PHPUnit\Framework\MockObject\Stub\ReturnStub
+     * @uses \PHPUnit\Framework\MockObject\Matcher\InvokedCount
+     */
+    class GeneratorTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @var Generator
+         */
+        private $generator;
+        protected function setUp() : void
+        {
+        }
+        public function testGetMockFailsWhenInvalidFunctionNameIsPassedInAsAFunctionToMock() : void
+        {
+        }
+        public function testGetMockCanCreateNonExistingFunctions() : void
+        {
+        }
+        public function testGetMockGeneratorFails() : void
+        {
+        }
+        public function testGetMockBlacklistedMethodNamesPhp7() : void
+        {
+        }
+        public function testGetMockForAbstractClassDoesNotFailWhenFakingInterfaces() : void
+        {
+        }
+        public function testGetMockForAbstractClassStubbingAbstractClass() : void
+        {
+        }
+        public function testGetMockForAbstractClassWithNonExistentMethods() : void
+        {
+        }
+        public function testGetMockForAbstractClassShouldCreateStubsOnlyForAbstractMethodWhenNoMethodsWereInformed() : void
+        {
+        }
+        /**
+         * @dataProvider getMockForAbstractClassExpectsInvalidArgumentExceptionDataprovider
+         */
+        public function testGetMockForAbstractClassExpectingInvalidArgumentException($className, $mockClassName) : void
+        {
+        }
+        public function testGetMockForAbstractClassAbstractClassDoesNotExist() : void
+        {
+        }
+        public function getMockForAbstractClassExpectsInvalidArgumentExceptionDataprovider() : array
+        {
+        }
+        public function testGetMockForTraitWithNonExistentMethodsAndNonAbstractMethods() : void
+        {
+        }
+        public function testGetMockForTraitStubbingAbstractMethod() : void
+        {
+        }
+        public function testGetMockForSingletonWithReflectionSuccess() : void
+        {
+        }
+        public function testExceptionIsRaisedForMutuallyExclusiveOptions() : void
+        {
+        }
+        public function testCanImplementInterfacesThatHaveMethodsWithReturnTypes() : void
+        {
+        }
+        public function testCanConfigureMethodsForDoubleOfNonExistentClass() : void
+        {
+        }
+        public function testCanInvokeMethodsOfNonExistentClass() : void
+        {
+        }
+        public function testMockingOfExceptionWithThrowable() : void
+        {
+        }
+        public function testMockingOfThrowable() : void
+        {
+        }
+        public function testMockingOfThrowableConstructorArguments() : void
+        {
+        }
+        public function testVariadicArgumentsArePassedToOriginalMethod()
+        {
+        }
+        public function testVariadicArgumentsArePassedToMockedMethod()
+        {
+        }
+    }
+    class MockBuilderTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testMockBuilderRequiresClassName() : void
+        {
+        }
+        public function testByDefaultMocksAllMethods() : void
+        {
+        }
+        public function testMethodsToMockCanBeSpecified() : void
+        {
+        }
+        public function testMethodExceptionsToMockCanBeSpecified() : void
+        {
+        }
+        public function testEmptyMethodExceptionsToMockCanBeSpecified() : void
+        {
+        }
+        public function testByDefaultDoesNotPassArgumentsToTheConstructor() : void
+        {
+        }
+        public function testMockClassNameCanBeSpecified() : void
+        {
+        }
+        public function testConstructorArgumentsCanBeSpecified() : void
+        {
+        }
+        public function testOriginalConstructorCanBeDisabled() : void
+        {
+        }
+        public function testByDefaultOriginalCloneIsPreserved() : void
+        {
+        }
+        public function testOriginalCloneCanBeDisabled() : void
+        {
+        }
+        public function testProvidesAFluentInterface() : void
+        {
+        }
+    }
+    class ObjectInvocationTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testConstructorRequiresClassAndMethodAndParametersAndObject() : void
+        {
+        }
+        public function testAllowToGetClassNameSetInConstructor() : void
+        {
+        }
+        public function testAllowToGetMethodNameSetInConstructor() : void
+        {
+        }
+        public function testAllowToGetObjectSetInConstructor() : void
+        {
+        }
+        public function testAllowToGetMethodParametersSetInConstructor() : void
+        {
+        }
+        public function testConstructorAllowToSetFlagCloneObjectsInParameters() : void
+        {
+        }
+        public function testAllowToGetReturnTypeSetInConstructor() : void
+        {
+        }
+    }
+    class StaticInvocationTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testConstructorRequiresClassAndMethodAndParameters() : void
+        {
+        }
+        public function testAllowToGetClassNameSetInConstructor() : void
+        {
+        }
+        public function testAllowToGetMethodNameSetInConstructor() : void
+        {
+        }
+        public function testAllowToGetMethodParametersSetInConstructor() : void
+        {
+        }
+        public function testConstructorAllowToSetFlagCloneObjectsInParameters() : void
+        {
+        }
+        public function testAllowToGetReturnTypeSetInConstructor() : void
+        {
+        }
+        public function testToStringWillReturnEmptyString() : void
+        {
+        }
+    }
+    final class ProxyObjectTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testProxyingWorksForMethodThatReturnsUndeclaredScalarValue() : void
+        {
+        }
+        public function testProxyingWorksForMethodThatReturnsDeclaredScalarValue() : void
+        {
+        }
+        public function testProxyingWorksForMethodThatReturnsUndeclaredObject() : void
+        {
+        }
+        public function testProxyingWorksForMethodThatReturnsDeclaredObject() : void
+        {
+        }
+        public function testProxyingWorksForMethodThatReturnsUndeclaredObjectOfFinalClass() : void
+        {
+        }
+        public function testProxyingWorksForMethodThatReturnsDeclaredObjectOfFinalClass() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework {
+    class TestCaseTest extends \PHPUnit\Framework\TestCase
+    {
+        protected static $testStatic = 456;
+        protected $backupGlobalsBlacklist = ['i', 'singleton'];
+        public static function setUpBeforeClass() : void
+        {
+        }
+        public static function tearDownAfterClass() : void
+        {
+        }
+        public function testCaseToString() : void
+        {
+        }
+        public function testSuccess() : void
+        {
+        }
+        public function testFailure() : void
+        {
+        }
+        public function testError() : void
+        {
+        }
+        public function testSkipped() : void
+        {
+        }
+        public function testIncomplete() : void
+        {
+        }
+        public function testExceptionInSetUp() : void
+        {
+        }
+        public function testExceptionInAssertPreConditions() : void
+        {
+        }
+        public function testExceptionInTest() : void
+        {
+        }
+        public function testExceptionInAssertPostConditions() : void
+        {
+        }
+        public function testExceptionInTearDown() : void
+        {
+        }
+        public function testExceptionInTestIsDetectedInTeardown() : void
+        {
+        }
+        public function testNoArgTestCasePasses() : void
+        {
+        }
+        public function testWasRun() : void
+        {
+        }
+        public function testException() : void
+        {
+        }
+        public function testExceptionWithEmptyMessage() : void
+        {
+        }
+        public function testExceptionWithNullMessage() : void
+        {
+        }
+        public function testExceptionWithMessage() : void
+        {
+        }
+        public function testExceptionWithWrongMessage() : void
+        {
+        }
+        public function testExceptionWithRegexpMessage() : void
+        {
+        }
+        public function testExceptionWithWrongRegexpMessage() : void
+        {
+        }
+        public function testExceptionWithInvalidRegexpMessage() : void
+        {
+        }
+        public function testNoException() : void
+        {
+        }
+        public function testWrongException() : void
+        {
+        }
+        public function testDoesNotPerformAssertions() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         */
+        public function testGlobalsBackupPre() : void
+        {
+        }
+        /**
+         * @depends testGlobalsBackupPre
+         */
+        public function testGlobalsBackupPost() : void
+        {
+        }
+        /**
+         * @backupGlobals enabled
+         * @backupStaticAttributes enabled
+         *
+         * @doesNotPerformAssertions
+         */
+        public function testStaticAttributesBackupPre() : void
+        {
+        }
+        /**
+         * @depends testStaticAttributesBackupPre
+         */
+        public function testStaticAttributesBackupPost() : void
+        {
+        }
+        public function testIsInIsolationReturnsFalse() : void
+        {
+        }
+        public function testIsInIsolationReturnsTrue() : void
+        {
+        }
+        public function testExpectOutputStringFooActualFoo() : void
+        {
+        }
+        public function testExpectOutputStringFooActualBar() : void
+        {
+        }
+        public function testExpectOutputRegexFooActualFoo() : void
+        {
+        }
+        public function testExpectOutputRegexFooActualBar() : void
+        {
+        }
+        public function testSkipsIfRequiresHigherVersionOfPHPUnit() : void
+        {
+        }
+        public function testSkipsIfRequiresHigherVersionOfPHP() : void
+        {
+        }
+        public function testSkipsIfRequiresNonExistingOs() : void
+        {
+        }
+        public function testSkipsIfRequiresNonExistingOsFamily() : void
+        {
+        }
+        public function testSkipsIfRequiresNonExistingFunction() : void
+        {
+        }
+        public function testSkipsIfRequiresNonExistingExtension() : void
+        {
+        }
+        public function testSkipsIfRequiresExtensionWithAMinimumVersion() : void
+        {
+        }
+        public function testSkipsProvidesMessagesForAllSkippingReasons() : void
+        {
+        }
+        public function testRequiringAnExistingMethodDoesNotSkip() : void
+        {
+        }
+        public function testRequiringAnExistingFunctionDoesNotSkip() : void
+        {
+        }
+        public function testRequiringAnExistingExtensionDoesNotSkip() : void
+        {
+        }
+        public function testRequiringAnExistingOsDoesNotSkip() : void
+        {
+        }
+        public function testRequiringASetting() : void
+        {
+        }
+        public function testCurrentWorkingDirectoryIsRestored() : void
+        {
+        }
+        /**
+         * @requires PHP 7
+         */
+        public function testTypeErrorCanBeExpected() : void
+        {
+        }
+        public function testCreateMockFromClassName() : void
+        {
+        }
+        public function testCreateMockMocksAllMethods() : void
+        {
+        }
+        public function testCreatePartialMockDoesNotMockAllMethods() : void
+        {
+        }
+        public function testCreatePartialMockCanMockNoMethods() : void
+        {
+        }
+        public function testCreateMockSkipsConstructor() : void
+        {
+        }
+        public function testCreateMockDisablesOriginalClone() : void
+        {
+        }
+        public function testConfiguredMockCanBeCreated() : void
+        {
+        }
+        public function testProvidingOfAutoreferencedArray() : void
+        {
+        }
+        public function testProvidingArrayThatMixesObjectsAndScalars() : void
+        {
+        }
+        public function testGettingNullTestResultObject() : void
+        {
+        }
+        /**
+         * @return array<string, array>
+         */
+        private function getAutoreferencedArray()
+        {
+        }
+    }
+}
+namespace PHPUnit\TextUI {
+    class TestRunnerTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testTestIsRunnable() : void
+        {
+        }
+        public function testSuiteIsRunnable() : void
+        {
+        }
+        /**
+         * @return \PHPUnit\TextUI\ResultPrinter
+         */
+        private function getResultPrinterMock()
+        {
+        }
+        /**
+         * @return \PHPUnit\Framework\TestSuite
+         */
+        private function getSuiteMock()
+        {
+        }
+    }
+}
+namespace {
+    class NotExistingCoveredElementTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers NotExistingClass
+         */
+        public function testOne() : void
+        {
+        }
+        /**
+         * @covers NotExistingClass::notExistingMethod
+         */
+        public function testTwo() : void
+        {
+        }
+        /**
+         * @covers NotExistingClass::<public>
+         */
+        public function testThree() : void
+        {
+        }
+    }
+    class StopOnWarningTestSuite
+    {
+        public static function suite()
+        {
+        }
+    }
+    class DoNoAssertionTestCase extends \PHPUnit\Framework\TestCase
+    {
+        public function testNothing() : void
+        {
+        }
+    }
+    class TestSkipped extends \PHPUnit\Framework\TestCase
+    {
+        protected function runTest() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class TestGeneratorMaker
+    {
+        public function create($array = [])
+        {
+        }
+    }
+    class NothingTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testNothing() : void
+        {
+        }
+    }
+    class StackTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testPush()
+        {
+        }
+        /**
+         * @depends testPush
+         */
+        public function testPop(array $stack) : void
+        {
+        }
+    }
+    class DataProviderIncompleteTest extends \PHPUnit\Framework\TestCase
+    {
+        public static function providerMethod()
+        {
+        }
+        /**
+         * @dataProvider incompleteTestProviderMethod
+         */
+        public function testIncomplete($a, $b, $c) : void
+        {
+        }
+        /**
+         * @dataProvider providerMethod
+         */
+        public function testAdd($a, $b, $c) : void
+        {
+        }
+        public function incompleteTestProviderMethod()
+        {
+        }
+    }
+    class DataProviderDebugTest extends \PHPUnit\Framework\TestCase
+    {
+        public static function provider()
+        {
+        }
+        /**
+         * @dataProvider provider
+         */
+        public function testProvider() : void
+        {
+        }
+    }
+}
+namespace Foo\DataProviderIssue2859 {
+    class TestWithDataProviderTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @dataProvider provide
+         */
+        public function testFirst($x) : void
+        {
+        }
+        public function provide()
+        {
+        }
+    }
+}
+namespace {
+    class ExceptionInTestDetectedInTeardown extends \PHPUnit\Framework\TestCase
+    {
+        public $exceptionDetected = \false;
+        protected function tearDown() : void
+        {
+        }
+        public function testSomething() : void
+        {
+        }
+    }
+    class CoverageClassWithoutAnnotationsTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testSomething() : void
+        {
+        }
+    }
+    class StopsOnWarningTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testOne() : void
+        {
+        }
+    }
+    class ExceptionInTearDownAfterClassTest extends \PHPUnit\Framework\TestCase
+    {
+        public static function tearDownAfterClass() : void
+        {
+        }
+        public function testOne() : void
+        {
+        }
+        public function testTwo() : void
+        {
+        }
+    }
+}
+namespace Foo {
+    class CoveredParentClass
+    {
+        public function publicMethod() : void
+        {
+        }
+        protected function protectedMethod() : void
+        {
+        }
+        private function privateMethod() : void
+        {
+        }
+    }
+    class CoveredClass extends \Foo\CoveredParentClass
+    {
+        public function publicMethod() : void
+        {
+        }
+        protected function protectedMethod() : void
+        {
+        }
+        private function privateMethod() : void
+        {
+        }
+    }
+}
+namespace {
+    class NotPublicTestCase extends \PHPUnit\Framework\TestCase
+    {
+        public function testPublic() : void
+        {
+        }
+        protected function testNotPublic() : void
+        {
+        }
+    }
+    class EmptyTestCaseTest extends \PHPUnit\Framework\TestCase
+    {
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class ParentClassWithPrivateAttributes
+    {
+        private static $privateStaticParentAttribute = 'foo';
+        private $privateParentAttribute = 'bar';
+    }
+    class ParentClassWithProtectedAttributes extends \ParentClassWithPrivateAttributes
+    {
+        protected static $protectedStaticParentAttribute = 'foo';
+        protected $protectedParentAttribute = 'bar';
+    }
+    class ClassWithNonPublicAttributes extends \ParentClassWithProtectedAttributes
+    {
+        public static $publicStaticAttribute = 'foo';
+        protected static $protectedStaticAttribute = 'bar';
+        protected static $privateStaticAttribute = 'baz';
+        public $publicAttribute = 'foo';
+        public $foo = 1;
+        public $bar = 2;
+        public $publicArray = ['foo'];
+        protected $protectedAttribute = 'bar';
+        protected $privateAttribute = 'baz';
+        protected $protectedArray = ['bar'];
+        protected $privateArray = ['baz'];
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class StopOnErrorTestSuite extends \PHPUnit\Framework\TestCase
+    {
+        public function testIncomplete()
+        {
+        }
+        public function testWithError()
+        {
+        }
+        public function testThatIsNeverReached()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface ExceptionWithThrowable extends \Throwable
+    {
+        public function getAdditionalInformation();
+    }
+    abstract class AbstractTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testOne() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class ClassWithSelfTypeHint
+    {
+        public function foo(self $foo)
+        {
+        }
+    }
+    class Failure extends \PHPUnit\Framework\TestCase
+    {
+        protected function runTest() : void
+        {
+        }
+    }
+    class NamespaceCoverageMethodTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers Foo\CoveredClass::publicMethod
+         */
+        public function testSomething() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class DataProviderDependencyTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testReference() : void
+        {
+        }
+        /**
+         * @see https://github.com/sebastianbergmann/phpunit/issues/1896
+         * @depends testReference
+         * @dataProvider provider
+         */
+        public function testDependency($param) : void
+        {
+        }
+        public function provider()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface AnotherInterface
+    {
+        public function doSomethingElse();
+    }
+    class InheritanceB extends \PHPUnit\Framework\TestCase
+    {
+        public function testSomething() : void
+        {
+        }
+    }
+    class InheritanceA extends \InheritanceB
+    {
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class Struct
+    {
+        public $var;
+        public function __construct($var)
+        {
+        }
+    }
+    class NotVoidTestCase extends \PHPUnit\Framework\TestCase
+    {
+    }
+    /**
+     * @coversNothing
+     */
+    class CoverageCoversOverridesCoversNothingTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers CoveredClass::publicMethod
+         */
+        public function testSomething() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class ClassThatImplementsSerializable implements \Serializable
+    {
+        public function serialize()
+        {
+        }
+        public function unserialize($serialized)
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class BeforeClassWithOnlyDataProviderTest extends \PHPUnit\Framework\TestCase
+    {
+        public static $setUpBeforeClassWasCalled;
+        public static $beforeClassWasCalled;
+        public static function resetProperties() : void
+        {
+        }
+        /**
+         * @beforeClass
+         */
+        public static function someAnnotatedSetupMethod() : void
+        {
+        }
+        public static function setUpBeforeClass() : void
+        {
+        }
+        public function dummyProvider()
+        {
+        }
+        /**
+         * @dataProvider dummyProvider
+         * delete annotation to fail test case
+         */
+        public function testDummy() : void
+        {
+        }
+    }
+    class CoveragePublicTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers CoveredClass::<public>
+         */
+        public function testSomething() : void
+        {
+        }
+    }
+    /**
+     * Tests for the BankAccount class.
+     */
+    class BankAccountTest extends \PHPUnit\Framework\TestCase
+    {
+        protected $ba;
+        protected function setUp() : void
+        {
+        }
+        /**
+         * @covers BankAccount::getBalance
+         * @group balanceIsInitiallyZero
+         * @group specification
+         */
+        public function testBalanceIsInitiallyZero() : void
+        {
+        }
+        /**
+         * @covers BankAccount::withdrawMoney
+         * @group balanceCannotBecomeNegative
+         * @group specification
+         */
+        public function testBalanceCannotBecomeNegative() : void
+        {
+        }
+        /**
+         * @covers BankAccount::depositMoney
+         * @group balanceCannotBecomeNegative
+         * @group specification
+         */
+        public function testBalanceCannotBecomeNegative2() : void
+        {
+        }
+        /*
+         * @covers BankAccount::getBalance
+         * @covers BankAccount::depositMoney
+         * @covers BankAccount::withdrawMoney
+         * @group balanceCannotBecomeNegative
+         */
+        /*
+        public function testDepositingAndWithdrawingMoneyWorks()
+        {
+            $this->assertEquals(0, $this->ba->getBalance());
+            $this->ba->depositMoney(1);
+            $this->assertEquals(1, $this->ba->getBalance());
+            $this->ba->withdrawMoney(1);
+            $this->assertEquals(0, $this->ba->getBalance());
+        }
+        */
+    }
+    /**
+     * @runTestsInSeparateProcesses
+     */
+    class SeparateProcessesTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testFoo() : void
+        {
+        }
+        public function testBar() : void
+        {
+        }
+    }
+    final class MyTestListener implements \PHPUnit\Framework\TestListener
+    {
+        private $endCount = 0;
+        private $errorCount = 0;
+        private $failureCount = 0;
+        private $warningCount = 0;
+        private $notImplementedCount = 0;
+        private $riskyCount = 0;
+        private $skippedCount = 0;
+        private $startCount = 0;
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
+        {
+        }
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
+        {
+        }
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+        public function startTest(\PHPUnit\Framework\Test $test) : void
+        {
+        }
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
+        {
+        }
+        public function endCount() : int
+        {
+        }
+        public function errorCount() : int
+        {
+        }
+        public function failureCount() : int
+        {
+        }
+        public function warningCount() : int
+        {
+        }
+        public function notImplementedCount() : int
+        {
+        }
+        public function riskyCount() : int
+        {
+        }
+        public function skippedCount() : int
+        {
+        }
+        public function startCount() : int
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class SomeClass
+    {
+        public function doSomething($a, $b)
+        {
+        }
+        public function doSomethingElse($c)
+        {
+        }
+    }
+    class FatalTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testFatalError() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class StaticMockTestClass
+    {
+        public static function doSomething()
+        {
+        }
+        public static function doSomethingElse()
+        {
+        }
+    }
+    class NamespaceCoverageNotPublicTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers Foo\CoveredClass::<!public>
+         */
+        public function testSomething() : void
+        {
+        }
+    }
+}
+namespace Foo\DataProviderIssue2922 {
+    // the name of the class cannot match file name - if they match all is fine
+    class SecondHelloWorldTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testSecond() : void
+        {
+        }
+    }
+    /**
+     * @group foo
+     */
+    class FirstTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @dataProvider provide
+         */
+        public function testFirst($x) : void
+        {
+        }
+        public function provide() : void
+        {
+        }
+    }
+}
+namespace {
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class TestIterator implements \Iterator
+    {
+        protected $array;
+        protected $position = 0;
+        public function __construct($array = [])
+        {
+        }
+        public function rewind() : void
+        {
+        }
+        public function valid()
+        {
+        }
+        public function key()
+        {
+        }
+        public function current()
+        {
+        }
+        public function next() : void
         {
         }
     }
@@ -6733,14 +8019,15 @@ namespace PHPUnit\TextUI {
      */
     class ResultPrinter extends \PHPUnit\Util\Printer implements \PHPUnit\Framework\TestListener
     {
-        const EVENT_TEST_START = 0;
-        const EVENT_TEST_END = 1;
-        const EVENT_TESTSUITE_START = 2;
-        const EVENT_TESTSUITE_END = 3;
-        const COLOR_NEVER = 'never';
-        const COLOR_AUTO = 'auto';
-        const COLOR_ALWAYS = 'always';
-        const COLOR_DEFAULT = self::COLOR_NEVER;
+        public const EVENT_TEST_START = 0;
+        public const EVENT_TEST_END = 1;
+        public const EVENT_TESTSUITE_START = 2;
+        public const EVENT_TESTSUITE_END = 3;
+        public const COLOR_NEVER = 'never';
+        public const COLOR_AUTO = 'auto';
+        public const COLOR_ALWAYS = 'always';
+        public const COLOR_DEFAULT = self::COLOR_NEVER;
+        private const AVAILABLE_COLORS = [self::COLOR_NEVER, self::COLOR_AUTO, self::COLOR_ALWAYS];
         /**
          * @var array
          */
@@ -6800,239 +8087,140 @@ namespace PHPUnit\TextUI {
         /**
          * Constructor.
          *
-         * @param mixed      $out
-         * @param bool       $verbose
          * @param string     $colors
-         * @param bool       $debug
          * @param int|string $numberOfColumns
-         * @param bool       $reverse
+         * @param null|mixed $out
          *
          * @throws Exception
          */
-        public function __construct($out = null, $verbose = false, $colors = self::COLOR_DEFAULT, $debug = false, $numberOfColumns = 80, $reverse = false)
+        public function __construct($out = null, bool $verbose = false, $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
         {
         }
-        /**
-         * @param TestResult $result
-         */
-        public function printResult(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param array  $defects
-         * @param string $type
-         */
-        protected function printDefects(array $defects, $type)
-        {
-        }
-        /**
-         * @param TestFailure $defect
-         * @param int         $count
-         */
-        protected function printDefect(\PHPUnit\Framework\TestFailure $defect, $count)
-        {
-        }
-        /**
-         * @param TestFailure $defect
-         * @param int         $count
-         */
-        protected function printDefectHeader(\PHPUnit\Framework\TestFailure $defect, $count)
-        {
-        }
-        /**
-         * @param TestFailure $defect
-         */
-        protected function printDefectTrace(\PHPUnit\Framework\TestFailure $defect)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printErrors(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printFailures(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printWarnings(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printIncompletes(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printRisky(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printSkipped(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        protected function printHeader()
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        protected function printFooter(\PHPUnit\Framework\TestResult $result)
-        {
-        }
-        public function printWaitPrompt()
+        public function printResult(\PHPUnit\Framework\TestResult $result) : void
         {
         }
         /**
          * An error occurred.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A failure occurred.
-         *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
          */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
         {
         }
         /**
          * A warning occurred.
-         *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
          */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
         {
         }
         /**
          * Incomplete test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Risky test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Skipped test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A testsuite started.
-         *
-         * @param TestSuite $suite
          */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A testsuite ended.
-         *
-         * @param TestSuite $suite
          */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A test started.
-         *
-         * @param Test $test
          */
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * A test ended.
-         *
-         * @param Test  $test
-         * @param float $time
          */
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
         {
         }
-        /**
-         * @param string $progress
-         */
-        protected function writeProgress($progress)
+        protected function printDefects(array $defects, string $type) : void
         {
         }
-        protected function writeNewLine()
+        protected function printDefect(\PHPUnit\Framework\TestFailure $defect, int $count) : void
+        {
+        }
+        protected function printDefectHeader(\PHPUnit\Framework\TestFailure $defect, int $count) : void
+        {
+        }
+        protected function printDefectTrace(\PHPUnit\Framework\TestFailure $defect) : void
+        {
+        }
+        protected function printErrors(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printFailures(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printWarnings(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printIncompletes(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printRisky(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printSkipped(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printHeader() : void
+        {
+        }
+        protected function printFooter(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function writeProgress(string $progress) : void
+        {
+        }
+        protected function writeNewLine() : void
         {
         }
         /**
          * Formats a buffer with a specified ANSI color sequence if colors are
          * enabled.
-         *
-         * @param string $color
-         * @param string $buffer
-         *
-         * @return string
          */
-        protected function formatWithColor($color, $buffer)
+        protected function formatWithColor(string $color, string $buffer) : string
         {
         }
         /**
          * Writes a buffer out with a color sequence if colors are enabled.
-         *
-         * @param string $color
-         * @param string $buffer
-         * @param bool   $lf
          */
-        protected function writeWithColor($color, $buffer, $lf = true)
+        protected function writeWithColor(string $color, string $buffer, bool $lf = true) : void
         {
         }
         /**
          * Writes progress with a color sequence if colors are enabled.
-         *
-         * @param string $color
-         * @param string $buffer
          */
-        protected function writeProgressWithColor($color, $buffer)
+        protected function writeProgressWithColor(string $color, string $buffer) : void
         {
         }
-        /**
-         * @param int    $count
-         * @param string $name
-         * @param string $color
-         * @param bool   $always
-         */
-        private function writeCountString($count, $name, $color, $always = false)
+        private function writeCountString(int $count, string $name, string $color, bool $always = false) : void
         {
         }
     }
@@ -7040,6 +8228,30 @@ namespace PHPUnit\TextUI {
 namespace {
     class CustomPrinter extends \PHPUnit\TextUI\ResultPrinter
     {
+    }
+    class DataproviderExecutionOrderTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testFirstTestThatAlwaysWorks()
+        {
+        }
+        /**
+         * @dataProvider dataproviderAdditions
+         */
+        public function testAddNumbersWithADataprovider(int $a, int $b, int $sum)
+        {
+        }
+        public function testTestInTheMiddleThatAlwaysWorks()
+        {
+        }
+        /**
+         * @dataProvider dataproviderAdditions
+         */
+        public function testAddMoreNumbersWithADataprovider(int $a, int $b, int $sum)
+        {
+        }
+        public function dataproviderAdditions()
+        {
+        }
     }
     /*
      * This file is part of PHPUnit.
@@ -7055,8 +8267,16 @@ namespace {
     class Book
     {
         // the order of properties is important for testing the cycle!
-        public $author = \null;
+        public $author;
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     /**
      * @requires PHP 5.3
      * @requires PHPUnit 4.0
@@ -7073,34 +8293,44 @@ namespace {
          * @requires function testFuncMethod
          * @requires extension testExtMethod
          */
-        public function testMethod()
+        public function testMethod() : void
+        {
+        }
+    }
+    class CoverageMethodNothingCoversMethod extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @covers CoveredClass::publicMethod
+         * @coversNothing
+         */
+        public function testSomething() : void
         {
         }
     }
     class Success extends \PHPUnit\Framework\TestCase
     {
-        protected function runTest()
+        protected function runTest() : void
         {
         }
     }
     class DataProviderSkippedTest extends \PHPUnit\Framework\TestCase
     {
+        public static function providerMethod()
+        {
+        }
         /**
          * @dataProvider skippedTestProviderMethod
          */
-        public function testSkipped($a, $b, $c)
+        public function testSkipped($a, $b, $c) : void
         {
         }
         /**
          * @dataProvider providerMethod
          */
-        public function testAdd($a, $b, $c)
+        public function testAdd($a, $b, $c) : void
         {
         }
         public function skippedTestProviderMethod()
-        {
-        }
-        public static function providerMethod()
         {
         }
     }
@@ -7109,7 +8339,7 @@ namespace {
         /**
          * @covers Foo\CoveredClass::<protected>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7119,6 +8349,14 @@ namespace {
     trait ParseTestMethodAnnotationsTrait
     {
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     /**
      * @theClassAnnotation
      */
@@ -7126,12 +8364,46 @@ namespace {
     {
         use \ParseTestMethodAnnotationsTrait;
     }
-    class IsolationTest extends \PHPUnit\Framework\TestCase
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface InterfaceWithSemiReservedMethodName
     {
-        public function testIsInIsolationReturnsFalse()
+        public function unset();
+    }
+    trait T3194
+    {
+        public function doSomethingElse() : bool
         {
         }
-        public function testIsInIsolationReturnsTrue()
+    }
+    final class C3194
+    {
+        use \T3194;
+        public function doSomething() : bool
+        {
+        }
+    }
+    /**
+     * @covers C3194
+     */
+    final class Test3194 extends \PHPUnit\Framework\TestCase
+    {
+        public function testOne() : void
+        {
+        }
+    }
+    class IsolationTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testIsInIsolationReturnsFalse() : void
+        {
+        }
+        public function testIsInIsolationReturnsTrue() : void
         {
         }
     }
@@ -7142,47 +8414,47 @@ namespace {
          *
          * @var string
          */
-        const ERROR_MESSAGE = 'Exception message';
+        public const ERROR_MESSAGE = 'Exception message';
         /**
          * Exception message
          *
          * @var string
          */
-        const ERROR_MESSAGE_REGEX = '#regex#';
+        public const ERROR_MESSAGE_REGEX = '#regex#';
         /**
          * Exception code
          *
          * @var int
          */
-        const ERROR_CODE = 500;
+        public const ERROR_CODE = 500;
         /**
          * @expectedException FooBarBaz
          */
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @expectedException Foo_Bar_Baz
          */
-        public function testTwo()
+        public function testTwo() : void
         {
         }
         /**
          * @expectedException Foo\Bar\Baz
          */
-        public function testThree()
+        public function testThree() : void
         {
         }
         /**
          * @expectedException ほげ
          */
-        public function testFour()
+        public function testFour() : void
         {
         }
         /**
          * @expectedException Class Message 1234
          */
-        public function testFive()
+        public function testFive() : void
         {
         }
         /**
@@ -7190,7 +8462,7 @@ namespace {
          * @expectedExceptionMessage Message
          * @expectedExceptionCode 1234
          */
-        public function testSix()
+        public function testSix() : void
         {
         }
         /**
@@ -7198,7 +8470,7 @@ namespace {
          * @expectedExceptionMessage Message
          * @expectedExceptionCode ExceptionCode
          */
-        public function testSeven()
+        public function testSeven() : void
         {
         }
         /**
@@ -7206,7 +8478,7 @@ namespace {
          * @expectedExceptionMessage Message
          * @expectedExceptionCode 0
          */
-        public function testEight()
+        public function testEight() : void
         {
         }
         /**
@@ -7214,11 +8486,11 @@ namespace {
          * @expectedExceptionMessage ExceptionTest::ERROR_MESSAGE
          * @expectedExceptionCode ExceptionTest::ERROR_CODE
          */
-        public function testNine()
+        public function testNine() : void
         {
         }
         /** @expectedException Class */
-        public function testSingleLine()
+        public function testSingleLine() : void
         {
         }
         /**
@@ -7226,7 +8498,7 @@ namespace {
          * @expectedExceptionCode ExceptionTest::UNKNOWN_CODE_CONSTANT
          * @expectedExceptionMessage ExceptionTest::UNKNOWN_MESSAGE_CONSTANT
          */
-        public function testUnknownConstants()
+        public function testUnknownConstants() : void
         {
         }
         /**
@@ -7235,7 +8507,7 @@ namespace {
          * @expectedExceptionMessage Message
          * @expectedExceptionMessageRegExp #regex#
          */
-        public function testWithRegexMessage()
+        public function testWithRegexMessage() : void
         {
         }
         /**
@@ -7244,7 +8516,7 @@ namespace {
          * @expectedExceptionMessage Message
          * @expectedExceptionMessageRegExp ExceptionTest::ERROR_MESSAGE_REGEX
          */
-        public function testWithRegexMessageFromClassConstant()
+        public function testWithRegexMessageFromClassConstant() : void
         {
         }
         /**
@@ -7253,7 +8525,7 @@ namespace {
          * @expectedExceptionMessage Message
          * @expectedExceptionMessageRegExp ExceptionTest::UNKNOWN_MESSAGE_REGEX_CONSTANT
          */
-        public function testWithUnknowRegexMessageFromClassConstant()
+        public function testWithUnknowRegexMessageFromClassConstant() : void
         {
         }
     }
@@ -7282,7 +8554,7 @@ namespace {
         /**
          * @covers ::globalFunction ( )
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7293,19 +8565,19 @@ namespace {
         public $assertPostConditions = \false;
         public $tearDown = \false;
         public $testSomething = \false;
-        protected function setUp()
+        protected function setUp() : void
         {
         }
-        protected function assertPreConditions()
+        protected function tearDown() : void
         {
         }
-        public function testSomething()
+        public function testSomething() : void
         {
         }
-        protected function assertPostConditions()
+        protected function assertPreConditions() : void
         {
         }
-        protected function tearDown()
+        protected function assertPostConditions() : void
         {
         }
     }
@@ -7314,7 +8586,7 @@ namespace {
         /**
          * @covers Foo\CoveredClass::<!private>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7324,7 +8596,7 @@ namespace {
     class BankAccountWithCustomExtensionTest extends \PHPUnit\Framework\TestCase
     {
         protected $ba;
-        protected function setUp()
+        protected function setUp() : void
         {
         }
         /**
@@ -7332,7 +8604,7 @@ namespace {
          * @group balanceIsInitiallyZero
          * @group specification
          */
-        public function testBalanceIsInitiallyZero()
+        public function testBalanceIsInitiallyZero() : void
         {
         }
         /**
@@ -7340,7 +8612,7 @@ namespace {
          * @group balanceCannotBecomeNegative
          * @group specification
          */
-        public function testBalanceCannotBecomeNegative()
+        public function testBalanceCannotBecomeNegative() : void
         {
         }
         /**
@@ -7348,7 +8620,7 @@ namespace {
          * @group balanceCannotBecomeNegative
          * @group specification
          */
-        public function testBalanceCannotBecomeNegative2()
+        public function testBalanceCannotBecomeNegative2() : void
         {
         }
         /*
@@ -7371,7 +8643,7 @@ namespace {
     class WasRun extends \PHPUnit\Framework\TestCase
     {
         public $wasRun = \false;
-        protected function runTest()
+        protected function runTest() : void
         {
         }
     }
@@ -7380,7 +8652,7 @@ namespace {
         /**
          * @covers CoveredClass<extended>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7389,25 +8661,64 @@ namespace {
         /**
          * @covers Foo\CoveredClass::<private>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
     class OutputTestCase extends \PHPUnit\Framework\TestCase
     {
-        public function testExpectOutputStringFooActualFoo()
+        public function testExpectOutputStringFooActualFoo() : void
         {
         }
-        public function testExpectOutputStringFooActualBar()
+        public function testExpectOutputStringFooActualBar() : void
         {
         }
-        public function testExpectOutputRegexFooActualFoo()
+        public function testExpectOutputRegexFooActualFoo() : void
         {
         }
-        public function testExpectOutputRegexFooActualBar()
+        public function testExpectOutputRegexFooActualBar() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class ClassWithStaticMethod
+    {
+        public static function staticMethod()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class MethodCallbackByReference
+    {
+        public function bar(&$a, &$b, $c)
+        {
+        }
+        public function callback(&$a, &$b, $c)
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class ArrayAccessible implements \ArrayAccess, \IteratorAggregate
     {
         private $array;
@@ -7420,10 +8731,10 @@ namespace {
         public function offsetGet($offset)
         {
         }
-        public function offsetSet($offset, $value)
+        public function offsetSet($offset, $value) : void
         {
         }
-        public function offsetUnset($offset)
+        public function offsetUnset($offset) : void
         {
         }
         public function getIterator()
@@ -7435,13 +8746,13 @@ namespace {
         /**
          * @covers CoveredClass::<!public>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
     class IncompleteTest extends \PHPUnit\Framework\TestCase
     {
-        public function testIncomplete()
+        public function testIncomplete() : void
         {
         }
     }
@@ -7450,53 +8761,70 @@ namespace {
         /**
          * @covers Foo\CoveredClass::<public>
          */
-        public function testSomething()
+        public function testSomething() : void
+        {
+        }
+    }
+    class CoverageMethodNothingTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @coversNothing
+         */
+        public function testSomething() : void
         {
         }
     }
     class FailureTest extends \PHPUnit\Framework\TestCase
     {
-        public function testAssertArrayEqualsArray()
+        public function testAssertArrayEqualsArray() : void
         {
         }
-        public function testAssertIntegerEqualsInteger()
+        public function testAssertIntegerEqualsInteger() : void
         {
         }
-        public function testAssertObjectEqualsObject()
+        public function testAssertObjectEqualsObject() : void
         {
         }
-        public function testAssertNullEqualsString()
+        public function testAssertNullEqualsString() : void
         {
         }
-        public function testAssertStringEqualsString()
+        public function testAssertStringEqualsString() : void
         {
         }
-        public function testAssertTextEqualsText()
+        public function testAssertTextEqualsText() : void
         {
         }
-        public function testAssertStringMatchesFormat()
+        public function testAssertStringMatchesFormat() : void
         {
         }
-        public function testAssertNumericEqualsNumeric()
+        public function testAssertNumericEqualsNumeric() : void
         {
         }
-        public function testAssertTextSameText()
+        public function testAssertTextSameText() : void
         {
         }
-        public function testAssertObjectSameObject()
+        public function testAssertObjectSameObject() : void
         {
         }
-        public function testAssertObjectSameNull()
+        public function testAssertObjectSameNull() : void
         {
         }
-        public function testAssertFloatSameFloat()
+        public function testAssertFloatSameFloat() : void
         {
         }
         // Note that due to the implementation of this assertion it counts as 2 asserts
-        public function testAssertStringMatchesFormatFile()
+        public function testAssertStringMatchesFormatFile() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class WrapperIteratorAggregate implements \IteratorAggregate
     {
         /**
@@ -7515,7 +8843,7 @@ namespace {
         /**
          * @covers CoveredClass::<protected>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7523,25 +8851,25 @@ namespace {
     {
         public static $beforeClassWasRun = 0;
         public static $afterClassWasRun = 0;
-        public static function resetProperties()
+        public static function resetProperties() : void
         {
         }
         /**
          * @beforeClass
          */
-        public static function initialClassSetup()
+        public static function initialClassSetup() : void
         {
         }
         /**
          * @afterClass
          */
-        public static function finalClassTeardown()
+        public static function finalClassTeardown() : void
         {
         }
-        public function test1()
+        public function test1() : void
         {
         }
-        public function test2()
+        public function test2() : void
         {
         }
     }
@@ -7576,16 +8904,6 @@ namespace {
         {
         }
         /**
-         * Sets the bank account's balance.
-         *
-         * @param float $balance
-         *
-         * @throws BankAccountException
-         */
-        protected function setBalance($balance)
-        {
-        }
-        /**
          * Deposits an amount of money to the bank account.
          *
          * @param float $balance
@@ -7605,13 +8923,53 @@ namespace {
         public function withdrawMoney($balance)
         {
         }
+        /**
+         * Sets the bank account's balance.
+         *
+         * @param float $balance
+         *
+         * @throws BankAccountException
+         */
+        protected function setBalance($balance) : void
+        {
+        }
     }
     class CoverageMethodParenthesesWhitespaceTest extends \PHPUnit\Framework\TestCase
     {
         /**
          * @covers CoveredClass::publicMethod ( )
          */
-        public function testSomething()
+        public function testSomething() : void
+        {
+        }
+    }
+    final class RouterTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @dataProvider routesProvider
+         * @testdox      Routes $url to $handler
+         */
+        public function testRoutesRequest(string $url, string $handler) : void
+        {
+        }
+        public function routesProvider()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    /**
+     * A class with a method that takes a variadic argument.
+     */
+    class ClassWithVariadicArgumentMethod
+    {
+        public function foo(...$args)
         {
         }
     }
@@ -7620,7 +8978,7 @@ namespace {
         /**
          * @covers CoveredClass::publicMethod
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7645,15 +9003,20 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
+        {
+        }
+        /**
+         * Counts the number of constraint elements.
+         */
+        public function count() : int
         {
         }
         /**
@@ -7662,31 +9025,22 @@ namespace PHPUnit\Framework\Constraint {
          *
          * This method can be overridden to implement the evaluation algorithm.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Counts the number of constraint elements.
-         *
-         * @return int
-         */
-        public function count()
+        protected function matches($other) : bool
         {
         }
         /**
          * Throws an exception for the given compared value and test description
          *
-         * @param mixed             $other             Evaluated value or object.
+         * @param mixed             $other             evaluated value or object
          * @param string            $description       Additional information about the test
          * @param ComparisonFailure $comparisonFailure
          *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function fail($other, $description, \SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null)
+        protected function fail($other, $description, \SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null) : void
         {
         }
         /**
@@ -7695,11 +9049,9 @@ namespace PHPUnit\Framework\Constraint {
          * The function can be overridden to provide additional failure
          * information like a diff
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function additionalFailureDescription($other)
+        protected function additionalFailureDescription($other) : string
         {
         }
         /**
@@ -7711,11 +9063,11 @@ namespace PHPUnit\Framework\Constraint {
          * To provide additional failure information additionalFailureDescription
          * can be used.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -7730,78 +9082,123 @@ namespace {
         public static function fromName(string $name) : self
         {
         }
-        public function matches($other)
+        public function matches($other) : bool
         {
         }
-        public function toString()
+        public function toString() : string
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Singleton
     {
         private static $uniqueInstance = \null;
+        public static function getInstance()
+        {
+        }
         protected function __construct()
         {
         }
-        private final function __clone()
-        {
-        }
-        public static function getInstance()
+        private function __clone()
         {
         }
     }
     class DependencySuccessTest extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @depends testOne
          */
-        public function testTwo()
+        public function testTwo() : void
         {
         }
         /**
          * @depends DependencySuccessTest::testTwo
          */
-        public function testThree()
+        public function testThree() : void
         {
         }
     }
     class DependencyFailureTest extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @depends testOne
          */
-        public function testTwo()
+        public function testTwo() : void
         {
         }
         /**
          * @depends !clone testTwo
          */
-        public function testThree()
+        public function testThree() : void
         {
         }
         /**
          * @depends clone testOne
          */
-        public function testFour()
+        public function testFour() : void
+        {
+        }
+        /**
+         * This test has been added to check the printed warnings for the user
+         * when a dependency simply doesn't exist.
+         *
+         * @depends doesNotExist
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/3517
+         */
+        public function testHandlesDependsAnnotationForNonexistentTests() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    trait TraitWithConstructor
+    {
+        private $value;
+        public function __construct(string $value)
+        {
+        }
+        public function value() : string
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class NonStatic
     {
-        public function suite()
+        public function suite() : void
         {
         }
     }
     class CoverageMethodOneLineAnnotationTest extends \PHPUnit\Framework\TestCase
     {
         /** @covers CoveredClass::publicMethod */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7810,7 +9207,21 @@ namespace {
         /**
          * @covers ::globalFunction
          */
-        public function testSomething()
+        public function testSomething() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    trait ExampleTrait
+    {
+        public function ohHai()
         {
         }
     }
@@ -7819,22 +9230,181 @@ namespace {
         /**
          * @group one
          */
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @group two
          */
-        public function testTwo()
+        public function testTwo() : void
+        {
+        }
+    }
+    class TestRisky extends \PHPUnit\Framework\TestCase
+    {
+        protected function runTest() : void
+        {
+        }
+    }
+    class DoesNotPerformAssertionsButPerformingAssertionsTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @doesNotPerformAssertions
+         */
+        public function testFalseAndTrueAreStillFine() : void
         {
         }
     }
     class AssertionExampleTest extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
     }
+}
+namespace PHPUnit\Util\TestDox {
+    /**
+     * This printer is for CLI output only. For the classes that output to file, html and xml,
+     * please refer to the PHPUnit\Util\TestDox namespace
+     */
+    class CliTestDoxPrinter extends \PHPUnit\TextUI\ResultPrinter
+    {
+        /**
+         * @var int[]
+         */
+        private $nonSuccessfulTestResults = [];
+        /**
+         * @var NamePrettifier
+         */
+        private $prettifier;
+        /**
+         * @var int The number of test results received from the TestRunner
+         */
+        private $testIndex = 0;
+        /**
+         * @var int The number of test results already sent to the output
+         */
+        private $testFlushIndex = 0;
+        /**
+         * @var array Buffer for write()
+         */
+        private $outputBuffer = [];
+        /**
+         * @var bool
+         */
+        private $bufferExecutionOrder = false;
+        /**
+         * @var array array<string>
+         */
+        private $originalExecutionOrder = [];
+        /**
+         * @var string Classname of the current test
+         */
+        private $className = '';
+        /**
+         * @var string Classname of the previous test; empty for first test
+         */
+        private $lastClassName = '';
+        /**
+         * @var string Prettified test name of current test
+         */
+        private $testMethod;
+        /**
+         * @var string Test result message of current test
+         */
+        private $testResultMessage;
+        /**
+         * @var bool Test result message of current test contains a verbose dump
+         */
+        private $lastFlushedTestWasVerbose = false;
+        public function __construct($out = null, bool $verbose = false, $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
+        {
+        }
+        public function setOriginalExecutionOrder(array $order) : void
+        {
+        }
+        public function startTest(\PHPUnit\Framework\Test $test) : void
+        {
+        }
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
+        {
+        }
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
+        {
+        }
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
+        {
+        }
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function bufferTestResult(\PHPUnit\Framework\Test $test, string $msg) : void
+        {
+        }
+        public function writeTestResult(string $msg) : void
+        {
+        }
+        public function writeProgress(string $progress) : void
+        {
+        }
+        public function flush() : void
+        {
+        }
+        public function printResult(\PHPUnit\Framework\TestResult $result) : void
+        {
+        }
+        protected function printHeader() : void
+        {
+        }
+        private function flushOutputBuffer() : void
+        {
+        }
+        private function writeBufferTestResult(array $prevResult, array $result) : void
+        {
+        }
+        private function getTestResultByName(string $testName) : array
+        {
+        }
+        private function formatTestSuiteHeader(?string $lastClassName, string $className, string $msg) : string
+        {
+        }
+        private function formatTestResultMessage(string $symbol, string $resultMessage, float $time, bool $alwaysVerbose = false) : string
+        {
+        }
+        private function getFormattedRuntime(float $time) : string
+        {
+        }
+        private function getFormattedAdditionalInformation(string $resultMessage, bool $verbose) : string
+        {
+        }
+        private function printNonSuccessfulTestsSummary(int $numberOfExecutedTests) : void
+        {
+        }
+        private function getEmptyTestResult() : array
+        {
+        }
+    }
+    class TestableCliTestDoxPrinter extends \PHPUnit\Util\TestDox\CliTestDoxPrinter
+    {
+        private $buffer;
+        public function write(string $text) : void
+        {
+        }
+        public function getBuffer() : string
+        {
+        }
+    }
+}
+namespace {
     /**
      * @coversDefaultClass \Foo\CoveredClass
      */
@@ -7848,7 +9418,7 @@ namespace {
          * @covers \Foo\CoveredParentClass::protectedMethod
          * @covers \Foo\CoveredParentClass::publicMethod
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -7857,13 +9427,42 @@ namespace {
         /**
          * @covers CoveredClass::<private>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
     class DummyBarTest extends \PHPUnit\Framework\TestCase
     {
-        public function testBarEqualsBar()
+        public function testBarEqualsBar() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class TestProxyFixture
+    {
+        public function returnString()
+        {
+        }
+        public function returnTypedString() : string
+        {
+        }
+        public function returnObject()
+        {
+        }
+        public function returnTypedObject() : \stdClass
+        {
+        }
+        public function returnObjectOfFinalClass()
+        {
+        }
+        public function returnTypedObjectOfFinalClass() : \FinalClass
         {
         }
     }
@@ -7871,35 +9470,55 @@ namespace {
 namespace vendor\project {
     class StatusTest extends \PHPUnit\Framework\TestCase
     {
-        public function testSuccess()
+        public function testSuccess() : void
         {
         }
-        public function testFailure()
+        public function testFailure() : void
         {
         }
-        public function testError()
+        public function testError() : void
         {
         }
-        public function testIncomplete()
+        public function testIncomplete() : void
         {
         }
-        public function testSkipped()
+        public function testSkipped() : void
         {
         }
-        public function testRisky()
+        public function testRisky() : void
         {
         }
-        public function testWarning()
+        public function testWarning() : void
         {
         }
     }
 }
 namespace {
-    /**
-     * Sample class that implements ArrayAccess copied from
-     * http://www.php.net/manual/en/class.arrayaccess.php
-     * with some minor changes
-     * This class required for PHPUnit_Framework_Constraint_ArrayHasKey testing
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    trait AbstractTrait
+    {
+        public abstract function doSomething();
+        public function mockableMethod()
+        {
+        }
+        public function anotherMockableMethod()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
      */
     class SampleArrayAccess implements \ArrayAccess
     {
@@ -7907,90 +9526,92 @@ namespace {
         public function __construct()
         {
         }
-        public function offsetSet($offset, $value)
+        public function offsetSet($offset, $value) : void
         {
         }
         public function offsetExists($offset)
         {
         }
-        public function offsetUnset($offset)
+        public function offsetUnset($offset) : void
         {
         }
         public function offsetGet($offset)
         {
         }
     }
-}
-namespace PHPUnit\Framework {
-    trait TestListenerDefaultImplementation
-    {
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
-        {
-        }
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
-        {
-        }
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
-        {
-        }
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
-        {
-        }
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
-        {
-        }
-        public function startTest(\PHPUnit\Framework\Test $test)
-        {
-        }
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
-        {
-        }
-    }
-    /**
-     * Implementation of the TestListener interface that does not do anything.
+    /*
+     * This file is part of PHPUnit.
      *
-     * @deprecated Use TestListenerDefaultImplementation trait instead
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
      */
-    abstract class BaseTestListener implements \PHPUnit\Framework\TestListener
+    interface MockTestInterface
     {
-        use \PHPUnit\Framework\TestListenerDefaultImplementation;
+        public function returnAnything();
+        public function returnAnythingElse();
     }
-}
-namespace {
-    class BaseTestListenerSample extends \PHPUnit\Framework\BaseTestListener
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    abstract class AbstractMockTestClass implements \MockTestInterface
     {
-        public $endCount = 0;
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public abstract function doSomething();
+        public function returnAnything()
         {
         }
     }
     class OneTestCase extends \PHPUnit\Framework\TestCase
     {
-        public function noTestCase()
+        public function noTestCase() : void
         {
         }
-        public function testCase($arg = '')
+        public function testCase($arg = '') : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class OverrideTestCase extends \OneTestCase
     {
-        public function testCase($arg = '')
+        public function testCase($arg = '') : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface TraversableMockTestInterface extends \Traversable
+    {
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class AssertionExample
     {
-        public function doSomething()
+        public function doSomething() : void
         {
         }
     }
@@ -7998,8 +9619,8 @@ namespace {
 namespace Foo\DataProviderIssue2833 {
     class SecondTest extends \PHPUnit\Framework\TestCase
     {
-        const DUMMY = 'dummy';
-        public function testSecond()
+        public const DUMMY = 'dummy';
+        public function testSecond() : void
         {
         }
     }
@@ -8008,7 +9629,7 @@ namespace Foo\DataProviderIssue2833 {
         /**
          * @dataProvider provide
          */
-        public function testFirst($x)
+        public function testFirst($x) : void
         {
         }
         public function provide()
@@ -8017,6 +9638,14 @@ namespace Foo\DataProviderIssue2833 {
     }
 }
 namespace {
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class SampleClass
     {
         public $a;
@@ -8035,19 +9664,19 @@ namespace My\Space {
          *
          * @var string
          */
-        const ERROR_MESSAGE = 'Exception namespace message';
+        public const ERROR_MESSAGE = 'Exception namespace message';
         /**
          * Exception code
          *
          * @var int
          */
-        const ERROR_CODE = 200;
+        public const ERROR_CODE = 200;
         /**
          * @expectedException Class
          * @expectedExceptionMessage My\Space\ExceptionNamespaceTest::ERROR_MESSAGE
          * @expectedExceptionCode My\Space\ExceptionNamespaceTest::ERROR_CODE
          */
-        public function testConstants()
+        public function testConstants() : void
         {
         }
         /**
@@ -8055,7 +9684,7 @@ namespace My\Space {
          * @expectedExceptionCode My\Space\ExceptionNamespaceTest::UNKNOWN_CODE_CONSTANT
          * @expectedExceptionMessage My\Space\ExceptionNamespaceTest::UNKNOWN_MESSAGE_CONSTANT
          */
-        public function testUnknownConstants()
+        public function testUnknownConstants() : void
         {
         }
     }
@@ -8063,22 +9692,6 @@ namespace My\Space {
 namespace {
     class MultipleDataProviderTest extends \PHPUnit\Framework\TestCase
     {
-        /**
-         * @dataProvider providerA
-         * @dataProvider providerB
-         * @dataProvider providerC
-         */
-        public function testOne()
-        {
-        }
-        /**
-         * @dataProvider providerD
-         * @dataProvider providerE
-         * @dataProvider providerF
-         */
-        public function testTwo()
-        {
-        }
         public static function providerA()
         {
         }
@@ -8097,7 +9710,31 @@ namespace {
         public static function providerF()
         {
         }
+        /**
+         * @dataProvider providerA
+         * @dataProvider providerB
+         * @dataProvider providerC
+         */
+        public function testOne() : void
+        {
+        }
+        /**
+         * @dataProvider providerD
+         * @dataProvider providerE
+         * @dataProvider providerF
+         */
+        public function testTwo() : void
+        {
+        }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     /**
      * @codeCoverageIgnore
      */
@@ -8110,16 +9747,16 @@ namespace {
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class VariousIterableDataProviderTest
     {
-        /**
-         * @dataProvider asArrayProvider
-         * @dataProvider asIteratorProvider
-         * @dataProvider asTraversableProvider
-         */
-        public function test()
-        {
-        }
         public static function asArrayProvider()
         {
         }
@@ -8129,109 +9766,133 @@ namespace {
         public static function asTraversableProvider()
         {
         }
+        /**
+         * @dataProvider asArrayProvider
+         * @dataProvider asIteratorProvider
+         * @dataProvider asTraversableProvider
+         */
+        public function test() : void
+        {
+        }
     }
     class IgnoreCodeCoverageClassTest extends \PHPUnit\Framework\TestCase
     {
-        public function testReturnTrue()
+        public function testReturnTrue() : void
         {
         }
-        public function testReturnFalse()
+        public function testReturnFalse() : void
         {
         }
     }
     class NoArgTestCaseTest extends \PHPUnit\Framework\TestCase
     {
-        public function testNothing()
+        public function testNothing() : void
         {
         }
     }
     class TemplateMethodsTest extends \PHPUnit\Framework\TestCase
     {
-        public static function setUpBeforeClass()
+        public static function setUpBeforeClass() : void
         {
         }
-        protected function setUp()
+        public static function tearDownAfterClass() : void
         {
         }
-        protected function assertPreConditions()
+        protected function setUp() : void
         {
         }
-        public function testOne()
+        protected function tearDown() : void
         {
         }
-        public function testTwo()
+        public function testOne() : void
         {
         }
-        protected function assertPostConditions()
+        public function testTwo() : void
         {
         }
-        protected function tearDown()
+        protected function assertPreConditions() : void
         {
         }
-        public static function tearDownAfterClass()
+        protected function assertPostConditions() : void
         {
         }
-        protected function onNotSuccessfulTest(\Exception $t)
+        protected function onNotSuccessfulTest(\Throwable $t) : void
         {
         }
     }
     class ChangeCurrentWorkingDirectoryTest extends \PHPUnit\Framework\TestCase
     {
-        public function testSomethingThatChangesTheCwd()
+        public function testSomethingThatChangesTheCwd() : void
         {
         }
     }
     class ExceptionStackTest extends \PHPUnit\Framework\TestCase
     {
-        public function testPrintingChildException()
+        public function testPrintingChildException() : void
         {
         }
-        public function testNestedExceptions()
+        public function testNestedExceptions() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class CoveredParentClass
     {
-        private function privateMethod()
+        public function publicMethod() : void
         {
         }
-        protected function protectedMethod()
+        protected function protectedMethod() : void
         {
         }
-        public function publicMethod()
+        private function privateMethod() : void
         {
         }
     }
     class CoveredClass extends \CoveredParentClass
     {
-        private function privateMethod()
+        public function publicMethod() : void
         {
         }
-        protected function protectedMethod()
+        protected function protectedMethod() : void
         {
         }
-        public function publicMethod()
+        private function privateMethod() : void
         {
         }
     }
     class TestWithTest extends \PHPUnit\Framework\TestCase
     {
+        public static function providerMethod()
+        {
+        }
         /**
          * @testWith [0, 0, 0]
          *           [0, 1, 1]
          *           [1, 2, 3]
          *           [20, 22, 42]
          */
-        public function testAdd($a, $b, $c)
-        {
-        }
-        public static function providerMethod()
+        public function testAdd($a, $b, $c) : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class InheritedTestCase extends \OneTestCase
     {
-        public function test2()
+        public function test2() : void
         {
         }
     }
@@ -8240,62 +9901,183 @@ namespace {
         /**
          * @covers CoveredClass::<!protected>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class ClassWithScalarTypeDeclarations
     {
-        public function foo(string $string, int $int)
+        public function foo(string $string, int $int) : void
         {
         }
     }
     class TestIncomplete extends \PHPUnit\Framework\TestCase
     {
-        protected function runTest()
-        {
-        }
-    }
-    class CoverageNothingTest extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * @covers CoveredClass::publicMethod
-         * @coversNothing
-         */
-        public function testSomething()
+        protected function runTest() : void
         {
         }
     }
     class DataProviderTest extends \PHPUnit\Framework\TestCase
     {
+        public static function providerMethod()
+        {
+        }
         /**
          * @dataProvider providerMethod
          */
-        public function testAdd($a, $b, $c)
-        {
-        }
-        public static function providerMethod()
+        public function testAdd($a, $b, $c) : void
         {
         }
     }
     class ThrowExceptionTestCase extends \PHPUnit\Framework\TestCase
     {
-        public function test()
+        public function test() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class NumericGroupAnnotationTest extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * @testdox Empty test for @ticket numeric annotation values
+         * @ticket  3502
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/3502
+         */
+        public function testTicketAnnotationSupportsNumericValue() : void
+        {
+        }
+        /**
+         * @testdox Empty test for @group numeric annotation values
+         * @group   3502
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/3502
+         */
+        public function testGroupAnnotationSupportsNumericValue() : void
+        {
+        }
+        public function testDummyTestThatShouldNotRun() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class ClassWithAllPossibleReturnTypes
+    {
+        public function methodWithNoReturnTypeDeclaration()
+        {
+        }
+        public function methodWithVoidReturnTypeDeclaration() : void
+        {
+        }
+        public function methodWithStringReturnTypeDeclaration() : string
+        {
+        }
+        public function methodWithFloatReturnTypeDeclaration() : float
+        {
+        }
+        public function methodWithIntReturnTypeDeclaration() : int
+        {
+        }
+        public function methodWithBoolReturnTypeDeclaration() : bool
+        {
+        }
+        public function methodWithArrayReturnTypeDeclaration() : array
+        {
+        }
+        public function methodWithTraversableReturnTypeDeclaration() : \Traversable
+        {
+        }
+        public function methodWithGeneratorReturnTypeDeclaration() : \Generator
+        {
+        }
+        public function methodWithObjectReturnTypeDeclaration() : object
+        {
+        }
+        public function methodWithClassReturnTypeDeclaration() : \stdClass
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface InterfaceWithStaticMethod
+    {
+        public static function staticMethod();
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class FunctionCallbackWrapper
+    {
+        public static function functionCallback()
         {
         }
     }
     final class TruthyConstraint extends \PHPUnit\Framework\Constraint\Constraint
     {
-        public function matches($other)
+        public function matches($other) : bool
         {
         }
-        public function toString()
+        public function toString() : string
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class PartialMockTestClass
+    {
+        public $constructorCalled = \false;
+        public function __construct()
+        {
+        }
+        public function doSomething()
+        {
+        }
+        public function doAnotherThing()
         {
         }
     }
     class ThrowNoExceptionTestCase extends \PHPUnit\Framework\TestCase
     {
-        public function test()
+        public function test() : void
         {
         }
     }
@@ -8306,19 +10088,19 @@ namespace {
         public $assertPostConditions = \false;
         public $tearDown = \false;
         public $testSomething = \false;
-        protected function setUp()
+        protected function setUp() : void
         {
         }
-        protected function assertPreConditions()
+        protected function tearDown() : void
         {
         }
-        public function testSomething()
+        public function testSomething() : void
         {
         }
-        protected function assertPostConditions()
+        protected function assertPreConditions() : void
         {
         }
-        protected function tearDown()
+        protected function assertPostConditions() : void
         {
         }
     }
@@ -8327,14 +10109,14 @@ namespace {
         /**
          * @covers CoveredClass::<!private>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
     class ClonedDependencyTest extends \PHPUnit\Framework\TestCase
     {
         private static $dependency;
-        public static function setUpBeforeClass()
+        public static function setUpBeforeClass() : void
         {
         }
         public function testOne()
@@ -8343,37 +10125,56 @@ namespace {
         /**
          * @depends testOne
          */
-        public function testTwo($dependency)
+        public function testTwo($dependency) : void
         {
         }
         /**
          * @depends !clone testOne
          */
-        public function testThree($dependency)
+        public function testThree($dependency) : void
         {
         }
         /**
          * @depends clone testOne
          */
-        public function testFour($dependency)
+        public function testFour($dependency) : void
         {
         }
         /**
          * @depends !shallowClone testOne
          */
-        public function testFive($dependency)
+        public function testFive($dependency) : void
         {
         }
         /**
          * @depends shallowClone testOne
          */
-        public function testSix($dependency)
+        public function testSix($dependency) : void
         {
         }
     }
-    /* This class is used for testing a chain of IteratorAggregate objects, since
-     * PHP does allow IteratorAggregate::getIterator() to return an instance of the
-     * same class. */
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class Bar
+    {
+        public function doSomethingElse()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class TestIteratorAggregate2 implements \IteratorAggregate
     {
         private $traversable;
@@ -8408,19 +10209,19 @@ namespace {
         public $assertPostConditions = \false;
         public $tearDown = \false;
         public $testSomething = \false;
-        protected function setUp()
+        protected function setUp() : void
         {
         }
-        protected function assertPreConditions()
+        protected function tearDown() : void
         {
         }
-        public function testSomething()
+        public function testSomething() : void
         {
         }
-        protected function assertPostConditions()
+        protected function assertPreConditions() : void
         {
         }
-        protected function tearDown()
+        protected function assertPostConditions() : void
         {
         }
     }
@@ -8429,7 +10230,39 @@ namespace {
         /**
          * @covers ::globalFunction()
          */
-        public function testSomething()
+        public function testSomething() : void
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    final class FinalClass
+    {
+        private $value;
+        public function __construct($value)
+        {
+        }
+        public function value()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class StringableClass
+    {
+        public function __toString()
         {
         }
     }
@@ -8440,20 +10273,46 @@ namespace PHPUnit\Runner {
      */
     abstract class BaseTestRunner
     {
-        const STATUS_PASSED = 0;
-        const STATUS_SKIPPED = 1;
-        const STATUS_INCOMPLETE = 2;
-        const STATUS_FAILURE = 3;
-        const STATUS_ERROR = 4;
-        const STATUS_RISKY = 5;
-        const STATUS_WARNING = 6;
-        const SUITE_METHODNAME = 'suite';
+        /**
+         * @var int
+         */
+        public const STATUS_UNKNOWN = -1;
+        /**
+         * @var int
+         */
+        public const STATUS_PASSED = 0;
+        /**
+         * @var int
+         */
+        public const STATUS_SKIPPED = 1;
+        /**
+         * @var int
+         */
+        public const STATUS_INCOMPLETE = 2;
+        /**
+         * @var int
+         */
+        public const STATUS_FAILURE = 3;
+        /**
+         * @var int
+         */
+        public const STATUS_ERROR = 4;
+        /**
+         * @var int
+         */
+        public const STATUS_RISKY = 5;
+        /**
+         * @var int
+         */
+        public const STATUS_WARNING = 6;
+        /**
+         * @var string
+         */
+        public const SUITE_METHODNAME = 'suite';
         /**
          * Returns the loader to be used.
-         *
-         * @return TestSuiteLoader
          */
-        public function getLoader()
+        public function getLoader() : \PHPUnit\Runner\TestSuiteLoader
         {
         }
         /**
@@ -8461,51 +10320,50 @@ namespace PHPUnit\Runner {
          * This is a template method, subclasses override
          * the runFailed() and clearStatus() methods.
          *
-         * @param string $suiteClassName
-         * @param string $suiteClassFile
-         * @param mixed  $suffixes
+         * @param string|string[] $suffixes
          *
-         * @return Test|null
+         * @throws Exception
          */
-        public function getTest($suiteClassName, $suiteClassFile = '', $suffixes = '')
+        public function getTest(string $suiteClassName, string $suiteClassFile = '', $suffixes = '') : ?\PHPUnit\Framework\Test
         {
         }
         /**
          * Returns the loaded ReflectionClass for a suite name.
-         *
-         * @param string $suiteClassName
-         * @param string $suiteClassFile
-         *
-         * @return ReflectionClass
          */
-        protected function loadSuiteClass($suiteClassName, $suiteClassFile = '')
+        protected function loadSuiteClass(string $suiteClassName, string $suiteClassFile = '') : \ReflectionClass
         {
         }
         /**
          * Clears the status message.
          */
-        protected function clearStatus()
+        protected function clearStatus() : void
         {
         }
         /**
          * Override to define how to handle a failed loading of
          * a test suite.
-         *
-         * @param string $message
          */
-        protected abstract function runFailed($message);
+        protected abstract function runFailed(string $message);
     }
 }
 namespace {
     class MockRunner extends \PHPUnit\Runner\BaseTestRunner
     {
-        protected function runFailed($message)
+        protected function runFailed($message) : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class ConcreteWithMyCustomExtensionTest extends \AbstractTest
     {
-        public function testTwo()
+        public function testTwo() : void
         {
         }
     }
@@ -8517,25 +10375,33 @@ namespace {
     }
     class DataProviderFilterTest extends \PHPUnit\Framework\TestCase
     {
-        /**
-         * @dataProvider truthProvider
-         */
-        public function testTrue($truth)
-        {
-        }
         public static function truthProvider()
-        {
-        }
-        /**
-         * @dataProvider falseProvider
-         */
-        public function testFalse($false)
         {
         }
         public static function falseProvider()
         {
         }
+        /**
+         * @dataProvider truthProvider
+         */
+        public function testTrue($truth) : void
+        {
+        }
+        /**
+         * @dataProvider falseProvider
+         */
+        public function testFalse($false) : void
+        {
+        }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class NoTestCaseClass
     {
     }
@@ -8548,13 +10414,13 @@ namespace {
         public static function fromCount(int $count) : self
         {
         }
-        public function matches($other)
+        public function matches($other) : bool
         {
         }
-        public function toString()
+        public function toString() : string
         {
         }
-        public function count()
+        public function count() : int
         {
         }
     }
@@ -8566,7 +10432,7 @@ namespace {
         /**
          * @covers ::publicMethod
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -8582,7 +10448,45 @@ namespace {
          * @depends testOne
          * @depends testTwo
          */
-        public function testThree($a, $b)
+        public function testThree($a, $b) : void
+        {
+        }
+        /**
+         * @depends MultiDependencyTest::testThree
+         */
+        public function testFour()
+        {
+        }
+        public function testFive()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class SingletonClass
+    {
+        public static function getInstance()
+        {
+        }
+        protected function __construct()
+        {
+        }
+        private function __sleep()
+        {
+        }
+        private function __wakeup()
+        {
+        }
+        private function __clone()
+        {
+        }
+        public function doSomething()
         {
         }
     }
@@ -8605,32 +10509,32 @@ namespace PHPUnit\TextUI {
         /**
          * @var array
          */
-        protected $longOptions = ['atleast-version=' => null, 'bootstrap=' => null, 'check-version' => null, 'colors==' => null, 'columns=' => null, 'configuration=' => null, 'coverage-clover=' => null, 'coverage-crap4j=' => null, 'coverage-html=' => null, 'coverage-php=' => null, 'coverage-text==' => null, 'coverage-xml=' => null, 'debug' => null, 'disallow-test-output' => null, 'disallow-resource-usage' => null, 'disallow-todo-tests' => null, 'enforce-time-limit' => null, 'exclude-group=' => null, 'filter=' => null, 'generate-configuration' => null, 'globals-backup' => null, 'group=' => null, 'help' => null, 'include-path=' => null, 'list-groups' => null, 'list-suites' => null, 'list-tests' => null, 'list-tests-xml=' => null, 'loader=' => null, 'log-junit=' => null, 'log-teamcity=' => null, 'no-configuration' => null, 'no-coverage' => null, 'no-logging' => null, 'no-extensions' => null, 'printer=' => null, 'process-isolation' => null, 'repeat=' => null, 'dont-report-useless-tests' => null, 'reverse-list' => null, 'static-backup' => null, 'stderr' => null, 'stop-on-error' => null, 'stop-on-failure' => null, 'stop-on-warning' => null, 'stop-on-incomplete' => null, 'stop-on-risky' => null, 'stop-on-skipped' => null, 'fail-on-warning' => null, 'fail-on-risky' => null, 'strict-coverage' => null, 'disable-coverage-ignore' => null, 'strict-global-state' => null, 'teamcity' => null, 'testdox' => null, 'testdox-group=' => null, 'testdox-exclude-group=' => null, 'testdox-html=' => null, 'testdox-text=' => null, 'testdox-xml=' => null, 'test-suffix=' => null, 'testsuite=' => null, 'verbose' => null, 'version' => null, 'whitelist=' => null];
+        protected $longOptions = ['atleast-version=' => null, 'prepend=' => null, 'bootstrap=' => null, 'cache-result' => null, 'cache-result-file=' => null, 'check-version' => null, 'colors==' => null, 'columns=' => null, 'configuration=' => null, 'coverage-clover=' => null, 'coverage-crap4j=' => null, 'coverage-html=' => null, 'coverage-php=' => null, 'coverage-text==' => null, 'coverage-xml=' => null, 'debug' => null, 'disallow-test-output' => null, 'disallow-resource-usage' => null, 'disallow-todo-tests' => null, 'default-time-limit=' => null, 'enforce-time-limit' => null, 'exclude-group=' => null, 'filter=' => null, 'generate-configuration' => null, 'globals-backup' => null, 'group=' => null, 'help' => null, 'resolve-dependencies' => null, 'ignore-dependencies' => null, 'include-path=' => null, 'list-groups' => null, 'list-suites' => null, 'list-tests' => null, 'list-tests-xml=' => null, 'loader=' => null, 'log-junit=' => null, 'log-teamcity=' => null, 'no-configuration' => null, 'no-coverage' => null, 'no-logging' => null, 'no-extensions' => null, 'order-by=' => null, 'printer=' => null, 'process-isolation' => null, 'repeat=' => null, 'dont-report-useless-tests' => null, 'random-order' => null, 'random-order-seed=' => null, 'reverse-order' => null, 'reverse-list' => null, 'static-backup' => null, 'stderr' => null, 'stop-on-defect' => null, 'stop-on-error' => null, 'stop-on-failure' => null, 'stop-on-warning' => null, 'stop-on-incomplete' => null, 'stop-on-risky' => null, 'stop-on-skipped' => null, 'fail-on-warning' => null, 'fail-on-risky' => null, 'strict-coverage' => null, 'disable-coverage-ignore' => null, 'strict-global-state' => null, 'teamcity' => null, 'testdox' => null, 'testdox-group=' => null, 'testdox-exclude-group=' => null, 'testdox-html=' => null, 'testdox-text=' => null, 'testdox-xml=' => null, 'test-suffix=' => null, 'testsuite=' => null, 'verbose' => null, 'version' => null, 'whitelist=' => null, 'dump-xdebug-filter=' => null];
         /**
          * @var bool
          */
         private $versionStringPrinted = false;
         /**
-         * @param bool $exit
+         * @throws \RuntimeException
+         * @throws \PHPUnit\Framework\Exception
+         * @throws \InvalidArgumentException
          */
-        public static function main($exit = true)
+        public static function main(bool $exit = true) : int
         {
         }
         /**
-         * @param array $argv
-         * @param bool  $exit
-         *
-         * @return int
+         * @throws \RuntimeException
+         * @throws \ReflectionException
+         * @throws \InvalidArgumentException
+         * @throws Exception
          */
-        public function run(array $argv, $exit = true)
+        public function run(array $argv, bool $exit = true) : int
         {
         }
         /**
          * Create a TestRunner, override in subclasses.
-         *
-         * @return TestRunner
          */
-        protected function createRunner()
+        protected function createRunner() : \PHPUnit\TextUI\TestRunner
         {
         }
         /**
@@ -8676,69 +10580,53 @@ namespace PHPUnit\TextUI {
          * }
          * </code>
          *
-         * @param array $argv
+         * @throws Exception
          */
-        protected function handleArguments(array $argv)
+        protected function handleArguments(array $argv) : void
         {
         }
         /**
          * Handles the loading of the PHPUnit\Runner\TestSuiteLoader implementation.
-         *
-         * @param string $loaderClass
-         * @param string $loaderFile
-         *
-         * @return TestSuiteLoader|null
          */
-        protected function handleLoader($loaderClass, $loaderFile = '')
+        protected function handleLoader(string $loaderClass, string $loaderFile = '') : ?\PHPUnit\Runner\TestSuiteLoader
         {
         }
         /**
          * Handles the loading of the PHPUnit\Util\Printer implementation.
          *
-         * @param string $printerClass
-         * @param string $printerFile
-         *
-         * @return Printer|string|null
+         * @return null|Printer|string
          */
-        protected function handlePrinter($printerClass, $printerFile = '')
+        protected function handlePrinter(string $printerClass, string $printerFile = '')
         {
         }
         /**
          * Loads a bootstrap file.
-         *
-         * @param string $filename
          */
-        protected function handleBootstrap($filename)
+        protected function handleBootstrap(string $filename) : void
         {
         }
-        protected function handleVersionCheck()
+        protected function handleVersionCheck() : void
         {
         }
         /**
          * Show the help message.
          */
-        protected function showHelp()
+        protected function showHelp() : void
         {
         }
         /**
          * Custom callback for test suite discovery.
          */
-        protected function handleCustomTestSuite()
+        protected function handleCustomTestSuite() : void
         {
         }
-        private function printVersionString()
+        private function printVersionString() : void
         {
         }
-        /**
-         * @param string $message
-         */
-        private function exitWithErrorMessage($message)
+        private function exitWithErrorMessage(string $message) : void
         {
         }
-        /**
-         * @param string $directory
-         */
-        private function handleExtensions($directory)
+        private function handleExtensions(string $directory) : void
         {
         }
         private function handleListGroups(\PHPUnit\Framework\TestSuite $suite, bool $exit) : int
@@ -8753,6 +10641,9 @@ namespace PHPUnit\TextUI {
         private function handleListTestsXml(\PHPUnit\Framework\TestSuite $suite, string $target, bool $exit) : int
         {
         }
+        private function handleOrderByOption(string $value) : void
+        {
+        }
     }
 }
 namespace {
@@ -8761,10 +10652,18 @@ namespace {
         public function __construct()
         {
         }
-        public function myHandler($value)
+        public function myHandler($value) : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Calculator
     {
         /**
@@ -8777,15 +10676,49 @@ namespace {
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface AnInterfaceWithReturnType
+    {
+        public function returnAnArray() : array;
+    }
     class NamespaceCoverageClassExtendedTest extends \PHPUnit\Framework\TestCase
     {
         /**
          * @covers Foo\CoveredClass<extended>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class Foo
+    {
+        public function doSomething(\Bar $bar)
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class TestIterator2 implements \Iterator
     {
         protected $data;
@@ -8795,7 +10728,7 @@ namespace {
         public function current()
         {
         }
-        public function next()
+        public function next() : void
         {
         }
         public function key()
@@ -8804,7 +10737,16 @@ namespace {
         public function valid()
         {
         }
-        public function rewind()
+        public function rewind() : void
+        {
+        }
+    }
+    /**
+     * @coversNothing
+     */
+    class CoverageClassNothingTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testSomething() : void
         {
         }
     }
@@ -8813,16 +10755,16 @@ namespace {
         /**
          * @covers foo\func()
          */
-        public function testFunc()
+        public function testFunc() : void
         {
         }
     }
     final class FalsyConstraint extends \PHPUnit\Framework\Constraint\Constraint
     {
-        public function matches($other)
+        public function matches($other) : bool
         {
         }
-        public function toString()
+        public function toString() : string
         {
         }
     }
@@ -8831,7 +10773,7 @@ namespace {
         /**
          * @covers CoveredClass::publicMethod()
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -8840,7 +10782,7 @@ namespace {
         /**
          * @covers CoveredClass
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
@@ -8849,16 +10791,61 @@ namespace {
         /**
          * @covers Foo\CoveredClass::<!protected>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    class MethodCallback
+    {
+        public static function staticCallback()
+        {
+        }
+        public function nonStaticCallback()
+        {
+        }
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    interface AnInterface
+    {
+        public function doSomething();
+    }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class ConcreteTest extends \AbstractTest
     {
-        public function testTwo()
+        public function testTwo() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     /**
      * @coversDefaultClass \NamespaceOne
      * @coversDefaultClass \AnotherDefault\Name\Space\Does\Not\Work
@@ -8868,16 +10855,24 @@ namespace {
         /**
          * @covers Foo\CoveredClass::<public>
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class DummyException extends \Exception
     {
     }
     class TestError extends \PHPUnit\Framework\TestCase
     {
-        protected function runTest()
+        protected function runTest() : void
         {
         }
     }
@@ -8886,10 +10881,18 @@ namespace {
         /**
          * @covers Foo\CoveredClass
          */
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class TestIteratorAggregate implements \IteratorAggregate
     {
         private $traversable;
@@ -8902,7 +10905,7 @@ namespace {
     }
     class IniTest extends \PHPUnit\Framework\TestCase
     {
-        public function testIni()
+        public function testIni() : void
         {
         }
     }
@@ -8913,19 +10916,19 @@ namespace {
         public $assertPostConditions = \false;
         public $tearDown = \false;
         public $testSomething = \false;
-        protected function setUp()
+        protected function setUp() : void
         {
         }
-        protected function assertPreConditions()
+        protected function tearDown() : void
         {
         }
-        public function testSomething()
+        public function testSomething() : void
         {
         }
-        protected function assertPostConditions()
+        protected function assertPreConditions() : void
         {
         }
-        protected function tearDown()
+        protected function assertPostConditions() : void
         {
         }
     }
@@ -8938,7 +10941,7 @@ namespace {
         public function count()
         {
         }
-        public function run(\PHPUnit\Framework\TestResult $result = \null)
+        public function run(\PHPUnit\Framework\TestResult $result = \null) : \PHPUnit\Framework\TestResult
         {
         }
     }
@@ -8947,82 +10950,83 @@ namespace {
      */
     class RequirementsClassBeforeClassHookTest extends \PHPUnit\Framework\TestCase
     {
-        public static function setUpBeforeClass()
+        public static function setUpBeforeClass() : void
         {
         }
     }
     class RequirementsTest extends \PHPUnit\Framework\TestCase
     {
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @requires PHPUnit 1.0
          */
-        public function testTwo()
+        public function testTwo() : void
         {
         }
         /**
          * @requires PHP 2.0
          */
-        public function testThree()
+        public function testThree() : void
         {
         }
         /**
          * @requires PHPUnit 2.0
          * @requires PHP 1.0
          */
-        public function testFour()
+        public function testFour() : void
         {
         }
         /**
          * @requires PHP 5.4.0RC6
          */
-        public function testFive()
+        public function testFive() : void
         {
         }
         /**
          * @requires PHP 5.4.0-alpha1
          */
-        public function testSix()
+        public function testSix() : void
         {
         }
         /**
          * @requires PHP 5.4.0beta2
          */
-        public function testSeven()
+        public function testSeven() : void
         {
         }
         /**
          * @requires PHP 5.4-dev
          */
-        public function testEight()
+        public function testEight() : void
         {
         }
         /**
          * @requires function testFunc
          */
-        public function testNine()
+        public function testNine() : void
+        {
+        }
+        /**
+         * @requires function testFunc2
+         *
+         * @see https://github.com/sebastianbergmann/phpunit/issues/3459
+         */
+        public function testRequiresFunctionWithDigit() : void
         {
         }
         /**
          * @requires extension testExt
          */
-        public function testTen()
-        {
-        }
-        /**
-         * @requires function testFunc2
-         * @see https://github.com/sebastianbergmann/phpunit/issues/3459
-         */
-        public function testRequiresFunctionWithDigit()
+        public function testTen() : void
         {
         }
         /**
          * @requires OS SunOS
          * @requires OSFAMILY Solaris
          */
-        public function testEleven()
+        public function testEleven() : void
         {
         }
         /**
@@ -9034,312 +11038,319 @@ namespace {
          * @requires extension testExtOne
          * @requires extension testExt2
          * @requires extension testExtThree 2.0
+         * @requires setting not_a_setting Off
          */
-        public function testAllPossibleRequirements()
+        public function testAllPossibleRequirements() : void
         {
         }
         /**
          * @requires function array_merge
          */
-        public function testExistingFunction()
+        public function testExistingFunction() : void
         {
         }
         /**
          * @requires function ReflectionMethod::setAccessible
          */
-        public function testExistingMethod()
+        public function testExistingMethod() : void
         {
         }
         /**
          * @requires extension spl
          */
-        public function testExistingExtension()
+        public function testExistingExtension() : void
         {
         }
         /**
          * @requires OS .*
          */
-        public function testExistingOs()
+        public function testExistingOs() : void
         {
         }
         /**
          * @requires PHPUnit 1111111
          */
-        public function testAlwaysSkip()
+        public function testAlwaysSkip() : void
         {
         }
         /**
          * @requires PHP 9999999
          */
-        public function testAlwaysSkip2()
+        public function testAlwaysSkip2() : void
         {
         }
         /**
          * @requires OS DOESNOTEXIST
          */
-        public function testAlwaysSkip3()
+        public function testAlwaysSkip3() : void
         {
         }
         /**
          * @requires OSFAMILY DOESNOTEXIST
          */
-        public function testAlwaysSkip4()
+        public function testAlwaysSkip4() : void
         {
         }
         /**
          * @requires extension spl
          * @requires OS .*
          */
-        public function testSpace()
+        public function testSpace() : void
         {
         }
         /**
          * @requires extension testExt 1.8.0
          */
-        public function testSpecificExtensionVersion()
+        public function testSpecificExtensionVersion() : void
         {
         }
         /**
          * @requires PHP < 5.4
          */
-        public function testPHPVersionOperatorLessThan()
+        public function testPHPVersionOperatorLessThan() : void
         {
         }
         /**
          * @requires PHP <= 5.4
          */
-        public function testPHPVersionOperatorLessThanEquals()
+        public function testPHPVersionOperatorLessThanEquals() : void
         {
         }
         /**
          * @requires PHP > 99
          */
-        public function testPHPVersionOperatorGreaterThan()
+        public function testPHPVersionOperatorGreaterThan() : void
         {
         }
         /**
          * @requires PHP >= 99
          */
-        public function testPHPVersionOperatorGreaterThanEquals()
+        public function testPHPVersionOperatorGreaterThanEquals() : void
         {
         }
         /**
          * @requires PHP = 5.4
          */
-        public function testPHPVersionOperatorEquals()
+        public function testPHPVersionOperatorEquals() : void
         {
         }
         /**
          * @requires PHP == 5.4
          */
-        public function testPHPVersionOperatorDoubleEquals()
+        public function testPHPVersionOperatorDoubleEquals() : void
         {
         }
         /**
          * @requires PHP != 99
          */
-        public function testPHPVersionOperatorBangEquals()
+        public function testPHPVersionOperatorBangEquals() : void
         {
         }
         /**
          * @requires PHP <> 99
          */
-        public function testPHPVersionOperatorNotEquals()
+        public function testPHPVersionOperatorNotEquals() : void
         {
         }
         /**
          * @requires PHP >=99
          */
-        public function testPHPVersionOperatorNoSpace()
+        public function testPHPVersionOperatorNoSpace() : void
         {
         }
         /**
          * @requires PHPUnit < 1.0
          */
-        public function testPHPUnitVersionOperatorLessThan()
+        public function testPHPUnitVersionOperatorLessThan() : void
         {
         }
         /**
          * @requires PHPUnit <= 1.0
          */
-        public function testPHPUnitVersionOperatorLessThanEquals()
+        public function testPHPUnitVersionOperatorLessThanEquals() : void
         {
         }
         /**
          * @requires PHPUnit > 99
          */
-        public function testPHPUnitVersionOperatorGreaterThan()
+        public function testPHPUnitVersionOperatorGreaterThan() : void
         {
         }
         /**
          * @requires PHPUnit >= 99
          */
-        public function testPHPUnitVersionOperatorGreaterThanEquals()
+        public function testPHPUnitVersionOperatorGreaterThanEquals() : void
         {
         }
         /**
          * @requires PHPUnit = 1.0
          */
-        public function testPHPUnitVersionOperatorEquals()
+        public function testPHPUnitVersionOperatorEquals() : void
         {
         }
         /**
          * @requires PHPUnit == 1.0
          */
-        public function testPHPUnitVersionOperatorDoubleEquals()
+        public function testPHPUnitVersionOperatorDoubleEquals() : void
         {
         }
         /**
          * @requires PHPUnit != 99
          */
-        public function testPHPUnitVersionOperatorBangEquals()
+        public function testPHPUnitVersionOperatorBangEquals() : void
         {
         }
         /**
          * @requires PHPUnit <> 99
          */
-        public function testPHPUnitVersionOperatorNotEquals()
+        public function testPHPUnitVersionOperatorNotEquals() : void
         {
         }
         /**
          * @requires PHPUnit >=99
          */
-        public function testPHPUnitVersionOperatorNoSpace()
+        public function testPHPUnitVersionOperatorNoSpace() : void
         {
         }
         /**
          * @requires extension testExtOne < 1.0
          */
-        public function testExtensionVersionOperatorLessThan()
+        public function testExtensionVersionOperatorLessThan() : void
         {
         }
         /**
          * @requires extension testExtOne <= 1.0
          */
-        public function testExtensionVersionOperatorLessThanEquals()
+        public function testExtensionVersionOperatorLessThanEquals() : void
         {
         }
         /**
          * @requires extension testExtOne > 99
          */
-        public function testExtensionVersionOperatorGreaterThan()
+        public function testExtensionVersionOperatorGreaterThan() : void
         {
         }
         /**
          * @requires extension testExtOne >= 99
          */
-        public function testExtensionVersionOperatorGreaterThanEquals()
+        public function testExtensionVersionOperatorGreaterThanEquals() : void
         {
         }
         /**
          * @requires extension testExtOne = 1.0
          */
-        public function testExtensionVersionOperatorEquals()
+        public function testExtensionVersionOperatorEquals() : void
         {
         }
         /**
          * @requires extension testExtOne == 1.0
          */
-        public function testExtensionVersionOperatorDoubleEquals()
+        public function testExtensionVersionOperatorDoubleEquals() : void
         {
         }
         /**
          * @requires extension testExtOne != 99
          */
-        public function testExtensionVersionOperatorBangEquals()
+        public function testExtensionVersionOperatorBangEquals() : void
         {
         }
         /**
          * @requires extension testExtOne <> 99
          */
-        public function testExtensionVersionOperatorNotEquals()
+        public function testExtensionVersionOperatorNotEquals() : void
         {
         }
         /**
          * @requires extension testExtOne >=99
          */
-        public function testExtensionVersionOperatorNoSpace()
+        public function testExtensionVersionOperatorNoSpace() : void
         {
         }
         /**
          * @requires PHP ~1.0
          * @requires PHPUnit ~2.0
          */
-        public function testVersionConstraintTildeMajor()
+        public function testVersionConstraintTildeMajor() : void
         {
         }
         /**
          * @requires PHP ^1.0
          * @requires PHPUnit ^2.0
          */
-        public function testVersionConstraintCaretMajor()
+        public function testVersionConstraintCaretMajor() : void
         {
         }
         /**
          * @requires PHP ~3.4.7
          * @requires PHPUnit ~4.7.1
          */
-        public function testVersionConstraintTildeMinor()
+        public function testVersionConstraintTildeMinor() : void
         {
         }
         /**
          * @requires PHP ^7.0.17
          * @requires PHPUnit ^4.7.1
          */
-        public function testVersionConstraintCaretMinor()
+        public function testVersionConstraintCaretMinor() : void
         {
         }
         /**
          * @requires PHP ^5.6 || ^7.0
          * @requires PHPUnit ^5.0 || ^6.0
          */
-        public function testVersionConstraintCaretOr()
+        public function testVersionConstraintCaretOr() : void
         {
         }
         /**
          * @requires PHP ~5.6.22 || ~7.0.17
          * @requires PHPUnit ^5.0.5 || ^6.0.6
          */
-        public function testVersionConstraintTildeOr()
+        public function testVersionConstraintTildeOr() : void
         {
         }
         /**
          * @requires PHP ~5.6.22 || ^7.0
          * @requires PHPUnit ~5.6.22 || ^7.0
          */
-        public function testVersionConstraintTildeOrCaret()
+        public function testVersionConstraintTildeOrCaret() : void
         {
         }
         /**
          * @requires PHP ^5.6 || ~7.0.17
          * @requires PHPUnit ^5.6 || ~7.0.17
          */
-        public function testVersionConstraintCaretOrTilde()
+        public function testVersionConstraintCaretOrTilde() : void
         {
         }
         /**
          * @requires   PHP        ~5.6.22 || ~7.0.17
          * @requires   PHPUnit    ~5.6.22 || ~7.0.17
          */
-        public function testVersionConstraintRegexpIgnoresWhitespace()
+        public function testVersionConstraintRegexpIgnoresWhitespace() : void
         {
         }
         /**
          * @requires   PHP ~^12345
          */
-        public function testVersionConstraintInvalidPhpConstraint()
+        public function testVersionConstraintInvalidPhpConstraint() : void
         {
         }
         /**
          * @requires   PHPUnit ~^12345
          */
-        public function testVersionConstraintInvalidPhpUnitConstraint()
+        public function testVersionConstraintInvalidPhpUnitConstraint() : void
+        {
+        }
+        /**
+         * @requires setting display_errors On
+         */
+        public function testSettingDisplayErrorsOn() : void
         {
         }
     }
     class DummyFooTest extends \PHPUnit\Framework\TestCase
     {
-        public function testFooEqualsFoo()
+        public function testFooEqualsFoo() : void
         {
         }
     }
@@ -9350,25 +11361,25 @@ namespace {
         public $assertPostConditions = \false;
         public $tearDown = \false;
         public $testSomething = \false;
-        protected function setUp()
+        protected function setUp() : void
         {
         }
-        protected function assertPreConditions()
+        protected function tearDown() : void
         {
         }
-        public function testSomething()
+        public function testSomething() : void
         {
         }
-        protected function assertPostConditions()
+        protected function assertPreConditions() : void
         {
         }
-        protected function tearDown()
+        protected function assertPostConditions() : void
         {
         }
     }
     class NoTestCases extends \PHPUnit\Framework\TestCase
     {
-        public function noTestCase()
+        public function noTestCase() : void
         {
         }
     }
@@ -9376,38 +11387,56 @@ namespace {
     {
         public static $beforeWasRun;
         public static $afterWasRun;
-        public static function resetProperties()
+        public static function resetProperties() : void
         {
         }
         /**
          * @before
          */
-        public function initialSetup()
+        public function initialSetup() : void
         {
         }
         /**
          * @after
          */
-        public function finalTeardown()
+        public function finalTeardown() : void
         {
         }
-        public function test1()
+        public function test1() : void
         {
         }
-        public function test2()
+        public function test2() : void
+        {
+        }
+    }
+    class TestWarning extends \PHPUnit\Framework\TestCase
+    {
+        protected function runTest() : void
         {
         }
     }
     class CoverageNoneTest extends \PHPUnit\Framework\TestCase
     {
-        public function testSomething()
+        public function testSomething() : void
         {
         }
     }
     class TestAutoreferenced extends \PHPUnit\Framework\TestCase
     {
-        public $myTestData = \null;
-        public function testJsonEncodeException($data)
+        public $myTestData;
+        public function testJsonEncodeException($data) : void
+        {
+        }
+    }
+    class NotSelfDescribingTest implements \PHPUnit\Framework\Test
+    {
+        public function log($msg) : void
+        {
+        }
+        public function count() : int
+        {
+        }
+        public function run(\PHPUnit\Framework\TestResult $result = \null) : \PHPUnit\Framework\TestResult
         {
         }
     }
@@ -9415,35 +11444,62 @@ namespace {
     {
         /**
          * @dataProvider provider
-         * @testdox Does something with
+         * @testdox Does something
          */
-        public function testOne()
+        public function testOne() : void
         {
         }
         /**
          * @dataProvider provider
          */
-        public function testDoesSomethingElseWith()
+        public function testDoesSomethingElse() : void
+        {
+        }
+        /**
+         * @dataProvider providerWithIndexedArray
+         */
+        public function testWithProviderWithIndexedArray($value) : void
+        {
+        }
+        /**
+         * @dataProvider placeHolderprovider
+         * @testdox ... $value ...
+         */
+        public function testWithPlaceholders($value) : void
         {
         }
         public function provider()
         {
         }
+        public function providerWithIndexedArray()
+        {
+        }
+        public function placeHolderprovider() : array
+        {
+        }
     }
+    /*
+     * This file is part of PHPUnit.
+     *
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
     class Mockable
     {
-        public $constructorCalled = \false;
-        public $cloned = \false;
-        public function __construct()
-        {
-        }
-        public function foo()
-        {
-        }
-        public function bar()
+        public $constructorArgs;
+        public $cloned;
+        public function __construct($arg1 = \null, $arg2 = \null)
         {
         }
         public function __clone()
+        {
+        }
+        public function mockableMethod()
+        {
+        }
+        public function anotherMockableMethod()
         {
         }
     }
@@ -9452,44 +11508,26 @@ namespace PHPUnit\Runner\Filter {
     abstract class GroupFilterIterator extends \RecursiveFilterIterator
     {
         /**
-         * @var array
+         * @var string[]
          */
         protected $groupTests = [];
-        /**
-         * @param RecursiveIterator $iterator
-         * @param array             $groups
-         * @param TestSuite         $suite
-         */
         public function __construct(\RecursiveIterator $iterator, array $groups, \PHPUnit\Framework\TestSuite $suite)
         {
         }
-        /**
-         * @return bool
-         */
-        public function accept()
+        public function accept() : bool
         {
         }
-        protected abstract function doAccept($hash);
+        protected abstract function doAccept(string $hash);
     }
     class ExcludeGroupFilterIterator extends \PHPUnit\Runner\Filter\GroupFilterIterator
     {
-        /**
-         * @param string $hash
-         *
-         * @return bool
-         */
-        protected function doAccept($hash)
+        protected function doAccept(string $hash) : bool
         {
         }
     }
     class IncludeGroupFilterIterator extends \PHPUnit\Runner\Filter\GroupFilterIterator
     {
-        /**
-         * @param string $hash
-         *
-         * @return bool
-         */
-        protected function doAccept($hash)
+        protected function doAccept(string $hash) : bool
         {
         }
     }
@@ -9500,16 +11538,12 @@ namespace PHPUnit\Runner\Filter {
          */
         private $filters = [];
         /**
-         * @param ReflectionClass $filter
-         * @param mixed           $args
+         * @throws InvalidArgumentException
          */
-        public function addFilter(\ReflectionClass $filter, $args)
+        public function addFilter(\ReflectionClass $filter, $args) : void
         {
         }
-        /**
-         * @return FilterIterator
-         */
-        public function factory(\Iterator $iterator, \PHPUnit\Framework\TestSuite $suite)
+        public function factory(\Iterator $iterator, \PHPUnit\Framework\TestSuite $suite) : \FilterIterator
         {
         }
     }
@@ -9528,42 +11562,119 @@ namespace PHPUnit\Runner\Filter {
          */
         protected $filterMax;
         /**
-         * @param RecursiveIterator $iterator
-         * @param string            $filter
+         * @throws \Exception
          */
-        public function __construct(\RecursiveIterator $iterator, $filter)
-        {
-        }
-        /**
-         * @param string $filter
-         */
-        protected function setFilter($filter)
+        public function __construct(\RecursiveIterator $iterator, string $filter)
         {
         }
         public function accept() : bool
         {
         }
+        /**
+         * @throws \Exception
+         */
+        protected function setFilter(string $filter) : void
+        {
+        }
     }
 }
 namespace PHPUnit\Runner {
+    final class TestListenerAdapter implements \PHPUnit\Framework\TestListener
+    {
+        /**
+         * @var TestHook[]
+         */
+        private $hooks = [];
+        /**
+         * @var bool
+         */
+        private $lastTestWasNotSuccessful;
+        public function add(\PHPUnit\Runner\TestHook $hook) : void
+        {
+        }
+        public function startTest(\PHPUnit\Framework\Test $test) : void
+        {
+        }
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
+        {
+        }
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
+        {
+        }
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
+        {
+        }
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
+        {
+        }
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+    }
+    final class ResultCacheExtension implements \PHPUnit\Runner\AfterIncompleteTestHook, \PHPUnit\Runner\AfterLastTestHook, \PHPUnit\Runner\AfterRiskyTestHook, \PHPUnit\Runner\AfterSkippedTestHook, \PHPUnit\Runner\AfterSuccessfulTestHook, \PHPUnit\Runner\AfterTestErrorHook, \PHPUnit\Runner\AfterTestFailureHook, \PHPUnit\Runner\AfterTestWarningHook
+    {
+        /**
+         * @var TestResultCacheInterface
+         */
+        private $cache;
+        public function __construct(\PHPUnit\Runner\TestResultCache $cache)
+        {
+        }
+        public function flush() : void
+        {
+        }
+        public function executeAfterSuccessfulTest(string $test, float $time) : void
+        {
+        }
+        public function executeAfterIncompleteTest(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterRiskyTest(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterSkippedTest(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterTestError(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterTestFailure(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterTestWarning(string $test, string $message, float $time) : void
+        {
+        }
+        public function executeAfterLastTest() : void
+        {
+        }
+        /**
+         * @param string $test A long description format of the current test
+         *
+         * @return string The test name without TestSuiteClassName:: and @dataprovider details
+         */
+        private function getTestName(string $test) : string
+        {
+        }
+    }
     /**
      * An interface to define how a test suite should be loaded.
      */
     interface TestSuiteLoader
     {
-        /**
-         * @param string $suiteClassName
-         * @param string $suiteClassFile
-         *
-         * @return ReflectionClass
-         */
-        public function load($suiteClassName, $suiteClassFile = '');
-        /**
-         * @param ReflectionClass $aClass
-         *
-         * @return ReflectionClass
-         */
-        public function reload(\ReflectionClass $aClass);
+        public function load(string $suiteClassName, string $suiteClassFile = '') : \ReflectionClass;
+        public function reload(\ReflectionClass $aClass) : \ReflectionClass;
     }
     /**
      * The standard test suite loader.
@@ -9571,30 +11682,25 @@ namespace PHPUnit\Runner {
     class StandardTestSuiteLoader implements \PHPUnit\Runner\TestSuiteLoader
     {
         /**
-         * @param string $suiteClassName
-         * @param string $suiteClassFile
-         *
-         * @return ReflectionClass
-         *
          * @throws Exception
+         * @throws \PHPUnit\Framework\Exception
          */
-        public function load($suiteClassName, $suiteClassFile = '')
+        public function load(string $suiteClassName, string $suiteClassFile = '') : \ReflectionClass
         {
         }
-        /**
-         * @param ReflectionClass $aClass
-         *
-         * @return ReflectionClass
-         */
-        public function reload(\ReflectionClass $aClass)
+        public function reload(\ReflectionClass $aClass) : \ReflectionClass
         {
         }
     }
     /**
      * Runner for PHPT test cases.
      */
-    class PhptTestCase implements \PHPUnit\Framework\Test, \PHPUnit\Framework\SelfDescribing
+    class PhptTestCase implements \PHPUnit\Framework\SelfDescribing, \PHPUnit\Framework\Test
     {
+        /**
+         * @var string[]
+         */
+        private const SETTINGS = ['allow_url_fopen=1', 'auto_append_file=', 'auto_prepend_file=', 'disable_functions=', 'display_errors=1', 'docref_ext=.html', 'docref_root=', 'error_append_string=', 'error_prepend_string=', 'error_reporting=-1', 'html_errors=0', 'log_errors=0', 'magic_quotes_runtime=0', 'open_basedir=', 'output_buffering=Off', 'output_handler=', 'report_memleaks=0', 'report_zend_debug=0', 'safe_mode=0', 'xdebug.default_enable=0'];
         /**
          * @var string
          */
@@ -9604,153 +11710,242 @@ namespace PHPUnit\Runner {
          */
         private $phpUtil;
         /**
-         * @var array
+         * @var string
          */
-        private $settings = ['allow_url_fopen=1', 'auto_append_file=', 'auto_prepend_file=', 'disable_functions=', 'display_errors=1', 'docref_root=', 'docref_ext=.html', 'error_append_string=', 'error_prepend_string=', 'error_reporting=-1', 'html_errors=0', 'log_errors=0', 'magic_quotes_runtime=0', 'output_handler=', 'open_basedir=', 'output_buffering=Off', 'report_memleaks=0', 'report_zend_debug=0', 'safe_mode=0', 'xdebug.default_enable=0'];
+        private $output = '';
         /**
          * Constructs a test case with the given filename.
          *
-         * @param string             $filename
-         * @param AbstractPhpProcess $phpUtil
-         *
          * @throws Exception
          */
-        public function __construct($filename, $phpUtil = null)
+        public function __construct(string $filename, \PHPUnit\Util\PHP\AbstractPhpProcess $phpUtil = null)
         {
         }
         /**
          * Counts the number of test cases executed by run(TestResult result).
-         *
-         * @return int
          */
-        public function count()
-        {
-        }
-        /**
-         * @param array  $sections
-         * @param string $output
-         *
-         * @throws Exception
-         */
-        private function assertPhptExpectation(array $sections, $output)
+        public function count() : int
         {
         }
         /**
          * Runs a test and collects its result in a TestResult instance.
          *
-         * @param TestResult $result
-         *
-         * @return TestResult
+         * @throws Exception
+         * @throws \ReflectionException
+         * @throws \SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException
+         * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+         * @throws \SebastianBergmann\CodeCoverage\MissingCoversAnnotationException
+         * @throws \SebastianBergmann\CodeCoverage\RuntimeException
+         * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function run(\PHPUnit\Framework\TestResult $result = null)
-        {
-        }
-        /**
-         * @param array<string, string> $sections
-         * @param TestResult            $result
-         * @param array                 $settings
-         *
-         * @return bool
-         */
-        private function runSkip(&$sections, \PHPUnit\Framework\TestResult $result, $settings)
-        {
-        }
-        /**
-         * @param array<string, string> $sections
-         */
-        private function runClean(&$sections)
+        public function run(\PHPUnit\Framework\TestResult $result = null) : \PHPUnit\Framework\TestResult
         {
         }
         /**
          * Returns the name of the test case.
-         *
-         * @return string
          */
-        public function getName()
+        public function getName() : string
         {
         }
         /**
          * Returns a string representation of the test case.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
-        /**
-         * @return array
-         *
-         * @throws Exception
-         */
-        private function parse()
+        public function usesDataProvider() : bool
         {
         }
-        /**
-         * @param array<string, string> $sections
-         */
-        private function parseExtenal(&$sections)
+        public function getNumAssertions() : int
         {
         }
-        /**
-         * @param array<string, string> $sections
-         *
-         * @return bool
-         */
-        private function validate(&$sections)
+        public function getActualOutput() : string
         {
         }
-        /**
-         * @param string $code
-         *
-         * @return string
-         */
-        private function render($code)
-        {
-        }
-        /**
-         * @return array<string, string>
-         */
-        private function getCoverageFiles()
-        {
-        }
-        /**
-         * @param array $settings
-         *
-         * @return string
-         */
-        private function renderForCoverage(&$settings)
-        {
-        }
-        /**
-         * @return array
-         */
-        private function cleanupForCoverage()
-        {
-        }
-        /**
-         * @param array $ini
-         *
-         * @return array
-         */
-        private function stringifyIni($ini)
+        public function hasOutput() : bool
         {
         }
         /**
          * Parse --INI-- section key value pairs and return as array.
          *
-         * @param string|array
-         *
-         * @return array
+         * @param array|string
          */
-        protected function parseIniSection($content, $ini = [])
+        private function parseIniSection($content, $ini = []) : array
+        {
+        }
+        private function parseEnvSection(string $content) : array
         {
         }
         /**
-         * @param string $content
-         *
-         * @return array<string, string>
+         * @throws Exception
          */
-        protected function parseEnvSection($content)
+        private function assertPhptExpectation(array $sections, string $output) : void
+        {
+        }
+        /**
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        private function runSkip(array &$sections, \PHPUnit\Framework\TestResult $result, array $settings) : bool
+        {
+        }
+        private function runClean(array &$sections) : void
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        private function parse() : array
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        private function parseExternal(array &$sections) : void
+        {
+        }
+        private function validate(array &$sections) : bool
+        {
+        }
+        private function render(string $code) : string
+        {
+        }
+        private function getCoverageFiles() : array
+        {
+        }
+        private function renderForCoverage(string &$job) : void
+        {
+        }
+        private function cleanupForCoverage() : array
+        {
+        }
+        private function stringifyIni(array $ini) : array
+        {
+        }
+    }
+    final class TestSuiteSorter
+    {
+        /**
+         * @var int
+         */
+        public const ORDER_DEFAULT = 0;
+        /**
+         * @var int
+         */
+        public const ORDER_RANDOMIZED = 1;
+        /**
+         * @var int
+         */
+        public const ORDER_REVERSED = 2;
+        /**
+         * @var int
+         */
+        public const ORDER_DEFECTS_FIRST = 3;
+        /**
+         * @var int
+         */
+        public const ORDER_DURATION = 4;
+        /**
+         * List of sorting weights for all test result codes. A higher number gives higher priority.
+         */
+        private const DEFECT_SORT_WEIGHT = [\PHPUnit\Runner\BaseTestRunner::STATUS_ERROR => 6, \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE => 5, \PHPUnit\Runner\BaseTestRunner::STATUS_WARNING => 4, \PHPUnit\Runner\BaseTestRunner::STATUS_INCOMPLETE => 3, \PHPUnit\Runner\BaseTestRunner::STATUS_RISKY => 2, \PHPUnit\Runner\BaseTestRunner::STATUS_SKIPPED => 1, \PHPUnit\Runner\BaseTestRunner::STATUS_UNKNOWN => 0];
+        /**
+         * @var array<string, int> Associative array of (string => DEFECT_SORT_WEIGHT) elements
+         */
+        private $defectSortOrder = [];
+        /**
+         * @var TestResultCacheInterface
+         */
+        private $cache;
+        /**
+         * @var array array<string> A list of normalized names of tests before reordering
+         */
+        private $originalExecutionOrder = [];
+        /**
+         * @var array array<string> A list of normalized names of tests affected by reordering
+         */
+        private $executionOrder = [];
+        public static function getTestSorterUID(\PHPUnit\Framework\Test $test) : string
+        {
+        }
+        public function __construct(?\PHPUnit\Runner\TestResultCacheInterface $cache = null)
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        public function reorderTestsInSuite(\PHPUnit\Framework\Test $suite, int $order, bool $resolveDependencies, int $orderDefects, bool $isRootTestSuite = true) : void
+        {
+        }
+        public function getOriginalExecutionOrder() : array
+        {
+        }
+        public function getExecutionOrder() : array
+        {
+        }
+        private function sort(\PHPUnit\Framework\TestSuite $suite, int $order, bool $resolveDependencies, int $orderDefects) : void
+        {
+        }
+        private function addSuiteToDefectSortOrder(\PHPUnit\Framework\TestSuite $suite) : void
+        {
+        }
+        private function suiteOnlyContainsTests(\PHPUnit\Framework\TestSuite $suite) : bool
+        {
+        }
+        private function reverse(array $tests) : array
+        {
+        }
+        private function randomize(array $tests) : array
+        {
+        }
+        private function sortDefectsFirst(array $tests) : array
+        {
+        }
+        private function sortByDuration(array $tests) : array
+        {
+        }
+        /**
+         * Comparator callback function to sort tests for "reach failure as fast as possible":
+         * 1. sort tests by defect weight defined in self::DEFECT_SORT_WEIGHT
+         * 2. when tests are equally defective, sort the fastest to the front
+         * 3. do not reorder successful tests
+         */
+        private function cmpDefectPriorityAndTime(\PHPUnit\Framework\Test $a, \PHPUnit\Framework\Test $b) : int
+        {
+        }
+        /**
+         * Compares test duration for sorting tests by duration ascending.
+         */
+        private function cmpDuration(\PHPUnit\Framework\Test $a, \PHPUnit\Framework\Test $b) : int
+        {
+        }
+        /**
+         * Reorder Tests within a TestCase in such a way as to resolve as many dependencies as possible.
+         * The algorithm will leave the tests in original running order when it can.
+         * For more details see the documentation for test dependencies.
+         *
+         * Short description of algorithm:
+         * 1. Pick the next Test from remaining tests to be checked for dependencies.
+         * 2. If the test has no dependencies: mark done, start again from the top
+         * 3. If the test has dependencies but none left to do: mark done, start again from the top
+         * 4. When we reach the end add any leftover tests to the end. These will be marked 'skipped' during execution.
+         *
+         * @param array<DataProviderTestSuite|TestCase> $tests
+         *
+         * @return array<DataProviderTestSuite|TestCase>
+         */
+        private function resolveDependencies(array $tests) : array
+        {
+        }
+        /**
+         * @param DataProviderTestSuite|TestCase $test
+         *
+         * @return array<string> A list of full test names as "TestSuiteClassName::testMethodName"
+         */
+        private function getNormalizedDependencyNames($test) : array
+        {
+        }
+        private function calculateTestExecutionOrder(\PHPUnit\Framework\Test $suite) : array
         {
         }
     }
@@ -9759,7 +11954,7 @@ namespace PHPUnit {
     /**
      * Marker interface for PHPUnit exceptions.
      */
-    interface Exception
+    interface Exception extends \Throwable
     {
     }
 }
@@ -9776,28 +11971,130 @@ namespace PHPUnit\Runner {
         private static $version;
         /**
          * Returns the current version of PHPUnit.
+         */
+        public static function id() : string
+        {
+        }
+        public static function series() : string
+        {
+        }
+        public static function getVersionString() : string
+        {
+        }
+        public static function getReleaseChannel() : string
+        {
+        }
+    }
+}
+namespace PHPUnit\Util {
+    /**
+     * Utility methods to load PHP sourcefiles.
+     */
+    final class FileLoader
+    {
+        /**
+         * Checks if a PHP sourcecode file is readable. The sourcecode file is loaded through the load() method.
          *
-         * @return string
+         * As a fallback, PHP looks in the directory of the file executing the stream_resolve_include_path function.
+         * We do not want to load the Test.php file here, so skip it if it found that.
+         * PHP prioritizes the include_path setting, so if the current directory is in there, it will first look in the
+         * current working directory.
+         *
+         * @throws Exception
          */
-        public static function id()
+        public static function checkAndLoad(string $filename) : string
         {
         }
         /**
-         * @return string
+         * Loads a PHP sourcefile.
          */
-        public static function series()
+        public static function load(string $filename) : void
         {
         }
+    }
+}
+namespace PHPUnit\Runner {
+    interface TestResultCacheInterface
+    {
+        public function getState($testName) : int;
+        public function getTime($testName) : float;
+        public function load() : void;
+        public function persist() : void;
+    }
+    class TestResultCache implements \Serializable, \PHPUnit\Runner\TestResultCacheInterface
+    {
         /**
-         * @return string
+         * @var string
          */
-        public static function getVersionString()
+        public const DEFAULT_RESULT_CACHE_FILENAME = '.phpunit.result.cache';
+        /**
+         * Provide extra protection against incomplete or corrupt caches
+         *
+         * @var array<string, string>
+         */
+        private const ALLOWED_CACHE_TEST_STATUSES = [\PHPUnit\Runner\BaseTestRunner::STATUS_SKIPPED, \PHPUnit\Runner\BaseTestRunner::STATUS_INCOMPLETE, \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE, \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR, \PHPUnit\Runner\BaseTestRunner::STATUS_RISKY, \PHPUnit\Runner\BaseTestRunner::STATUS_WARNING];
+        /**
+         * Path and filename for result cache file
+         *
+         * @var string
+         */
+        private $cacheFilename;
+        /**
+         * The list of defective tests
+         *
+         * <code>
+         * // Mark a test skipped
+         * $this->defects[$testName] = BaseTestRunner::TEST_SKIPPED;
+         * </code>
+         *
+         * @var array array<string, int>
+         */
+        private $defects = [];
+        /**
+         * The list of execution duration of suites and tests (in seconds)
+         *
+         * <code>
+         * // Record running time for test
+         * $this->times[$testName] = 1.234;
+         * </code>
+         *
+         * @var array<string, float>
+         */
+        private $times = [];
+        public function __construct($filepath = null)
         {
         }
-        /**
-         * @return string
-         */
-        public static function getReleaseChannel()
+        public function persist() : void
+        {
+        }
+        public function saveToFile() : void
+        {
+        }
+        public function setState(string $testName, int $state) : void
+        {
+        }
+        public function getState($testName) : int
+        {
+        }
+        public function setTime(string $testName, float $time) : void
+        {
+        }
+        public function getTime($testName) : float
+        {
+        }
+        public function load() : void
+        {
+        }
+        public function copyStateToCache(self $targetCache) : void
+        {
+        }
+        public function clear() : void
+        {
+        }
+        public function serialize() : string
+        {
+        }
+        public function unserialize($serialized) : void
         {
         }
     }
@@ -9818,170 +12115,126 @@ namespace PHPUnit\Util\Log {
          */
         private $startedTestName;
         /**
-         * @var int|false
+         * @var false|int
          */
         private $flowId;
-        /**
-         * @param string $progress
-         */
-        protected function writeProgress($progress)
-        {
-        }
-        /**
-         * @param TestResult $result
-         */
-        public function printResult(\PHPUnit\Framework\TestResult $result)
+        public function printResult(\PHPUnit\Framework\TestResult $result) : void
         {
         }
         /**
          * An error occurred.
          *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
+         * @throws \InvalidArgumentException
          */
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A warning occurred.
          *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
+         * @throws \InvalidArgumentException
          */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
         {
         }
         /**
          * A failure occurred.
          *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
+         * @throws \InvalidArgumentException
          */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
         {
         }
         /**
          * Incomplete test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Risky test.
          *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
+         * @throws \InvalidArgumentException
          */
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Skipped test.
          *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
+         * @throws \ReflectionException
          */
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
-        public function printIgnoredTest($testName, \Exception $e, $time)
+        public function printIgnoredTest($testName, \Throwable $t, float $time) : void
         {
         }
         /**
          * A testsuite started.
          *
-         * @param TestSuite $suite
+         * @throws \ReflectionException
          */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A testsuite ended.
-         *
-         * @param TestSuite $suite
          */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A test started.
          *
-         * @param Test $test
+         * @throws \ReflectionException
          */
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * A test ended.
-         *
-         * @param Test  $test
-         * @param float $time
          */
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
+        {
+        }
+        protected function writeProgress(string $progress) : void
         {
         }
         /**
          * @param string $eventName
          * @param array  $params
          */
-        private function printEvent($eventName, $params = [])
+        private function printEvent($eventName, $params = []) : void
+        {
+        }
+        private static function getMessage(\Throwable $t) : string
         {
         }
         /**
-         * @param \Exception $e
-         *
-         * @return string
+         * @throws \InvalidArgumentException
          */
-        private static function getMessage(\Exception $e)
+        private static function getDetails(\Throwable $t) : string
         {
         }
-        /**
-         * @param \Exception $e
-         *
-         * @return string
-         */
-        private static function getDetails(\Exception $e)
+        private static function getPrimitiveValueAsString($value) : ?string
         {
         }
-        /**
-         * @param mixed $value
-         *
-         * @return string
-         */
-        private static function getPrimitiveValueAsString($value)
-        {
-        }
-        /**
-         * @param  $text
-         *
-         * @return string
-         */
-        private static function escapeValue($text)
+        private static function escapeValue(string $text) : string
         {
         }
         /**
          * @param string $className
          *
-         * @return string
+         * @throws \ReflectionException
          */
-        private static function getFileName($className)
+        private static function getFileName($className) : string
         {
         }
         /**
          * @param float $time microseconds
-         *
-         * @return int
          */
-        private static function toMilliseconds($time)
+        private static function toMilliseconds(float $time) : int
         {
         }
     }
@@ -10003,7 +12256,7 @@ namespace PHPUnit\Util\Log {
         /**
          * @var bool
          */
-        protected $reportUselessTests = false;
+        protected $reportRiskyTests = false;
         /**
          * @var bool
          */
@@ -10041,123 +12294,98 @@ namespace PHPUnit\Util\Log {
          */
         protected $testSuiteLevel = 0;
         /**
-         * @var ?DOMElement
+         * @var DOMElement
          */
         protected $currentTestCase;
         /**
          * Constructor.
          *
-         * @param mixed $out
-         * @param bool  $reportUselessTests
+         * @param null|mixed $out
+         *
+         * @throws \PHPUnit\Framework\Exception
          */
-        public function __construct($out = null, $reportUselessTests = false)
+        public function __construct($out = null, bool $reportRiskyTests = false)
         {
         }
         /**
          * Flush buffer and close output.
          */
-        public function flush()
+        public function flush() : void
         {
         }
         /**
          * An error occurred.
          *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
+         * @throws \InvalidArgumentException
          */
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A warning occurred.
          *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
+         * @throws \InvalidArgumentException
          */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
         {
         }
         /**
          * A failure occurred.
          *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
+         * @throws \InvalidArgumentException
          */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
         {
         }
         /**
          * Incomplete test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Risky test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Skipped test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A testsuite started.
-         *
-         * @param TestSuite $suite
          */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A testsuite ended.
-         *
-         * @param TestSuite $suite
          */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A test started.
          *
-         * @param Test $test
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         * @throws ReflectionException
          */
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * A test ended.
-         *
-         * @param Test  $test
-         * @param float $time
          */
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
         {
         }
         /**
          * Returns the XML as a string.
-         *
-         * @return string
          */
-        public function getXML()
+        public function getXML() : string
         {
         }
         /**
@@ -10166,89 +12394,63 @@ namespace PHPUnit\Util\Log {
          *
          * This is a "hack" needed for the integration of
          * PHPUnit with Phing.
-         *
-         * @return string
          */
-        public function setWriteDocument($flag)
+        public function setWriteDocument(
+            /*bool*/
+            $flag
+        ) : void
         {
         }
         /**
          * Method which generalizes addError() and addFailure()
          *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
-         * @param string     $type
+         * @throws \InvalidArgumentException
          */
-        private function doAddFault(\PHPUnit\Framework\Test $test, \Exception $e, $time, $type)
+        private function doAddFault(\PHPUnit\Framework\Test $test, \Throwable $t, float $time, $type) : void
         {
         }
-        private function doAddSkipped(\PHPUnit\Framework\Test $test)
+        private function doAddSkipped(\PHPUnit\Framework\Test $test) : void
         {
         }
     }
 }
 namespace PHPUnit\Util {
-    /**
-     * Utility class for textual type (and value) representation.
-     */
-    class Type
+    final class XdebugFilterScriptGenerator
     {
-        /**
-         * @param string $type
-         *
-         * @return bool
-         */
-        public static function isType($type)
+        public function generate(array $filterData) : string
+        {
+        }
+        private function getWhitelistItems(array $filterData) : array
         {
         }
     }
-    /**
-     * Error handler that converts PHP errors and warnings to exceptions.
-     */
-    class RegularExpression
+    final class Type
     {
-        /**
-         * @param string $pattern
-         * @param string $subject
-         * @param null   $matches
-         * @param int    $flags
-         * @param int    $offset
-         *
-         * @return int
-         */
-        public static function safeMatch($pattern, $subject, $matches = null, $flags = 0, $offset = 0)
+        public static function isType(string $type) : bool
         {
         }
     }
-    /**
-     * Utility class for code filtering.
-     */
-    class Filter
+    final class RegularExpression
     {
         /**
-         * Filters stack frames from PHPUnit classes.
+         * @throws \Exception
          *
-         * @param \Throwable $e
-         * @param bool       $asString
-         *
-         * @return string|string[]
+         * @return false|int
          */
-        public static function getFilteredStacktrace($e, $asString = true)
-        {
-        }
-        /**
-         * @param array  $trace
-         * @param string $file
-         * @param int    $line
-         *
-         * @return bool
-         */
-        private static function frameExists(array $trace, $file, $line)
+        public static function safeMatch(string $pattern, string $subject, ?array $matches = null, int $flags = 0, int $offset = 0)
         {
         }
     }
-    class XmlTestListRenderer
+    final class Filter
+    {
+        public static function getFilteredStacktrace(\Throwable $t) : string
+        {
+        }
+        private static function frameExists(array $trace, string $file, int $line) : bool
+        {
+        }
+    }
+    final class XmlTestListRenderer
     {
         public function render(\PHPUnit\Framework\TestSuite $suite) : string
         {
@@ -10257,50 +12459,33 @@ namespace PHPUnit\Util {
     /**
      * Filesystem helpers.
      */
-    class Filesystem
+    final class Filesystem
     {
-        /**
-         * @var array
-         */
-        protected static $buffer = [];
         /**
          * Maps class names to source file names:
          *   - PEAR CS:   Foo_Bar_Baz -> Foo/Bar/Baz.php
          *   - Namespace: Foo\Bar\Baz -> Foo/Bar/Baz.php
-         *
-         * @param string $className
-         *
-         * @return string
          */
-        public static function classNameToFilename($className)
+        public static function classNameToFilename(string $className) : string
+        {
+        }
+        public static function createDirectory(string $directory) : bool
         {
         }
     }
     /**
      * Error handler that converts PHP errors and warnings to exceptions.
      */
-    class ErrorHandler
+    final class ErrorHandler
     {
-        protected static $errorStack = [];
+        private static $errorStack = [];
         /**
          * Returns the error stack.
-         *
-         * @return array
          */
-        public static function getErrorStack()
+        public static function getErrorStack() : array
         {
         }
-        /**
-         * @param int    $errno
-         * @param string $errstr
-         * @param string $errfile
-         * @param int    $errline
-         *
-         * @return false
-         *
-         * @throws Error
-         */
-        public static function handleError($errno, $errstr, $errfile, $errline)
+        public static function handleError(int $errorNumber, string $errorString, string $errorFile, int $errorLine) : bool
         {
         }
         /**
@@ -10309,43 +12494,31 @@ namespace PHPUnit\Util {
          *
          * @param int $severity PHP predefined error constant
          *
-         * @return \Closure
-         *
          * @throws \Exception if event of specified severity is emitted
          */
-        public static function handleErrorOnce($severity = E_WARNING)
+        public static function handleErrorOnce($severity = \E_WARNING) : callable
         {
         }
     }
-    /**
-     * Utility methods to load PHP sourcefiles.
-     */
-    class Fileloader
+}
+namespace PHPUnit\Runner {
+    class NullTestResultCache implements \PHPUnit\Runner\TestResultCacheInterface
     {
-        /**
-         * Checks if a PHP sourcefile is readable.
-         * The sourcefile is loaded through the load() method.
-         *
-         * @param string $filename
-         *
-         * @return string
-         *
-         * @throws Exception
-         */
-        public static function checkAndLoad($filename)
+        public function getState($testName) : int
         {
         }
-        /**
-         * Loads a PHP sourcefile.
-         *
-         * @param string $filename
-         *
-         * @return mixed
-         */
-        public static function load($filename)
+        public function getTime($testName) : float
+        {
+        }
+        public function load() : void
+        {
+        }
+        public function persist() : void
         {
         }
     }
+}
+namespace PHPUnit\Util {
     /**
      * Wrapper for the PHPUnit XML configuration file.
      *
@@ -10356,6 +12529,8 @@ namespace PHPUnit\Util {
      * <phpunit backupGlobals="false"
      *          backupStaticAttributes="false"
      *          bootstrap="/path/to/bootstrap.php"
+     *          cacheResult="false"
+     *          cacheResultFile=".phpunit.result.cache"
      *          cacheTokens="false"
      *          columns="80"
      *          colors="false"
@@ -10364,8 +12539,10 @@ namespace PHPUnit\Util {
      *          convertErrorsToExceptions="true"
      *          convertNoticesToExceptions="true"
      *          convertWarningsToExceptions="true"
+     *          disableCodeCoverageIgnore="false"
      *          forceCoversAnnotation="false"
      *          processIsolation="false"
+     *          stopOnDefect="false"
      *          stopOnError="false"
      *          stopOnFailure="false"
      *          stopOnWarning="false"
@@ -10384,6 +12561,7 @@ namespace PHPUnit\Util {
      *          beStrictAboutResourceUsageDuringSmallTests="false"
      *          beStrictAboutTestsThatDoNotTestAnything="false"
      *          beStrictAboutTodoAnnotatedTests="false"
+     *          defaultTimeLimit="0"
      *          enforceTimeLimit="false"
      *          ignoreDeprecatedCodeUnitsFromCodeCoverage="false"
      *          timeoutForSmallTests="1"
@@ -10391,7 +12569,10 @@ namespace PHPUnit\Util {
      *          timeoutForLargeTests="60"
      *          verbose="false"
      *          reverseDefectList="false"
-     *          registerMockObjectsFromTestArgumentsRecursively="false">
+     *          registerMockObjectsFromTestArgumentsRecursively="false"
+     *          executionOrder="default"
+     *          executionOrderDefects="default"
+     *          resolveDependencies="false">
      *   <testsuites>
      *     <testsuite name="My Test Suite">
      *       <directory suffix="Test.php" phpVersion="5.3.0" phpVersionOperator=">=">/path/to/files</directory>
@@ -10453,7 +12634,6 @@ namespace PHPUnit\Util {
      *     <log type="coverage-html" target="/tmp/report" lowUpperBound="50" highLowerBound="90"/>
      *     <log type="coverage-clover" target="/tmp/clover.xml"/>
      *     <log type="coverage-crap4j" target="/tmp/crap.xml" threshold="30"/>
-     *     <log type="json" target="/tmp/logfile.json"/>
      *     <log type="plain" target="/tmp/logfile.txt"/>
      *     <log type="teamcity" target="/tmp/logfile.txt"/>
      *     <log type="junit" target="/tmp/logfile.xml"/>
@@ -10478,140 +12658,144 @@ namespace PHPUnit\Util {
      * </phpunit>
      * </code>
      */
-    class Configuration
+    final class Configuration
     {
-        const TEST_SUITE_FILTER_SEPARATOR = ',';
+        /**
+         * @var self[]
+         */
         private static $instances = [];
-        protected $document;
-        protected $xpath;
-        protected $filename;
+        /**
+         * @var \DOMDocument
+         */
+        private $document;
+        /**
+         * @var DOMXPath
+         */
+        private $xpath;
+        /**
+         * @var string
+         */
+        private $filename;
+        /**
+         * @var \LibXMLError[]
+         */
+        private $errors = [];
+        /**
+         * Returns a PHPUnit configuration object.
+         *
+         * @throws Exception
+         */
+        public static function getInstance(string $filename) : self
+        {
+        }
         /**
          * Loads a PHPUnit configuration file.
          *
-         * @param string $filename
+         * @throws Exception
          */
-        protected function __construct($filename)
+        private function __construct(string $filename)
         {
         }
         /**
          * @codeCoverageIgnore
          */
-        private final function __clone()
+        private function __clone()
+        {
+        }
+        public function hasValidationErrors() : bool
+        {
+        }
+        public function getValidationErrors() : array
         {
         }
         /**
-         * Returns a PHPUnit configuration object.
-         *
-         * @param string $filename
-         *
-         * @return Configuration
+         * Returns the real path to the configuration file.
          */
-        public static function getInstance($filename)
+        public function getFilename() : string
         {
         }
-        /**
-         * Returns the realpath to the configuration file.
-         *
-         * @return string
-         */
-        public function getFilename()
+        public function getExtensionConfiguration() : array
         {
         }
         /**
          * Returns the configuration for SUT filtering.
-         *
-         * @return array
          */
-        public function getFilterConfiguration()
+        public function getFilterConfiguration() : array
         {
         }
         /**
          * Returns the configuration for groups.
-         *
-         * @return array
          */
-        public function getGroupConfiguration()
+        public function getGroupConfiguration() : array
         {
         }
         /**
          * Returns the configuration for testdox groups.
-         *
-         * @return array
          */
-        public function getTestdoxGroupConfiguration()
-        {
-        }
-        /**
-         * @param string $root
-         *
-         * @return array
-         */
-        private function parseGroupConfiguration($root)
+        public function getTestdoxGroupConfiguration() : array
         {
         }
         /**
          * Returns the configuration for listeners.
-         *
-         * @return array
          */
-        public function getListenerConfiguration()
+        public function getListenerConfiguration() : array
         {
         }
         /**
          * Returns the logging configuration.
-         *
-         * @return array
          */
-        public function getLoggingConfiguration()
+        public function getLoggingConfiguration() : array
         {
         }
         /**
          * Returns the PHP configuration.
-         *
-         * @return array
          */
-        public function getPHPConfiguration()
+        public function getPHPConfiguration() : array
         {
         }
         /**
          * Handles the PHP configuration.
          */
-        public function handlePHPConfiguration()
+        public function handlePHPConfiguration() : void
         {
         }
         /**
          * Returns the PHPUnit configuration.
-         *
-         * @return array
          */
-        public function getPHPUnitConfiguration()
+        public function getPHPUnitConfiguration() : array
         {
         }
         /**
          * Returns the test suite configuration.
          *
-         * @param string|null $testSuiteFilter
-         *
-         * @return TestSuite
+         * @throws Exception
          */
-        public function getTestSuiteConfiguration($testSuiteFilter = null)
+        public function getTestSuiteConfiguration(string $testSuiteFilter = '') : \PHPUnit\Framework\TestSuite
         {
         }
         /**
          * Returns the test suite names from the configuration.
-         *
-         * @return array
          */
-        public function getTestSuiteNames()
+        public function getTestSuiteNames() : array
+        {
+        }
+        private function validateConfigurationAgainstSchema() : void
         {
         }
         /**
-         * @param DOMElement  $testSuiteNode
-         * @param string|null $testSuiteFilter
-         *
-         * @return TestSuite
+         * Collects and returns the configuration arguments from the PHPUnit
+         * XML configuration
          */
-        protected function getTestSuite(\DOMElement $testSuiteNode, $testSuiteFilter = null)
+        private function getConfigurationArguments(\DOMNodeList $nodes) : array
+        {
+        }
+        /**
+         * @throws \PHPUnit\Framework\Exception
+         */
+        private function getTestSuite(\DOMElement $testSuiteNode, string $testSuiteFilter = '') : \PHPUnit\Framework\TestSuite
+        {
+        }
+        private function satisfiesPhpVersion(\DOMElement $node) : bool
         {
         }
         /**
@@ -10619,61 +12803,53 @@ namespace PHPUnit\Util {
          * Otherwise, returns $default, which may be a string in rare cases.
          * See PHPUnit\Util\ConfigurationTest::testPHPConfigurationIsReadCorrectly
          *
-         * @param string      $value
-         * @param string|bool $default
+         * @param bool|string $default
          *
-         * @return string|bool
+         * @return bool|string
          */
-        protected function getBoolean($value, $default)
+        private function getBoolean(string $value, $default)
+        {
+        }
+        private function getInteger(string $value, int $default) : int
+        {
+        }
+        private function readFilterDirectories(string $query) : array
         {
         }
         /**
-         * @param string $value
-         * @param int    $default
-         *
-         * @return int
+         * @return string[]
          */
-        protected function getInteger($value, $default)
+        private function readFilterFiles(string $query) : array
         {
         }
-        /**
-         * @param string $query
-         *
-         * @return array
-         */
-        protected function readFilterDirectories($query)
+        private function toAbsolutePath(string $path, bool $useIncludePath = false) : string
         {
         }
-        /**
-         * @param string $query
-         *
-         * @return array
-         */
-        protected function readFilterFiles($query)
-        {
-        }
-        /**
-         * @param string $path
-         * @param bool   $useIncludePath
-         *
-         * @return string
-         */
-        protected function toAbsolutePath($path, $useIncludePath = false)
+        private function parseGroupConfiguration(string $root) : array
         {
         }
     }
     /**
      * Command-line options parsing class.
      */
-    class Getopt
+    final class Getopt
     {
-        public static function getopt(array $args, $short_options, $long_options = null)
+        /**
+         * @throws Exception
+         */
+        public static function getopt(array $args, string $short_options, array $long_options = null) : array
         {
         }
-        protected static function parseShortOption($arg, $short_options, &$opts, &$args)
+        /**
+         * @throws Exception
+         */
+        private static function parseShortOption(string $arg, string $short_options, array &$opts, array &$args) : void
         {
         }
-        protected static function parseLongOption($arg, $long_options, &$opts, &$args)
+        /**
+         * @throws Exception
+         */
+        private static function parseLongOption(string $arg, array $long_options, array &$opts, array &$args) : void
         {
         }
     }
@@ -10708,9 +12884,9 @@ namespace PHPUnit\Util\PHP {
          * @var int
          */
         protected $timeout = 0;
-        /**
-         * Creates internal Runtime instance.
-         */
+        public static function factory() : self
+        {
+        }
         public function __construct()
         {
         }
@@ -10718,52 +12894,38 @@ namespace PHPUnit\Util\PHP {
          * Defines if should use STDERR redirection or not.
          *
          * Then $stderrRedirection is TRUE, STDERR is redirected to STDOUT.
-         *
-         * @throws Exception
-         *
-         * @param bool $stderrRedirection
          */
-        public function setUseStderrRedirection($stderrRedirection)
+        public function setUseStderrRedirection(bool $stderrRedirection) : void
         {
         }
         /**
          * Returns TRUE if uses STDERR redirection or FALSE if not.
-         *
-         * @return bool
          */
-        public function useStderrRedirection()
+        public function useStderrRedirection() : bool
         {
         }
         /**
          * Sets the input string to be sent via STDIN
-         *
-         * @param string $stdin
          */
-        public function setStdin($stdin)
+        public function setStdin(string $stdin) : void
         {
         }
         /**
          * Returns the input string to be sent via STDIN
-         *
-         * @return string
          */
-        public function getStdin()
+        public function getStdin() : string
         {
         }
         /**
          * Sets the string of arguments to pass to the php job
-         *
-         * @param string $args
          */
-        public function setArgs($args)
+        public function setArgs(string $args) : void
         {
         }
         /**
          * Returns the string of arguments to pass to the php job
-         *
-         * @retrun string
          */
-        public function getArgs()
+        public function getArgs() : string
         {
         }
         /**
@@ -10771,102 +12933,62 @@ namespace PHPUnit\Util\PHP {
          *
          * @param array<string, string> $env
          */
-        public function setEnv(array $env)
+        public function setEnv(array $env) : void
         {
         }
         /**
          * Returns the array of environment variables to start the child process with
-         *
-         * @return array<string, string>
          */
-        public function getEnv()
+        public function getEnv() : array
         {
         }
         /**
          * Sets the amount of seconds to wait before timing out
-         *
-         * @param int $timeout
          */
-        public function setTimeout($timeout)
+        public function setTimeout(int $timeout) : void
         {
         }
         /**
          * Returns the amount of seconds to wait before timing out
-         *
-         * @return int
          */
-        public function getTimeout()
-        {
-        }
-        /**
-         * @return AbstractPhpProcess
-         */
-        public static function factory()
+        public function getTimeout() : int
         {
         }
         /**
          * Runs a single test in a separate PHP process.
          *
-         * @param string     $job
-         * @param Test       $test
-         * @param TestResult $result
-         *
-         * @throws Exception
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function runTestJob($job, \PHPUnit\Framework\Test $test, \PHPUnit\Framework\TestResult $result)
+        public function runTestJob(string $job, \PHPUnit\Framework\Test $test, \PHPUnit\Framework\TestResult $result) : void
         {
         }
         /**
          * Returns the command based into the configurations.
-         *
-         * @param array       $settings
-         * @param string|null $file
-         *
-         * @return string
          */
-        public function getCommand(array $settings, $file = null)
+        public function getCommand(array $settings, string $file = null) : string
         {
         }
         /**
          * Runs a single job (PHP code) using a separate PHP process.
-         *
-         * @param string $job
-         * @param array  $settings
-         *
-         * @return array
-         *
-         * @throws Exception
          */
-        public abstract function runJob($job, array $settings = []);
-        /**
-         * @param array $settings
-         *
-         * @return string
-         */
-        protected function settingsToParameters(array $settings)
+        public abstract function runJob(string $job, array $settings = []) : array;
+        protected function settingsToParameters(array $settings) : string
         {
         }
         /**
          * Processes the TestResult object from an isolated process.
          *
-         * @param Test       $test
-         * @param TestResult $result
-         * @param string     $stdout
-         * @param string     $stderr
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        private function processChildResult(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\TestResult $result, $stdout, $stderr)
+        private function processChildResult(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\TestResult $result, string $stdout, string $stderr) : void
         {
         }
         /**
          * Gets the thrown exception from a PHPUnit\Framework\TestFailure.
          *
-         * @param TestFailure $error
-         *
-         * @return Exception
-         *
-         * @see    https://github.com/sebastianbergmann/phpunit/issues/74
+         * @see https://github.com/sebastianbergmann/phpunit/issues/74
          */
-        private function getException(\PHPUnit\Framework\TestFailure $error)
+        private function getException(\PHPUnit\Framework\TestFailure $error) : \PHPUnit\Framework\Exception
         {
         }
     }
@@ -10880,53 +13002,34 @@ namespace PHPUnit\Util\PHP {
          */
         protected $tempFile;
         /**
-         * @var bool
-         */
-        protected $useTempFile = false;
-        /**
          * Runs a single job (PHP code) using a separate PHP process.
-         *
-         * @param string $job
-         * @param array  $settings
-         *
-         * @return array<string, string>
          *
          * @throws Exception
          */
-        public function runJob($job, array $settings = [])
+        public function runJob(string $job, array $settings = []) : array
         {
         }
         /**
          * Returns an array of file handles to be used in place of pipes
-         *
-         * @return array
          */
-        protected function getHandles()
+        protected function getHandles() : array
         {
         }
         /**
          * Handles creating the child process and returning the STDOUT and STDERR
          *
-         * @param string $job
-         * @param array  $settings
-         *
-         * @return array<string, string>
-         *
          * @throws Exception
          */
-        protected function runProcess($job, $settings)
+        protected function runProcess(string $job, array $settings) : array
         {
         }
-        /**
-         * @param resource $pipe
-         * @param string   $job
-         *
-         * @throws Exception
-         */
-        protected function process($pipe, $job)
+        protected function process($pipe, string $job) : void
         {
         }
-        protected function cleanup()
+        protected function cleanup() : void
+        {
+        }
+        protected function useTemporaryFile() : bool
         {
         }
     }
@@ -10940,11 +13043,13 @@ namespace PHPUnit\Util\PHP {
      */
     class WindowsPhpProcess extends \PHPUnit\Util\PHP\DefaultPhpProcess
     {
-        protected $useTempFile = true;
-        protected function getHandles()
+        public function getCommand(array $settings, string $file = null) : string
         {
         }
-        public function getCommand(array $settings, $file = null)
+        protected function getHandles() : array
+        {
+        }
+        protected function useTemporaryFile() : bool
         {
         }
     }
@@ -10954,25 +13059,18 @@ namespace PHPUnit\Util {
      * Factory for PHPUnit\Framework\Exception objects that are used to describe
      * invalid arguments passed to a function or method.
      */
-    class InvalidArgumentHelper
+    final class InvalidArgumentHelper
     {
-        /**
-         * @param int    $argument
-         * @param string $type
-         * @param mixed  $value
-         *
-         * @return Exception
-         */
-        public static function factory($argument, $type, $value = null)
+        public static function factory(int $argument, string $type, $value = null) : \PHPUnit\Framework\Exception
         {
         }
     }
-    class ConfigurationGenerator
+    final class ConfigurationGenerator
     {
         /**
          * @var string
          */
-        private $defaultTemplate = <<<EOT
+        private const TEMPLATE = <<<EOT
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/{phpunit_version}/phpunit.xsd"
@@ -10982,9 +13080,11 @@ namespace PHPUnit\Util {
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          verbose="true">
-    <testsuite name="default">
-        <directory suffix="Test.php">{tests_directory}</directory>
-    </testsuite>
+    <testsuites>
+        <testsuite name="default">
+            <directory suffix="Test.php">{tests_directory}</directory>
+        </testsuite>
+    </testsuites>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
@@ -10994,30 +13094,18 @@ namespace PHPUnit\Util {
 </phpunit>
 
 EOT;
-        /**
-         * @param string $phpunitVersion
-         * @param string $bootstrapScript
-         * @param string $testsDirectory
-         * @param string $srcDirectory
-         *
-         * @return string
-         */
-        public function generateDefaultConfiguration($phpunitVersion, $bootstrapScript, $testsDirectory, $srcDirectory)
+        public function generateDefaultConfiguration(string $phpunitVersion, string $bootstrapScript, string $testsDirectory, string $srcDirectory) : string
         {
         }
     }
-    class Json
+    final class Json
     {
         /**
          * Prettify json string
          *
-         * @param string $json
-         *
-         * @return string
-         *
          * @throws \PHPUnit\Framework\Exception
          */
-        public static function prettify(string $json)
+        public static function prettify(string $json) : string
         {
         }
         /*
@@ -11027,7 +13115,7 @@ EOT;
          * to indicate an error decoding the json.  This is used to avoid ambiguity
          * with JSON strings consisting entirely of 'null' or 'false'.
          */
-        public static function canonicalize(string $json)
+        public static function canonicalize(string $json) : array
         {
         }
         /*
@@ -11035,15 +13123,15 @@ EOT;
          * Sort all array keys to ensure both the expected and actual values have
          * their keys in the same order.
          */
-        private static function recursiveSort(&$json)
+        private static function recursiveSort(&$json) : void
         {
         }
     }
-    /**
-     * XML helpers.
-     */
-    class Xml
+    final class Xml
     {
+        public static function import(\DOMElement $element) : \DOMElement
+        {
+        }
         /**
          * Load an $actual document into a DOMDocument.  This is called
          * from the selector assertions.
@@ -11058,77 +13146,45 @@ EOT;
          * not a string as it currently does.  To load a file into a
          * DOMDocument, use loadFile() instead.
          *
-         * @param string|DOMDocument $actual
-         * @param bool               $isHtml
-         * @param string             $filename
-         * @param bool               $xinclude
-         * @param bool               $strict
+         * @param DOMDocument|string $actual
          *
-         * @return DOMDocument
+         * @throws Exception
          */
-        public static function load($actual, $isHtml = false, $filename = '', $xinclude = false, $strict = false)
+        public static function load($actual, bool $isHtml = false, string $filename = '', bool $xinclude = false, bool $strict = false) : \DOMDocument
         {
         }
         /**
          * Loads an XML (or HTML) file into a DOMDocument object.
          *
-         * @param string $filename
-         * @param bool   $isHtml
-         * @param bool   $xinclude
-         * @param bool   $strict
-         *
-         * @return DOMDocument
+         * @throws Exception
          */
-        public static function loadFile($filename, $isHtml = false, $xinclude = false, $strict = false)
+        public static function loadFile(string $filename, bool $isHtml = false, bool $xinclude = false, bool $strict = false) : \DOMDocument
         {
         }
-        /**
-         * @param DOMNode $node
-         */
-        public static function removeCharacterDataNodes(\DOMNode $node)
+        public static function removeCharacterDataNodes(\DOMNode $node) : void
         {
         }
         /**
          * Escapes a string for the use in XML documents
+         *
          * Any Unicode character is allowed, excluding the surrogate blocks, FFFE,
          * and FFFF (not even as character reference).
-         * See http://www.w3.org/TR/xml/#charsets
          *
-         * @param string $string
-         *
-         * @return string
+         * @see https://www.w3.org/TR/xml/#charsets
          */
-        public static function prepareString($string)
+        public static function prepareString(string $string) : string
         {
         }
         /**
          * "Convert" a DOMElement object into a PHP variable.
-         *
-         * @param DOMElement $element
-         *
-         * @return mixed
          */
         public static function xmlToVariable(\DOMElement $element)
         {
         }
-        /**
-         * Converts a string to UTF-8 encoding.
-         *
-         * @param string $string
-         *
-         * @return string
-         */
-        private static function convertToUtf8($string)
+        private static function convertToUtf8(string $string) : string
         {
         }
-        /**
-         * Checks a string for UTF-8 encoding.
-         *
-         * @param string $string
-         *
-         * @return bool
-         */
-        private static function isUtf8($string)
+        private static function isUtf8(string $string) : bool
         {
         }
     }
@@ -11180,11 +13236,11 @@ namespace PHPUnit\Util\TestDox {
          */
         protected $incomplete = 0;
         /**
-         * @var string|null
+         * @var null|string
          */
         protected $currentTestClassPrettified;
         /**
-         * @var string|null
+         * @var null|string
          */
         protected $currentTestMethodPrettified;
         /**
@@ -11197,8 +13253,8 @@ namespace PHPUnit\Util\TestDox {
         private $excludeGroups;
         /**
          * @param resource $out
-         * @param array    $groups
-         * @param array    $excludeGroups
+         *
+         * @throws \PHPUnit\Framework\Exception
          */
         public function __construct($out = null, array $groups = [], array $excludeGroups = [])
         {
@@ -11206,202 +13262,201 @@ namespace PHPUnit\Util\TestDox {
         /**
          * Flush buffer and close output.
          */
-        public function flush()
+        public function flush() : void
         {
         }
         /**
          * An error occurred.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A warning occurred.
-         *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
          */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
         {
         }
         /**
          * A failure occurred.
-         *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
          */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
         {
         }
         /**
          * Incomplete test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Risky test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Skipped test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A testsuite started.
-         *
-         * @param TestSuite $suite
          */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A testsuite ended.
-         *
-         * @param TestSuite $suite
          */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A test started.
          *
-         * @param Test $test
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * A test ended.
-         *
-         * @param Test  $test
-         * @param float $time
          */
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
         {
         }
-        protected function doEndClass()
+        protected function doEndClass() : void
         {
         }
         /**
          * Handler for 'start run' event.
          */
-        protected function startRun()
+        protected function startRun() : void
         {
         }
         /**
          * Handler for 'start class' event.
-         *
-         * @param string $name
          */
-        protected function startClass($name)
+        protected function startClass(string $name) : void
         {
         }
         /**
          * Handler for 'on test' event.
-         *
-         * @param string $name
-         * @param bool   $success
          */
-        protected function onTest($name, $success = true)
+        protected function onTest($name, bool $success = true) : void
         {
         }
         /**
          * Handler for 'end class' event.
-         *
-         * @param string $name
          */
-        protected function endClass($name)
+        protected function endClass(string $name) : void
         {
         }
         /**
          * Handler for 'end run' event.
          */
-        protected function endRun()
+        protected function endRun() : void
         {
         }
+        private function isOfInterest(\PHPUnit\Framework\Test $test) : bool
+        {
+        }
+    }
+    final class TestResult
+    {
         /**
-         * @param Test $test
-         *
-         * @return bool
+         * @var callable
          */
-        private function isOfInterest(\PHPUnit\Framework\Test $test)
+        private $colorize;
+        /**
+         * @var string
+         */
+        private $testClass;
+        /**
+         * @var string
+         */
+        private $testMethod;
+        /**
+         * @var bool
+         */
+        private $testSuccesful;
+        /**
+         * @var string
+         */
+        private $symbol;
+        /**
+         * @var string
+         */
+        private $additionalInformation;
+        /**
+         * @var bool
+         */
+        private $additionalInformationVerbose;
+        /**
+         * @var float
+         */
+        private $runtime;
+        public function __construct(callable $colorize, string $testClass, string $testMethod)
+        {
+        }
+        public function isTestSuccessful() : bool
+        {
+        }
+        public function fail(string $symbol, string $additionalInformation, bool $additionalInformationVerbose = false) : void
+        {
+        }
+        public function setRuntime(float $runtime) : void
+        {
+        }
+        public function toString(?self $previousTestResult, $verbose = false) : string
+        {
+        }
+        private function getClassNameHeader(?string $previousTestClass) : string
+        {
+        }
+        private function getFormattedRuntime() : string
+        {
+        }
+        private function getFormattedAdditionalInformation($verbose) : string
+        {
+        }
+        private function additionalInformationPrintable(bool $verbose) : bool
         {
         }
     }
     /**
      * Prettifies class and method names for use in TestDox documentation.
      */
-    class NamePrettifier
+    final class NamePrettifier
     {
-        /**
-         * @var string
-         */
-        protected $prefix = 'Test';
-        /**
-         * @var string
-         */
-        protected $suffix = 'Test';
         /**
          * @var array
          */
-        protected $strings = [];
+        private $strings = [];
         /**
          * Prettifies the name of a test class.
-         *
-         * @param string $name
-         *
-         * @return string
          */
-        public function prettifyTestClass($name)
+        public function prettifyTestClass(string $className) : string
+        {
+        }
+        /**
+         * @throws \ReflectionException
+         */
+        public function prettifyTestCase(\PHPUnit\Framework\TestCase $test) : string
         {
         }
         /**
          * Prettifies the name of a test method.
-         *
-         * @param string $name
-         *
-         * @return string
          */
-        public function prettifyTestMethod($name)
+        public function prettifyTestMethod(string $name) : string
         {
         }
         /**
-         * Sets the prefix of test names.
-         *
-         * @param string $prefix
+         * @throws \ReflectionException
          */
-        public function setPrefix($prefix)
-        {
-        }
-        /**
-         * Sets the suffix of test names.
-         *
-         * @param string $suffix
-         */
-        public function setSuffix($suffix)
+        private function mapTestMethodParameterNamesToProvidedDataValues(\PHPUnit\Framework\TestCase $test) : array
         {
         }
     }
@@ -11420,11 +13475,13 @@ namespace PHPUnit\Util\TestDox {
          */
         private $prettifier;
         /**
-         * @var \Exception|null
+         * @var null|\Throwable
          */
         private $exception;
         /**
-         * @param string|resource $out
+         * @param resource|string $out
+         *
+         * @throws Exception
          */
         public function __construct($out = null)
         {
@@ -11432,143 +13489,106 @@ namespace PHPUnit\Util\TestDox {
         /**
          * Flush buffer and close output.
          */
-        public function flush()
+        public function flush() : void
         {
         }
         /**
          * An error occurred.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addError(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A warning occurred.
-         *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
          */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
         {
         }
         /**
          * A failure occurred.
-         *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
          */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
         {
         }
         /**
          * Incomplete test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Risky test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Skipped test.
-         *
-         * @param Test       $test
-         * @param \Exception $e
-         * @param float      $time
          */
-        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Exception $e, $time)
+        public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * A test suite started.
-         *
-         * @param TestSuite $suite
          */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A test suite ended.
-         *
-         * @param TestSuite $suite
          */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * A test started.
-         *
-         * @param Test $test
          */
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * A test ended.
          *
-         * @param Test  $test
-         * @param float $time
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
         {
         }
     }
     /**
-     * Prints TestDox documentation in text format.
+     * Prints TestDox documentation in text format to files.
+     * For the CLI testdox printer please refer to \PHPUnit\TextUI\TextDoxPrinter.
      */
     class TextResultPrinter extends \PHPUnit\Util\TestDox\ResultPrinter
     {
         /**
          * Handler for 'start class' event.
-         *
-         * @param string $name
          */
-        protected function startClass($name)
+        protected function startClass(string $name) : void
         {
         }
         /**
          * Handler for 'on test' event.
-         *
-         * @param string $name
-         * @param bool   $success
          */
-        protected function onTest($name, $success = true)
+        protected function onTest($name, bool $success = true) : void
         {
         }
         /**
          * Handler for 'end class' event.
-         *
-         * @param string $name
          */
-        protected function endClass($name)
+        protected function endClass(string $name) : void
         {
         }
     }
     /**
      * Prints TestDox documentation in HTML format.
      */
-    class HtmlResultPrinter extends \PHPUnit\Util\TestDox\ResultPrinter
+    final class HtmlResultPrinter extends \PHPUnit\Util\TestDox\ResultPrinter
     {
         /**
          * @var string
          */
-        private $pageHeader = <<<EOT
+        private const PAGE_HEADER = <<<EOT
 <!doctype html>
 <html lang="en">
     <head>
@@ -11603,7 +13623,7 @@ EOT;
         /**
          * @var string
          */
-        private $classHeader = <<<EOT
+        private const CLASS_HEADER = <<<EOT
 
         <h2 id="%s">%s</h2>
         <ul>
@@ -11612,13 +13632,13 @@ EOT;
         /**
          * @var string
          */
-        private $classFooter = <<<EOT
+        private const CLASS_FOOTER = <<<EOT
         </ul>
 EOT;
         /**
          * @var string
          */
-        private $pageFooter = <<<EOT
+        private const PAGE_FOOTER = <<<EOT
 
     </body>
 </html>
@@ -11626,38 +13646,31 @@ EOT;
         /**
          * Handler for 'start run' event.
          */
-        protected function startRun()
+        protected function startRun() : void
         {
         }
         /**
          * Handler for 'start class' event.
-         *
-         * @param string $name
          */
-        protected function startClass($name)
+        protected function startClass(string $name) : void
         {
         }
         /**
          * Handler for 'on test' event.
-         *
-         * @param string $name
-         * @param bool   $success
          */
-        protected function onTest($name, $success = true)
+        protected function onTest($name, bool $success = true) : void
         {
         }
         /**
          * Handler for 'end class' event.
-         *
-         * @param string $name
          */
-        protected function endClass($name)
+        protected function endClass(string $name) : void
         {
         }
         /**
          * Handler for 'end run' event.
          */
-        protected function endRun()
+        protected function endRun() : void
         {
         }
     }
@@ -11666,12 +13679,69 @@ namespace PHPUnit\Util {
     /**
      * Utility class for blacklisting PHPUnit's own source code files.
      */
-    class Blacklist
+    final class Blacklist
     {
         /**
          * @var array
          */
-        public static $blacklistedClassNames = ['File_Iterator' => 1, 'PHP_Invoker' => 1, 'PHP_Timer' => 1, 'PHP_Token' => 1, 'PHPUnit\\Framework\\TestCase' => 2, 'PHPUnit\\DbUnit\\TestCase' => 2, 'PHPUnit\\Framework\\MockObject\\Generator' => 1, 'Text_Template' => 1, 'Symfony\\Component\\Yaml\\Yaml' => 1, 'SebastianBergmann\\CodeCoverage\\CodeCoverage' => 1, 'SebastianBergmann\\Diff\\Diff' => 1, 'SebastianBergmann\\Environment\\Runtime' => 1, 'SebastianBergmann\\Comparator\\Comparator' => 1, 'SebastianBergmann\\Exporter\\Exporter' => 1, 'SebastianBergmann\\GlobalState\\Snapshot' => 1, 'SebastianBergmann\\RecursionContext\\Context' => 1, 'SebastianBergmann\\Version' => 1, 'Composer\\Autoload\\ClassLoader' => 1, 'Doctrine\\Instantiator\\Instantiator' => 1, 'phpDocumentor\\Reflection\\DocBlock' => 1, 'Prophecy\\Prophet' => 1, 'DeepCopy\\DeepCopy' => 1];
+        public static $blacklistedClassNames = [
+            // composer
+            \Composer\Autoload\ClassLoader::class => 1,
+            // doctrine/instantiator
+            \Doctrine\Instantiator\Instantiator::class => 1,
+            // myclabs/deepcopy
+            \DeepCopy\DeepCopy::class => 1,
+            // phar-io/manifest
+            \PharIo\Manifest\Manifest::class => 1,
+            // phar-io/version
+            \PharIo\Version\Version::class => 1,
+            // phpdocumentor/reflection-common
+            \phpDocumentor\Reflection\Project::class => 1,
+            // phpdocumentor/reflection-docblock
+            \phpDocumentor\Reflection\DocBlock::class => 1,
+            // phpdocumentor/type-resolver
+            \phpDocumentor\Reflection\Type::class => 1,
+            // phpspec/prophecy
+            \Prophecy\Prophet::class => 1,
+            // phpunit/phpunit
+            \PHPUnit\Framework\TestCase::class => 2,
+            // phpunit/php-code-coverage
+            \SebastianBergmann\CodeCoverage\CodeCoverage::class => 1,
+            // phpunit/php-file-iterator
+            \SebastianBergmann\FileIterator\Facade::class => 1,
+            // phpunit/php-invoker
+            \SebastianBergmann\Invoker\Invoker::class => 1,
+            // phpunit/php-text-template
+            \Text_Template::class => 1,
+            // phpunit/php-timer
+            \SebastianBergmann\Timer\Timer::class => 1,
+            // phpunit/php-token-stream
+            \PHP_Token::class => 1,
+            // sebastian/code-unit-reverse-lookup
+            \SebastianBergmann\CodeUnitReverseLookup\Wizard::class => 1,
+            // sebastian/comparator
+            \SebastianBergmann\Comparator\Comparator::class => 1,
+            // sebastian/diff
+            \SebastianBergmann\Diff\Diff::class => 1,
+            // sebastian/environment
+            \SebastianBergmann\Environment\Runtime::class => 1,
+            // sebastian/exporter
+            \SebastianBergmann\Exporter\Exporter::class => 1,
+            // sebastian/global-state
+            \SebastianBergmann\GlobalState\Snapshot::class => 1,
+            // sebastian/object-enumerator
+            \SebastianBergmann\ObjectEnumerator\Enumerator::class => 1,
+            // sebastian/recursion-context
+            \SebastianBergmann\RecursionContext\Context::class => 1,
+            // sebastian/resource-operations
+            \SebastianBergmann\ResourceOperations\ResourceOperations::class => 1,
+            // sebastian/version
+            \SebastianBergmann\Version::class => 1,
+            // theseer/tokenizer
+            \TheSeer\Tokenizer\Tokenizer::class => 1,
+            // webmozart/assert
+            \Webmozart\Assert\Assert::class => 1,
+        ];
         /**
          * @var string[]
          */
@@ -11679,175 +13749,215 @@ namespace PHPUnit\Util {
         /**
          * @return string[]
          */
-        public function getBlacklistedDirectories()
+        public function getBlacklistedDirectories() : array
         {
         }
-        /**
-         * @param string $file
-         *
-         * @return bool
-         */
-        public function isBlacklisted($file)
+        public function isBlacklisted(string $file) : bool
         {
         }
-        private function initialize()
+        private function initialize() : void
         {
         }
     }
-    class TextTestListRenderer
+    final class TextTestListRenderer
     {
         public function render(\PHPUnit\Framework\TestSuite $suite) : string
         {
         }
     }
-    class GlobalState
+    final class GlobalState
     {
         /**
          * @var string[]
          */
-        protected static $superGlobalArrays = ['_ENV', '_POST', '_GET', '_COOKIE', '_SERVER', '_FILES', '_REQUEST'];
-        /**
-         * @return string
-         */
-        public static function getIncludedFilesAsString()
+        private const SUPER_GLOBAL_ARRAYS = ['_ENV', '_POST', '_GET', '_COOKIE', '_SERVER', '_FILES', '_REQUEST'];
+        public static function getIncludedFilesAsString() : string
         {
         }
         /**
-         * @param array $files
-         *
-         * @return string
+         * @param string[] $files
          */
-        public static function processIncludedFilesAsString(array $files)
+        public static function processIncludedFilesAsString(array $files) : string
         {
         }
-        /**
-         * @return string
-         */
-        public static function getIniSettingsAsString()
+        public static function getIniSettingsAsString() : string
         {
         }
-        /**
-         * @return string
-         */
-        public static function getConstantsAsString()
+        public static function getConstantsAsString() : string
         {
         }
-        /**
-         * @return string
-         */
-        public static function getGlobalsAsString()
+        public static function getGlobalsAsString() : string
         {
         }
-        /**
-         * @return string[]
-         */
-        protected static function getSuperGlobalArrays()
+        private static function exportVariable($variable) : string
         {
         }
-        protected static function exportVariable($variable)
-        {
-        }
-        /**
-         * @param array $array
-         *
-         * @return bool
-         */
-        protected static function arrayOnlyContainsScalars(array $array)
+        private static function arrayOnlyContainsScalars(array $array) : bool
         {
         }
     }
-    /**
-     * Test helpers.
-     */
-    class Test
+    final class Test
     {
-        const REGEX_DATA_PROVIDER = '/@dataProvider\\s+([a-zA-Z0-9._:-\\\\x7f-\\xff]+)/';
-        const REGEX_TEST_WITH = '/@testWith\\s+/';
-        const REGEX_EXPECTED_EXCEPTION = '(@expectedException\\s+([:.\\w\\\\x7f-\\xff]+)(?:[\\t ]+(\\S*))?(?:[\\t ]+(\\S*))?\\s*$)m';
-        const REGEX_REQUIRES_VERSION = '/@requires\\s+(?P<name>PHP(?:Unit)?)\\s+(?P<operator>[<>=!]{0,2})\\s*(?P<version>[\\d\\.-]+(dev|(RC|alpha|beta)[\\d\\.])?)[ \\t]*\\r?$/m';
-        const REGEX_REQUIRES_VERSION_CONSTRAINT = '/@requires\\s+(?P<name>PHP(?:Unit)?)\\s+(?P<constraint>[\\d\\t -.|~^]+)[ \\t]*\\r?$/m';
-        const REGEX_REQUIRES_OS = '/@requires\\s+(?P<name>OS(?:FAMILY)?)\\s+(?P<value>.+?)[ \\t]*\\r?$/m';
-        const REGEX_REQUIRES = '/@requires\\s+(?P<name>function|extension)\\s+(?P<value>([^\\s<>=!]+))\\s*(?P<operator>[<>=!]{0,2})\\s*(?P<version>[\\d\\.-]+[\\d\\.]?)?[ \\t]*\\r?$/m';
-        const UNKNOWN = -1;
-        const SMALL = 0;
-        const MEDIUM = 1;
-        const LARGE = 2;
-        private static $annotationCache = [];
-        private static $hookMethods = [];
         /**
-         * @param \PHPUnit\Framework\Test $test
-         * @param bool                    $asString
-         *
-         * @return mixed
+         * @var int
          */
-        public static function describe(\PHPUnit\Framework\Test $test, $asString = true)
+        public const UNKNOWN = -1;
+        /**
+         * @var int
+         */
+        public const SMALL = 0;
+        /**
+         * @var int
+         */
+        public const MEDIUM = 1;
+        /**
+         * @var int
+         */
+        public const LARGE = 2;
+        /**
+         * @var string
+         *
+         * @todo This constant should be private (it's public because of TestTest::testGetProvidedDataRegEx)
+         */
+        public const REGEX_DATA_PROVIDER = '/@dataProvider\\s+([a-zA-Z0-9._:-\\\\x7f-\\xff]+)/';
+        /**
+         * @var string
+         */
+        private const REGEX_TEST_WITH = '/@testWith\\s+/';
+        /**
+         * @var string
+         */
+        private const REGEX_EXPECTED_EXCEPTION = '(@expectedException\\s+([:.\\w\\\\x7f-\\xff]+)(?:[\\t ]+(\\S*))?(?:[\\t ]+(\\S*))?\\s*$)m';
+        /**
+         * @var string
+         */
+        private const REGEX_REQUIRES_VERSION = '/@requires\\s+(?P<name>PHP(?:Unit)?)\\s+(?P<operator>[<>=!]{0,2})\\s*(?P<version>[\\d\\.-]+(dev|(RC|alpha|beta)[\\d\\.])?)[ \\t]*\\r?$/m';
+        /**
+         * @var string
+         */
+        private const REGEX_REQUIRES_VERSION_CONSTRAINT = '/@requires\\s+(?P<name>PHP(?:Unit)?)\\s+(?P<constraint>[\\d\\t \\-.|~^]+)[ \\t]*\\r?$/m';
+        /**
+         * @var string
+         */
+        private const REGEX_REQUIRES_OS = '/@requires\\s+(?P<name>OS(?:FAMILY)?)\\s+(?P<value>.+?)[ \\t]*\\r?$/m';
+        /**
+         * @var string
+         */
+        private const REGEX_REQUIRES_SETTING = '/@requires\\s+(?P<name>setting)\\s+(?P<setting>([^ ]+?))\\s*(?P<value>[\\w\\.-]+[\\w\\.]?)?[ \\t]*\\r?$/m';
+        /**
+         * @var string
+         */
+        private const REGEX_REQUIRES = '/@requires\\s+(?P<name>function|extension)\\s+(?P<value>([^\\s<>=!]+))\\s*(?P<operator>[<>=!]{0,2})\\s*(?P<version>[\\d\\.-]+[\\d\\.]?)?[ \\t]*\\r?$/m';
+        /**
+         * @var array
+         */
+        private static $annotationCache = [];
+        /**
+         * @var array
+         */
+        private static $hookMethods = [];
+        public static function describe(\PHPUnit\Framework\Test $test) : array
+        {
+        }
+        public static function describeAsString(\PHPUnit\Framework\Test $test) : string
         {
         }
         /**
-         * @param string $className
-         * @param string $methodName
+         * @throws CodeCoverageException
          *
          * @return array|bool
-         *
-         * @throws CodeCoverageException
          */
-        public static function getLinesToBeCovered($className, $methodName)
+        public static function getLinesToBeCovered(string $className, string $methodName)
         {
         }
         /**
          * Returns lines of code specified with the @uses annotation.
          *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array
-         */
-        public static function getLinesToBeUsed($className, $methodName)
-        {
-        }
-        /**
-         * @param string $className
-         * @param string $methodName
-         * @param string $mode
-         *
-         * @return array
-         *
          * @throws CodeCoverageException
          */
-        private static function getLinesToBeCoveredOrUsed($className, $methodName, $mode)
+        public static function getLinesToBeUsed(string $className, string $methodName) : array
         {
         }
         /**
          * Returns the requirements for a test.
          *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array
+         * @throws Warning
          */
-        public static function getRequirements($className, $methodName)
+        public static function getRequirements(string $className, string $methodName) : array
         {
         }
         /**
          * Returns the missing requirements for a test.
          *
-         * @param string $className
-         * @param string $methodName
+         * @throws Warning
          *
          * @return string[]
          */
-        public static function getMissingRequirements($className, $methodName)
+        public static function getMissingRequirements(string $className, string $methodName) : array
         {
         }
         /**
          * Returns the expected exception for a test.
          *
-         * @param string $className
-         * @param string $methodName
-         *
          * @return array|false
          */
-        public static function getExpectedException($className, $methodName)
+        public static function getExpectedException(string $className, ?string $methodName)
+        {
+        }
+        /**
+         * Returns the provided data for a method.
+         *
+         * @throws Exception
+         */
+        public static function getProvidedData(string $className, string $methodName) : ?array
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        public static function getDataFromTestWithAnnotation(string $docComment) : ?array
+        {
+        }
+        public static function parseTestMethodAnnotations(string $className, ?string $methodName = '') : array
+        {
+        }
+        public static function getInlineAnnotations(string $className, string $methodName) : array
+        {
+        }
+        public static function parseAnnotations(string $docBlock) : array
+        {
+        }
+        public static function getBackupSettings(string $className, string $methodName) : array
+        {
+        }
+        public static function getDependencies(string $className, string $methodName) : array
+        {
+        }
+        public static function getErrorHandlerSettings(string $className, ?string $methodName) : ?bool
+        {
+        }
+        public static function getGroups(string $className, ?string $methodName = '') : array
+        {
+        }
+        public static function getSize(string $className, ?string $methodName) : int
+        {
+        }
+        public static function getProcessIsolationSettings(string $className, string $methodName) : bool
+        {
+        }
+        public static function getClassProcessIsolationSettings(string $className, string $methodName) : bool
+        {
+        }
+        public static function getPreserveGlobalStateSettings(string $className, string $methodName) : ?bool
+        {
+        }
+        public static function getHookMethods(string $className) : array
+        {
+        }
+        /**
+         * @throws CodeCoverageException
+         */
+        private static function getLinesToBeCoveredOrUsed(string $className, string $methodName, string $mode) : array
         {
         }
         /**
@@ -11856,248 +13966,42 @@ namespace PHPUnit\Util {
          * Constants are specified using a starting '@'. For example: @ClassName::CONST_NAME
          *
          * If the constant is not found the string is used as is to ensure maximum BC.
-         *
-         * @param string $message
-         *
-         * @return string
          */
-        private static function parseAnnotationContent($message)
+        private static function parseAnnotationContent(string $message) : string
         {
         }
         /**
          * Returns the provided data for a method.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array When a data provider is specified and exists
-         *               null  When no data provider is specified
-         *
-         * @throws Exception
          */
-        public static function getProvidedData($className, $methodName)
+        private static function getDataFromDataProviderAnnotation(string $docComment, string $className, string $methodName) : ?iterable
+        {
+        }
+        private static function cleanUpMultiLineAnnotation(string $docComment) : string
+        {
+        }
+        private static function emptyHookMethodsArray() : array
+        {
+        }
+        private static function getBooleanAnnotationSetting(string $className, ?string $methodName, string $settingName) : ?bool
         {
         }
         /**
-         * Returns the provided data for a method.
-         *
-         * @param string $docComment
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array|Iterator when a data provider is specified and exists
-         *                        null           when no data provider is specified
-         *
-         * @throws Exception
-         */
-        private static function getDataFromDataProviderAnnotation($docComment, $className, $methodName)
-        {
-        }
-        /**
-         * @param string $docComment full docComment string
-         *
-         * @return array|null array when @testWith annotation is defined,
-         *                    null when @testWith annotation is omitted
-         *
-         * @throws Exception when @testWith annotation is defined but cannot be parsed
-         */
-        public static function getDataFromTestWithAnnotation($docComment)
-        {
-        }
-        private static function cleanUpMultiLineAnnotation($docComment)
-        {
-        }
-        /**
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array
-         *
-         * @throws ReflectionException
-         */
-        public static function parseTestMethodAnnotations($className, $methodName = '')
-        {
-        }
-        /**
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array
-         */
-        public static function getInlineAnnotations($className, $methodName)
-        {
-        }
-        /**
-         * @param string $docblock
-         *
-         * @return array
-         */
-        private static function parseAnnotations($docblock)
-        {
-        }
-        /**
-         * Returns the backup settings for a test.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array<string, bool|null>
-         */
-        public static function getBackupSettings($className, $methodName)
-        {
-        }
-        /**
-         * Returns the dependencies for a test class or method.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array
-         */
-        public static function getDependencies($className, $methodName)
-        {
-        }
-        /**
-         * Returns the error handler settings for a test.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return ?bool
-         */
-        public static function getErrorHandlerSettings($className, $methodName)
-        {
-        }
-        /**
-         * Returns the groups for a test class or method.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return array
-         */
-        public static function getGroups($className, $methodName = '')
-        {
-        }
-        /**
-         * Returns the size of the test.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return int
-         */
-        public static function getSize($className, $methodName)
-        {
-        }
-        /**
-         * Returns the process isolation settings for a test.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return bool
-         */
-        public static function getProcessIsolationSettings($className, $methodName)
-        {
-        }
-        public static function getClassProcessIsolationSettings($className, $methodName)
-        {
-        }
-        /**
-         * Returns the preserve global state settings for a test.
-         *
-         * @param string $className
-         * @param string $methodName
-         *
-         * @return ?bool
-         */
-        public static function getPreserveGlobalStateSettings($className, $methodName)
-        {
-        }
-        /**
-         * @param string $className
-         *
-         * @return array
-         */
-        public static function getHookMethods($className)
-        {
-        }
-        /**
-         * @return array
-         */
-        private static function emptyHookMethodsArray()
-        {
-        }
-        /**
-         * @param string $className
-         * @param string $methodName
-         * @param string $settingName
-         *
-         * @return ?bool
-         */
-        private static function getBooleanAnnotationSetting($className, $methodName, $settingName)
-        {
-        }
-        /**
-         * @param string $element
-         *
-         * @return array
-         *
          * @throws InvalidCoversTargetException
          */
-        private static function resolveElementToReflectionObjects($element)
+        private static function resolveElementToReflectionObjects(string $element) : array
         {
         }
-        /**
-         * @param array $reflectors
-         *
-         * @return array
-         */
-        private static function resolveReflectionObjectsToLines(array $reflectors)
-        {
-        }
-        /**
-         * @param ReflectionMethod $method
-         *
-         * @return bool
-         */
-        private static function isBeforeClassMethod(\ReflectionMethod $method)
-        {
-        }
-        /**
-         * @param ReflectionMethod $method
-         *
-         * @return bool
-         */
-        private static function isBeforeMethod(\ReflectionMethod $method)
-        {
-        }
-        /**
-         * @param ReflectionMethod $method
-         *
-         * @return bool
-         */
-        private static function isAfterClassMethod(\ReflectionMethod $method)
-        {
-        }
-        /**
-         * @param ReflectionMethod $method
-         *
-         * @return bool
-         */
-        private static function isAfterMethod(\ReflectionMethod $method)
+        private static function resolveReflectionObjectsToLines(array $reflectors) : array
         {
         }
         /**
          * Trims any extensions from version string that follows after
          * the <major>.<minor>[.<patch>] format
-         *
-         * @param $version (Optional)
-         *
-         * @return mixed
          */
-        private static function sanitizeVersionNumber($version)
+        private static function sanitizeVersionNumber(string $version)
+        {
+        }
+        private static function shouldCoversAnnotationBeUsed(array $annotations) : bool
         {
         }
     }
@@ -12106,14 +14010,8 @@ namespace PHPUnit\Framework {
     /**
      * A TestSuite is a composite of Tests. It runs a collection of test cases.
      */
-    class TestSuite implements \PHPUnit\Framework\Test, \PHPUnit\Framework\SelfDescribing, \IteratorAggregate
+    class TestSuite implements \IteratorAggregate, \PHPUnit\Framework\SelfDescribing, \PHPUnit\Framework\Test
     {
-        /**
-         * Last count of tests in this suite.
-         *
-         * @var int|null
-         */
-        private $cachedNumTests;
         /**
          * Enable or disable the backup and restoration of the $GLOBALS array.
          *
@@ -12126,10 +14024,6 @@ namespace PHPUnit\Framework {
          * @var bool
          */
         protected $backupStaticAttributes;
-        /**
-         * @var bool
-         */
-        private $beStrictAboutChangesToGlobalState;
         /**
          * @var bool
          */
@@ -12149,7 +14043,7 @@ namespace PHPUnit\Framework {
         /**
          * The tests in the test suite.
          *
-         * @var TestCase[]
+         * @var Test[]
          */
         protected $tests = [];
         /**
@@ -12167,6 +14061,16 @@ namespace PHPUnit\Framework {
          */
         protected $foundClasses = [];
         /**
+         * Last count of tests in this suite.
+         *
+         * @var null|int
+         */
+        private $cachedNumTests;
+        /**
+         * @var bool
+         */
+        private $beStrictAboutChangesToGlobalState;
+        /**
          * @var Factory
          */
         private $iteratorFilter;
@@ -12174,6 +14078,17 @@ namespace PHPUnit\Framework {
          * @var string[]
          */
         private $declaredClasses;
+        /**
+         * @param string $name
+         *
+         * @throws Exception
+         */
+        public static function createTest(\ReflectionClass $theClass, $name) : \PHPUnit\Framework\Test
+        {
+        }
+        public static function isTestMethod(\ReflectionMethod $method) : bool
+        {
+        }
         /**
          * Constructs a new TestSuite:
          *
@@ -12191,7 +14106,6 @@ namespace PHPUnit\Framework {
          *     name of an existing class) or constructs an empty TestSuite
          *     with the given name.
          *
-         * @param mixed  $theClass
          * @param string $name
          *
          * @throws Exception
@@ -12200,30 +14114,39 @@ namespace PHPUnit\Framework {
         {
         }
         /**
-         * Returns a string representation of the test suite.
-         *
-         * @return string
+         * Template Method that is called before the tests
+         * of this test suite are run.
          */
-        public function toString()
+        protected function setUp() : void
+        {
+        }
+        /**
+         * Template Method that is called after the tests
+         * of this test suite have finished running.
+         */
+        protected function tearDown() : void
+        {
+        }
+        /**
+         * Returns a string representation of the test suite.
+         */
+        public function toString() : string
         {
         }
         /**
          * Adds a test to the suite.
          *
-         * @param Test  $test
          * @param array $groups
          */
-        public function addTest(\PHPUnit\Framework\Test $test, $groups = [])
+        public function addTest(\PHPUnit\Framework\Test $test, $groups = []) : void
         {
         }
         /**
          * Adds the tests from the given class to the suite.
          *
-         * @param mixed $testClass
-         *
          * @throws Exception
          */
-        public function addTestSuite($testClass)
+        public function addTestSuite($testClass) : void
         {
         }
         /**
@@ -12234,66 +14157,39 @@ namespace PHPUnit\Framework {
          * added, a <code>PHPUnit\Framework\WarningTestCase</code> will be created instead,
          * leaving the current test run untouched.
          *
-         * @param string $filename
-         *
          * @throws Exception
          */
-        public function addTestFile($filename)
+        public function addTestFile(string $filename) : void
         {
         }
         /**
          * Wrapper for addTestFile() that adds multiple test files.
          *
-         * @param array|Iterator $filenames
+         * @param array|Iterator $fileNames
          *
          * @throws Exception
          */
-        public function addTestFiles($filenames)
+        public function addTestFiles($fileNames) : void
         {
         }
         /**
          * Counts the number of test cases that will be run by this test.
          *
-         * @param bool $preferCache Indicates if cache is preferred.
-         *
-         * @return int
+         * @param bool $preferCache indicates if cache is preferred
          */
-        public function count($preferCache = false)
-        {
-        }
-        /**
-         * @param ReflectionClass $theClass
-         * @param string          $name
-         *
-         * @return Test
-         *
-         * @throws Exception
-         */
-        public static function createTest(\ReflectionClass $theClass, $name)
-        {
-        }
-        /**
-         * Creates a default TestResult object.
-         *
-         * @return TestResult
-         */
-        protected function createResult()
+        public function count($preferCache = false) : int
         {
         }
         /**
          * Returns the name of the suite.
-         *
-         * @return string
          */
-        public function getName()
+        public function getName() : string
         {
         }
         /**
          * Returns the test groups of the suite.
-         *
-         * @return array
          */
-        public function getGroups()
+        public function getGroups() : array
         {
         }
         public function getGroupDetails()
@@ -12301,73 +14197,46 @@ namespace PHPUnit\Framework {
         }
         /**
          * Set tests groups of the test case
-         *
-         * @param array $groups
          */
-        public function setGroupDetails(array $groups)
+        public function setGroupDetails(array $groups) : void
         {
         }
         /**
          * Runs the tests and collects their result in a TestResult.
          *
-         * @param TestResult $result
-         *
-         * @return TestResult
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function run(\PHPUnit\Framework\TestResult $result = null)
+        public function run(\PHPUnit\Framework\TestResult $result = null) : \PHPUnit\Framework\TestResult
         {
         }
-        /**
-         * @param bool $runTestInSeparateProcess
-         *
-         * @throws Exception
-         */
-        public function setRunTestInSeparateProcess($runTestInSeparateProcess)
+        public function setRunTestInSeparateProcess(bool $runTestInSeparateProcess) : void
         {
         }
-        /**
-         * Runs a test.
-         *
-         * @deprecated
-         *
-         * @param Test       $test
-         * @param TestResult $result
-         */
-        public function runTest(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\TestResult $result)
-        {
-        }
-        /**
-         * Sets the name of the suite.
-         *
-         * @param  string
-         */
-        public function setName($name)
+        public function setName(string $name) : void
         {
         }
         /**
          * Returns the test at the given index.
          *
-         * @param  int|false
-         *
-         * @return Test|false
+         * @return false|Test
          */
-        public function testAt($index)
+        public function testAt(int $index)
         {
         }
         /**
          * Returns the tests as an enumeration.
          *
-         * @return array
+         * @return Test[]
          */
-        public function tests()
+        public function tests() : array
         {
         }
         /**
          * Set tests of the test suite
          *
-         * @param array $tests
+         * @param Test[] $tests
          */
-        public function setTests(array $tests)
+        public function setTests(array $tests) : void
         {
         }
         /**
@@ -12377,104 +14246,87 @@ namespace PHPUnit\Framework {
          *
          * @throws SkippedTestSuiteError
          */
-        public function markTestSuiteSkipped($message = '')
-        {
-        }
-        /**
-         * @param ReflectionClass  $class
-         * @param ReflectionMethod $method
-         */
-        protected function addTestMethod(\ReflectionClass $class, \ReflectionMethod $method)
-        {
-        }
-        /**
-         * @param ReflectionMethod $method
-         *
-         * @return bool
-         */
-        public static function isTestMethod(\ReflectionMethod $method)
-        {
-        }
-        /**
-         * @param string $message
-         *
-         * @return WarningTestCase
-         */
-        protected static function warning($message)
-        {
-        }
-        /**
-         * @param string $class
-         * @param string $methodName
-         * @param string $message
-         *
-         * @return SkippedTestCase
-         */
-        protected static function skipTest($class, $methodName, $message)
-        {
-        }
-        /**
-         * @param string $class
-         * @param string $methodName
-         * @param string $message
-         *
-         * @return IncompleteTestCase
-         */
-        protected static function incompleteTest($class, $methodName, $message)
+        public function markTestSuiteSkipped($message = '') : void
         {
         }
         /**
          * @param bool $beStrictAboutChangesToGlobalState
          */
-        public function setBeStrictAboutChangesToGlobalState($beStrictAboutChangesToGlobalState)
+        public function setBeStrictAboutChangesToGlobalState($beStrictAboutChangesToGlobalState) : void
         {
         }
         /**
          * @param bool $backupGlobals
          */
-        public function setBackupGlobals($backupGlobals)
+        public function setBackupGlobals($backupGlobals) : void
         {
         }
         /**
          * @param bool $backupStaticAttributes
          */
-        public function setBackupStaticAttributes($backupStaticAttributes)
+        public function setBackupStaticAttributes($backupStaticAttributes) : void
         {
         }
         /**
          * Returns an iterator for this test suite.
-         *
-         * @return TestSuiteIterator
          */
-        public function getIterator()
+        public function getIterator() : \Iterator
         {
         }
-        public function injectFilter(\PHPUnit\Runner\Filter\Factory $filter)
-        {
-        }
-        /**
-         * Template Method that is called before the tests
-         * of this test suite are run.
-         */
-        protected function setUp()
+        public function injectFilter(\PHPUnit\Runner\Filter\Factory $filter) : void
         {
         }
         /**
-         * Template Method that is called after the tests
-         * of this test suite have finished running.
+         * Creates a default TestResult object.
          */
-        protected function tearDown()
+        protected function createResult() : \PHPUnit\Framework\TestResult
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        protected function addTestMethod(\ReflectionClass $class, \ReflectionMethod $method) : void
+        {
+        }
+        /**
+         * @param string $message
+         */
+        protected static function warning($message) : \PHPUnit\Framework\WarningTestCase
+        {
+        }
+        /**
+         * @param string $class
+         * @param string $methodName
+         * @param string $message
+         */
+        protected static function skipTest($class, $methodName, $message) : \PHPUnit\Framework\SkippedTestCase
+        {
+        }
+        /**
+         * @param string $class
+         * @param string $methodName
+         * @param string $message
+         */
+        protected static function incompleteTest($class, $methodName, $message) : \PHPUnit\Framework\IncompleteTestCase
         {
         }
     }
     class DataProviderTestSuite extends \PHPUnit\Framework\TestSuite
     {
         /**
-         * Sets the dependencies of a TestCase.
-         *
+         * @var string[]
+         */
+        private $dependencies = [];
+        /**
          * @param string[] $dependencies
          */
-        public function setDependencies(array $dependencies)
+        public function setDependencies(array $dependencies) : void
+        {
+        }
+        public function getDependencies() : array
+        {
+        }
+        public function hasDependencies() : bool
         {
         }
     }
@@ -12508,20 +14360,18 @@ namespace PHPUnit\Framework {
         {
         }
         /**
-         * Returns the serializable trace (without 'args').
-         *
-         * @return array
+         * @throws \InvalidArgumentException
          */
-        public function getSerializableTrace()
+        public function __toString() : string
+        {
+        }
+        public function __sleep() : array
         {
         }
         /**
-         * @return string
+         * Returns the serializable trace (without 'args').
          */
-        public function __toString()
-        {
-        }
-        public function __sleep()
+        public function getSerializableTrace() : array
         {
         }
     }
@@ -12532,10 +14382,8 @@ namespace PHPUnit\Framework {
     {
         /**
          * Wrapper for getMessage() which is declared as final.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
     }
@@ -12549,10 +14397,8 @@ namespace PHPUnit\Framework {
     {
         /**
          * Wrapper for getMessage() which is declared as final.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
     }
@@ -12572,6 +14418,12 @@ namespace PHPUnit\Framework {
     class UnintentionallyCoveredCodeError extends \PHPUnit\Framework\RiskyTestError
     {
     }
+    /**
+     * @internal This class is not covered by the backward compatibility promise for PHPUnit
+     */
+    final class InvalidParameterGroupException extends \PHPUnit\Framework\Exception
+    {
+    }
     class SkippedTestError extends \PHPUnit\Framework\AssertionFailedError implements \PHPUnit\Framework\SkippedTest
     {
     }
@@ -12585,31 +14437,31 @@ namespace PHPUnit\Framework {
          */
         protected $passed = [];
         /**
-         * @var array
+         * @var TestFailure[]
          */
         protected $errors = [];
         /**
-         * @var array
+         * @var TestFailure[]
          */
         protected $failures = [];
         /**
-         * @var array
+         * @var TestFailure[]
          */
         protected $warnings = [];
         /**
-         * @var array
+         * @var TestFailure[]
          */
         protected $notImplemented = [];
         /**
-         * @var array
+         * @var TestFailure[]
          */
         protected $risky = [];
         /**
-         * @var array
+         * @var TestFailure[]
          */
         protected $skipped = [];
         /**
-         * @var array
+         * @var TestListener[]
          */
         protected $listeners = [];
         /**
@@ -12699,503 +14551,379 @@ namespace PHPUnit\Framework {
          */
         protected $lastTestFailed = false;
         /**
+         * @var int
+         */
+        private $defaultTimeLimit = 0;
+        /**
+         * @var bool
+         */
+        private $stopOnDefect = false;
+        /**
          * @var bool
          */
         private $registerMockObjectsFromTestArgumentsRecursively = false;
+        public static function isAnyCoverageRequired(\PHPUnit\Framework\TestCase $test)
+        {
+        }
         /**
          * Registers a TestListener.
-         *
-         * @param TestListener $listener
          */
-        public function addListener(\PHPUnit\Framework\TestListener $listener)
+        public function addListener(\PHPUnit\Framework\TestListener $listener) : void
         {
         }
         /**
          * Unregisters a TestListener.
-         *
-         * @param TestListener $listener
          */
-        public function removeListener(\PHPUnit\Framework\TestListener $listener)
+        public function removeListener(\PHPUnit\Framework\TestListener $listener) : void
         {
         }
         /**
          * Flushes all flushable TestListeners.
          */
-        public function flushListeners()
+        public function flushListeners() : void
         {
         }
         /**
          * Adds an error to the list of errors.
-         *
-         * @param Test      $test
-         * @param Throwable $t
-         * @param float     $time
          */
-        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, $time)
+        public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void
         {
         }
         /**
          * Adds a warning to the list of warnings.
          * The passed in exception caused the warning.
-         *
-         * @param Test    $test
-         * @param Warning $e
-         * @param float   $time
          */
-        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, $time)
+        public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void
         {
         }
         /**
          * Adds a failure to the list of failures.
          * The passed in exception caused the failure.
-         *
-         * @param Test                 $test
-         * @param AssertionFailedError $e
-         * @param float                $time
          */
-        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, $time)
+        public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void
         {
         }
         /**
-         * Informs the result that a testsuite will be started.
-         *
-         * @param TestSuite $suite
+         * Informs the result that a test suite will be started.
          */
-        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
-         * Informs the result that a testsuite was completed.
-         *
-         * @param TestSuite $suite
+         * Informs the result that a test suite was completed.
          */
-        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+        public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
         {
         }
         /**
          * Informs the result that a test will be started.
-         *
-         * @param Test $test
          */
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * Informs the result that a test was completed.
          *
-         * @param Test  $test
-         * @param float $time
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function endTest(\PHPUnit\Framework\Test $test, $time)
+        public function endTest(\PHPUnit\Framework\Test $test, float $time) : void
         {
         }
         /**
          * Returns true if no risky test occurred.
-         *
-         * @return bool
          */
-        public function allHarmless()
+        public function allHarmless() : bool
         {
         }
         /**
          * Gets the number of risky tests.
-         *
-         * @return int
          */
-        public function riskyCount()
+        public function riskyCount() : int
         {
         }
         /**
          * Returns true if no incomplete test occurred.
-         *
-         * @return bool
          */
-        public function allCompletelyImplemented()
+        public function allCompletelyImplemented() : bool
         {
         }
         /**
          * Gets the number of incomplete tests.
-         *
-         * @return int
          */
-        public function notImplementedCount()
+        public function notImplementedCount() : int
         {
         }
         /**
-         * Returns an Enumeration for the risky tests.
+         * Returns an array of TestFailure objects for the risky tests
          *
-         * @return array
+         * @return TestFailure[]
          */
-        public function risky()
+        public function risky() : array
         {
         }
         /**
-         * Returns an Enumeration for the incomplete tests.
+         * Returns an array of TestFailure objects for the incomplete tests
          *
-         * @return array
+         * @return TestFailure[]
          */
-        public function notImplemented()
+        public function notImplemented() : array
         {
         }
         /**
          * Returns true if no test has been skipped.
-         *
-         * @return bool
          */
-        public function noneSkipped()
+        public function noneSkipped() : bool
         {
         }
         /**
          * Gets the number of skipped tests.
-         *
-         * @return int
          */
-        public function skippedCount()
+        public function skippedCount() : int
         {
         }
         /**
-         * Returns an Enumeration for the skipped tests.
+         * Returns an array of TestFailure objects for the skipped tests
          *
-         * @return array
+         * @return TestFailure[]
          */
-        public function skipped()
+        public function skipped() : array
         {
         }
         /**
          * Gets the number of detected errors.
-         *
-         * @return int
          */
-        public function errorCount()
+        public function errorCount() : int
         {
         }
         /**
-         * Returns an Enumeration for the errors.
+         * Returns an array of TestFailure objects for the errors
          *
-         * @return array
+         * @return TestFailure[]
          */
-        public function errors()
+        public function errors() : array
         {
         }
         /**
          * Gets the number of detected failures.
-         *
-         * @return int
          */
-        public function failureCount()
+        public function failureCount() : int
         {
         }
         /**
-         * Returns an Enumeration for the failures.
+         * Returns an array of TestFailure objects for the failures
          *
-         * @return array
+         * @return TestFailure[]
          */
-        public function failures()
+        public function failures() : array
         {
         }
         /**
          * Gets the number of detected warnings.
-         *
-         * @return int
          */
-        public function warningCount()
+        public function warningCount() : int
         {
         }
         /**
-         * Returns an Enumeration for the warnings.
+         * Returns an array of TestFailure objects for the warnings
          *
-         * @return array
+         * @return TestFailure[]
          */
-        public function warnings()
+        public function warnings() : array
         {
         }
         /**
          * Returns the names of the tests that have passed.
-         *
-         * @return array
          */
-        public function passed()
+        public function passed() : array
         {
         }
         /**
          * Returns the (top) test suite.
-         *
-         * @return TestSuite
          */
-        public function topTestSuite()
+        public function topTestSuite() : \PHPUnit\Framework\TestSuite
         {
         }
         /**
          * Returns whether code coverage information should be collected.
-         *
-         * @return bool If code coverage should be collected
          */
-        public function getCollectCodeCoverageInformation()
+        public function getCollectCodeCoverageInformation() : bool
         {
         }
         /**
          * Runs a TestCase.
          *
-         * @param Test $test
+         * @throws CodeCoverageException
+         * @throws OriginalCoveredCodeNotExecutedException
+         * @throws OriginalMissingCoversAnnotationException
+         * @throws UnintentionallyCoveredCodeException
+         * @throws \ReflectionException
+         * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+         * @throws \SebastianBergmann\CodeCoverage\RuntimeException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function run(\PHPUnit\Framework\Test $test)
+        public function run(\PHPUnit\Framework\Test $test) : void
         {
         }
         /**
          * Gets the number of run tests.
-         *
-         * @return int
          */
-        public function count()
+        public function count() : int
         {
         }
         /**
          * Checks whether the test run should stop.
-         *
-         * @return bool
          */
-        public function shouldStop()
+        public function shouldStop() : bool
         {
         }
         /**
          * Marks that the test run should stop.
          */
-        public function stop()
+        public function stop() : void
         {
         }
         /**
          * Returns the code coverage object.
-         *
-         * @return CodeCoverage
          */
-        public function getCodeCoverage()
+        public function getCodeCoverage() : ?\SebastianBergmann\CodeCoverage\CodeCoverage
         {
         }
         /**
          * Sets the code coverage object.
-         *
-         * @param CodeCoverage $codeCoverage
          */
-        public function setCodeCoverage(\SebastianBergmann\CodeCoverage\CodeCoverage $codeCoverage)
+        public function setCodeCoverage(\SebastianBergmann\CodeCoverage\CodeCoverage $codeCoverage) : void
         {
         }
         /**
          * Enables or disables the error-to-exception conversion.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function convertErrorsToExceptions($flag)
+        public function convertErrorsToExceptions(bool $flag) : void
         {
         }
         /**
          * Returns the error-to-exception conversion setting.
-         *
-         * @return bool
          */
-        public function getConvertErrorsToExceptions()
+        public function getConvertErrorsToExceptions() : bool
         {
         }
         /**
          * Enables or disables the stopping when an error occurs.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function stopOnError($flag)
+        public function stopOnError(bool $flag) : void
         {
         }
         /**
          * Enables or disables the stopping when a failure occurs.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function stopOnFailure($flag)
+        public function stopOnFailure(bool $flag) : void
         {
         }
         /**
          * Enables or disables the stopping when a warning occurs.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function stopOnWarning($flag)
+        public function stopOnWarning(bool $flag) : void
         {
         }
-        /**
-         * @param bool $flag
-         *
-         * @throws Exception
-         */
-        public function beStrictAboutTestsThatDoNotTestAnything($flag)
+        public function beStrictAboutTestsThatDoNotTestAnything(bool $flag) : void
         {
         }
-        /**
-         * @return bool
-         */
-        public function isStrictAboutTestsThatDoNotTestAnything()
+        public function isStrictAboutTestsThatDoNotTestAnything() : bool
         {
         }
-        /**
-         * @param bool $flag
-         *
-         * @throws Exception
-         */
-        public function beStrictAboutOutputDuringTests($flag)
+        public function beStrictAboutOutputDuringTests(bool $flag) : void
         {
         }
-        /**
-         * @return bool
-         */
-        public function isStrictAboutOutputDuringTests()
+        public function isStrictAboutOutputDuringTests() : bool
         {
         }
-        /**
-         * @param bool $flag
-         *
-         * @throws Exception
-         */
-        public function beStrictAboutResourceUsageDuringSmallTests($flag)
+        public function beStrictAboutResourceUsageDuringSmallTests(bool $flag) : void
         {
         }
-        /**
-         * @return bool
-         */
-        public function isStrictAboutResourceUsageDuringSmallTests()
+        public function isStrictAboutResourceUsageDuringSmallTests() : bool
         {
         }
-        /**
-         * @param bool $flag
-         *
-         * @throws Exception
-         */
-        public function enforceTimeLimit($flag)
+        public function enforceTimeLimit(bool $flag) : void
         {
         }
-        /**
-         * @return bool
-         */
-        public function enforcesTimeLimit()
+        public function enforcesTimeLimit() : bool
         {
         }
-        /**
-         * @param bool $flag
-         *
-         * @throws Exception
-         */
-        public function beStrictAboutTodoAnnotatedTests($flag)
+        public function beStrictAboutTodoAnnotatedTests(bool $flag) : void
         {
         }
-        /**
-         * @return bool
-         */
-        public function isStrictAboutTodoAnnotatedTests()
+        public function isStrictAboutTodoAnnotatedTests() : bool
         {
         }
         /**
          * Enables or disables the stopping for risky tests.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function stopOnRisky($flag)
+        public function stopOnRisky(bool $flag) : void
         {
         }
         /**
          * Enables or disables the stopping for incomplete tests.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function stopOnIncomplete($flag)
+        public function stopOnIncomplete(bool $flag) : void
         {
         }
         /**
          * Enables or disables the stopping for skipped tests.
-         *
-         * @param bool $flag
-         *
-         * @throws Exception
          */
-        public function stopOnSkipped($flag)
+        public function stopOnSkipped(bool $flag) : void
+        {
+        }
+        /**
+         * Enables or disables the stopping for defects: error, failure, warning
+         */
+        public function stopOnDefect(bool $flag) : void
         {
         }
         /**
          * Returns the time spent running the tests.
-         *
-         * @return float
          */
-        public function time()
+        public function time() : float
         {
         }
         /**
          * Returns whether the entire test was successful or not.
-         *
-         * @return bool
          */
-        public function wasSuccessful()
+        public function wasSuccessful() : bool
+        {
+        }
+        public function wasSuccessfulIgnoringWarnings() : bool
+        {
+        }
+        /**
+         * Sets the default timeout for tests
+         */
+        public function setDefaultTimeLimit(int $timeout) : void
         {
         }
         /**
          * Sets the timeout for small tests.
-         *
-         * @param int $timeout
-         *
-         * @throws Exception
          */
-        public function setTimeoutForSmallTests($timeout)
+        public function setTimeoutForSmallTests(int $timeout) : void
         {
         }
         /**
          * Sets the timeout for medium tests.
-         *
-         * @param int $timeout
-         *
-         * @throws Exception
          */
-        public function setTimeoutForMediumTests($timeout)
+        public function setTimeoutForMediumTests(int $timeout) : void
         {
         }
         /**
          * Sets the timeout for large tests.
-         *
-         * @param int $timeout
-         *
-         * @throws Exception
          */
-        public function setTimeoutForLargeTests($timeout)
+        public function setTimeoutForLargeTests(int $timeout) : void
         {
         }
         /**
          * Returns the set timeout for large tests.
-         *
-         * @return int
          */
-        public function getTimeoutForLargeTests()
+        public function getTimeoutForLargeTests() : int
         {
         }
-        /**
-         * @param bool $flag
-         */
-        public function setRegisterMockObjectsFromTestArgumentsRecursively($flag)
-        {
-        }
-        /**
-         * Returns the class hierarchy for a given class.
-         *
-         * @param string $className
-         * @param bool   $asReflectionObjects
-         *
-         * @return array
-         */
-        protected function getHierarchy($className, $asReflectionObjects = false)
+        public function setRegisterMockObjectsFromTestArgumentsRecursively(bool $flag) : void
         {
         }
     }
@@ -13221,19 +14949,14 @@ namespace PHPUnit\Framework {
      */
     class ExpectationFailedException extends \PHPUnit\Framework\AssertionFailedError
     {
-        protected $comparisonFailure;
         /**
-         * @param string                 $message
-         * @param ComparisonFailure|null $comparisonFailure
-         * @param \Exception|null        $previous
+         * @var ComparisonFailure
          */
-        public function __construct($message, \SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null, \Exception $previous = null)
+        protected $comparisonFailure;
+        public function __construct(string $message, \SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null, \Exception $previous = null)
         {
         }
-        /**
-         * @return null|ComparisonFailure
-         */
-        public function getComparisonFailure()
+        public function getComparisonFailure() : ?\SebastianBergmann\Comparator\ComparisonFailure
         {
         }
     }
@@ -13250,16 +14973,7 @@ namespace PHPUnit\Framework\Error {
      */
     class Error extends \PHPUnit\Framework\Exception
     {
-        /**
-         * Constructor.
-         *
-         * @param string     $message
-         * @param int        $code
-         * @param string     $file
-         * @param int        $line
-         * @param \Exception $previous
-         */
-        public function __construct($message, $code, $file, $line, \Exception $previous = null)
+        public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)
         {
         }
     }
@@ -13306,32 +15020,24 @@ namespace PHPUnit\Framework {
          * @var bool
          */
         protected $useOutputBuffering = false;
-        /**
-         * @param string $className
-         * @param string $methodName
-         * @param string $message
-         */
-        public function __construct($className, $methodName, $message = '')
+        public function __construct(string $className, string $methodName, string $message = '')
         {
         }
-        /**
-         * @throws Exception
-         */
-        protected function runTest()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function getMessage()
+        public function getMessage() : string
         {
         }
         /**
          * Returns a string representation of the test case.
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function toString()
+        public function toString() : string
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        protected function runTest() : void
         {
         }
     }
@@ -13352,11 +15058,9 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
-         *
-         * @return mixed
          *
          * @throws ExpectationFailedException
          */
@@ -13365,18 +15069,14 @@ namespace PHPUnit\Framework\Constraint {
         }
         /**
          * Returns a string representation of the constraint.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
          * Counts the number of constraint elements.
-         *
-         * @return int
          */
-        public function count()
+        public function count() : int
         {
         }
     }
@@ -13388,11 +15088,7 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var Constraint[]
          */
-        protected $constraints = [];
-        /**
-         * @var Constraint
-         */
-        protected $lastConstraint;
+        private $constraints = [];
         public static function fromConstraints(\PHPUnit\Framework\Constraint\Constraint ...$constraints) : self
         {
         }
@@ -13401,7 +15097,7 @@ namespace PHPUnit\Framework\Constraint {
          *
          * @throws \PHPUnit\Framework\Exception
          */
-        public function setConstraints(array $constraints)
+        public function setConstraints(array $constraints) : void
         {
         }
         /**
@@ -13414,31 +15110,26 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
         }
         /**
          * Returns a string representation of the constraint.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
          * Counts the number of constraint elements.
-         *
-         * @return int
          */
-        public function count()
+        public function count() : int
         {
         }
     }
@@ -13453,30 +15144,23 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $attributeName;
+        private $attributeName;
+        public function __construct(string $attributeName)
+        {
+        }
         /**
-         * @param string $attributeName
+         * Returns a string representation of the constraint.
          */
-        public function __construct($attributeName)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
         /**
@@ -13485,11 +15169,12 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
+        {
+        }
+        protected function attributeName() : string
         {
         }
     }
@@ -13507,30 +15192,23 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $pattern;
+        private $pattern;
+        public function __construct(string $pattern)
+        {
+        }
         /**
-         * @param string $pattern
+         * Returns a string representation of the constraint.
          */
-        public function __construct($pattern)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -13540,22 +15218,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsInfinite extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -13567,14 +15241,18 @@ namespace PHPUnit\Framework\Constraint {
     class DirectoryExists extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
+        {
+        }
+        /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -13583,19 +15261,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -13604,7 +15272,7 @@ namespace PHPUnit\Framework\Constraint {
      *
      * Identical check is performed with PHP's === operator, the operator is
      * explained in detail at
-     * {@url http://www.php.net/manual/en/types.comparisons.php}.
+     * {@url https://php.net/manual/en/types.comparisons.php}.
      * Two values are identical if they have the same value and are of the same
      * type.
      *
@@ -13615,14 +15283,11 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var float
          */
-        const EPSILON = 1.0E-10;
+        private const EPSILON = 1.0E-10;
         /**
          * @var mixed
          */
-        protected $value;
-        /**
-         * @param mixed $value
-         */
+        private $value;
         public function __construct($value)
         {
         }
@@ -13636,15 +15301,22 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         *
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function toString() : string
         {
         }
         /**
@@ -13653,19 +15325,11 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -13677,14 +15341,14 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var Constraint[]
          */
-        protected $constraints = [];
+        private $constraints = [];
         public static function fromConstraints(\PHPUnit\Framework\Constraint\Constraint ...$constraints) : self
         {
         }
         /**
          * @param Constraint[] $constraints
          */
-        public function setConstraints(array $constraints)
+        public function setConstraints(array $constraints) : void
         {
         }
         /**
@@ -13697,31 +15361,26 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
         }
         /**
          * Returns a string representation of the constraint.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
          * Counts the number of constraint elements.
-         *
-         * @return int
          */
-        public function count()
+        public function count() : int
         {
         }
     }
@@ -13733,20 +15392,29 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $string;
+        private $string;
+        public function __construct(string $string)
+        {
+        }
         /**
-         * @param string $string
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
+         *
+         * @param mixed $other value or object to evaluate
          */
-        public function __construct($string)
+        protected function matches($other) : bool
         {
         }
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
-        protected function additionalFailureDescription($other)
+        protected function additionalFailureDescription($other) : string
         {
         }
-        protected function createPatternFromFormat($string)
+        private function createPatternFromFormat(string $string) : string
+        {
+        }
+        private function convertNewlines($text) : string
         {
         }
     }
@@ -13758,19 +15426,14 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var Constraint
          */
-        protected $constraint;
-        /**
-         * @param Constraint $constraint
-         */
-        public function __construct($constraint)
+        private $constraint;
+        public static function negate(string $string) : string
         {
         }
         /**
-         * @param string $string
-         *
-         * @return string
+         * @param Constraint|mixed $constraint
          */
-        public static function negate($string)
+        public function __construct($constraint)
         {
         }
         /**
@@ -13783,15 +15446,26 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
+        {
+        }
+        /**
+         * Counts the number of constraint elements.
+         */
+        public function count() : int
         {
         }
         /**
@@ -13800,27 +15474,11 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
-        {
-        }
-        /**
-         * Counts the number of constraint elements.
-         *
-         * @return int
-         */
-        public function count()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -13837,7 +15495,7 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var int|string
          */
-        protected $key;
+        private $key;
         /**
          * @param int|string $key
          */
@@ -13845,22 +15503,20 @@ namespace PHPUnit\Framework\Constraint {
         {
         }
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
+         * Returns a string representation of the constraint.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
         /**
@@ -13869,11 +15525,11 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -13882,32 +15538,26 @@ namespace PHPUnit\Framework\Constraint {
      */
     class Callback extends \PHPUnit\Framework\Constraint\Constraint
     {
-        private $callback;
         /**
-         * @param callable $callback
-         *
-         * @throws \PHPUnit\Framework\Exception
+         * @var callable
          */
-        public function __construct($callback)
+        private $callback;
+        public function __construct(callable $callback)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $value. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -13925,35 +15575,27 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $string;
+        private $string;
         /**
          * @var bool
          */
-        protected $ignoreCase;
+        private $ignoreCase;
+        public function __construct(string $string, bool $ignoreCase = false)
+        {
+        }
         /**
-         * @param string $string
-         * @param bool   $ignoreCase
+         * Returns a string representation of the constraint.
          */
-        public function __construct($string, $ignoreCase = false)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -13962,10 +15604,7 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var Constraint
          */
-        protected $innerConstraint;
-        /**
-         * @param Constraint $innerConstraint
-         */
+        private $innerConstraint;
         public function __construct(\PHPUnit\Framework\Constraint\Constraint $innerConstraint)
         {
         }
@@ -13979,23 +15618,23 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
         }
         /**
          * Counts the number of constraint elements.
-         *
-         * @return int
          */
-        public function count()
+        public function count() : int
+        {
+        }
+        protected function innerConstraint() : \PHPUnit\Framework\Constraint\Constraint
         {
         }
     }
@@ -14004,12 +15643,8 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $attributeName;
-        /**
-         * @param Constraint $constraint
-         * @param string     $attributeName
-         */
-        public function __construct(\PHPUnit\Framework\Constraint\Constraint $constraint, $attributeName)
+        private $attributeName;
+        public function __construct(\PHPUnit\Framework\Constraint\Constraint $constraint, string $attributeName)
         {
         }
         /**
@@ -14022,23 +15657,21 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \PHPUnit\Framework\Exception
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
         }
         /**
          * Returns a string representation of the constraint.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
@@ -14047,11 +15680,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14061,22 +15692,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsFalse extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14089,16 +15716,15 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var Constraint
          */
-        protected $constraint;
+        private $constraint;
         /**
          * @var string
          */
-        protected $type;
+        private $type;
         /**
-         * @param string $type
-         * @param bool   $isNativeType
+         * @throws \PHPUnit\Framework\Exception
          */
-        public function __construct($type, $isNativeType = true)
+        public function __construct(string $type, bool $isNativeType = true)
         {
         }
         /**
@@ -14111,23 +15737,20 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
         }
         /**
          * Returns a string representation of the constraint.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
     }
@@ -14140,22 +15763,18 @@ namespace PHPUnit\Framework\Constraint {
     class ClassHasStaticAttribute extends \PHPUnit\Framework\Constraint\ClassHasAttribute
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14166,23 +15785,14 @@ namespace PHPUnit\Framework\Constraint {
     {
         /**
          * Translates JSON error to a human readable string.
-         *
-         * @param string $error
-         * @param string $prefix
-         *
-         * @return string
          */
-        public static function determineJsonError($error, $prefix = '')
+        public static function determineJsonError(string $error, string $prefix = '') : ?string
         {
         }
         /**
          * Translates a given type to a human readable message prefix.
-         *
-         * @param string $type
-         *
-         * @return string
          */
-        public static function translateTypeToPrefix($type)
+        public static function translateTypeToPrefix(string $type) : string
         {
         }
     }
@@ -14194,50 +15804,45 @@ namespace PHPUnit\Framework\Constraint {
      */
     class IsType extends \PHPUnit\Framework\Constraint\Constraint
     {
-        const TYPE_ARRAY = 'array';
-        const TYPE_BOOL = 'bool';
-        const TYPE_FLOAT = 'float';
-        const TYPE_INT = 'int';
-        const TYPE_NULL = 'null';
-        const TYPE_NUMERIC = 'numeric';
-        const TYPE_OBJECT = 'object';
-        const TYPE_RESOURCE = 'resource';
-        const TYPE_STRING = 'string';
-        const TYPE_SCALAR = 'scalar';
-        const TYPE_CALLABLE = 'callable';
+        public const TYPE_ARRAY = 'array';
+        public const TYPE_BOOL = 'bool';
+        public const TYPE_FLOAT = 'float';
+        public const TYPE_INT = 'int';
+        public const TYPE_NULL = 'null';
+        public const TYPE_NUMERIC = 'numeric';
+        public const TYPE_OBJECT = 'object';
+        public const TYPE_RESOURCE = 'resource';
+        public const TYPE_STRING = 'string';
+        public const TYPE_SCALAR = 'scalar';
+        public const TYPE_CALLABLE = 'callable';
+        public const TYPE_ITERABLE = 'iterable';
         /**
          * @var array
          */
-        protected $types = ['array' => true, 'boolean' => true, 'bool' => true, 'double' => true, 'float' => true, 'integer' => true, 'int' => true, 'null' => true, 'numeric' => true, 'object' => true, 'real' => true, 'resource' => true, 'string' => true, 'scalar' => true, 'callable' => true];
+        private const KNOWN_TYPES = ['array' => true, 'boolean' => true, 'bool' => true, 'double' => true, 'float' => true, 'integer' => true, 'int' => true, 'null' => true, 'numeric' => true, 'object' => true, 'real' => true, 'resource' => true, 'string' => true, 'scalar' => true, 'callable' => true, 'iterable' => true];
         /**
          * @var string
          */
-        protected $type;
+        private $type;
         /**
-         * @param string $type
-         *
          * @throws \PHPUnit\Framework\Exception
          */
-        public function __construct($type)
+        public function __construct(string $type)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14246,41 +15851,31 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var int
          */
-        protected $expectedCount = 0;
-        /**
-         * @param int $expected
-         */
-        public function __construct($expected)
+        private $expectedCount;
+        public function __construct(int $expected)
+        {
+        }
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
-         *
-         * @param mixed $other
-         *
-         * @return bool
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
-         * @param \Countable|\Traversable|array $other
-         *
-         * @return int|null
+         * @param iterable $other
          */
-        protected function getCountOf($other)
+        protected function getCountOf($other) : ?int
         {
         }
         /**
          * Returns the total number of iterations from a generator.
          * This will fully exhaust the generator.
-         *
-         * @param Generator $generator
-         *
-         * @return int
          */
-        protected function getCountOfGenerator(\Generator $generator)
+        protected function getCountOfGenerator(\Generator $generator) : int
         {
         }
         /**
@@ -14289,17 +15884,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14307,7 +15894,7 @@ namespace PHPUnit\Framework\Constraint {
      * Constraint that checks if one value is equal to another.
      *
      * Equality is checked with PHP's == operator, the operator is explained in
-     * detail at {@url http://www.php.net/manual/en/types.comparisons.php}.
+     * detail at {@url https://php.net/manual/en/types.comparisons.php}.
      * Two values are equal if they have the same value disregarding type.
      *
      * The expected value is passed in the constructor.
@@ -14317,33 +15904,24 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var mixed
          */
-        protected $value;
+        private $value;
         /**
          * @var float
          */
-        protected $delta = 0.0;
+        private $delta;
         /**
          * @var int
          */
-        protected $maxDepth = 10;
+        private $maxDepth;
         /**
          * @var bool
          */
-        protected $canonicalize = false;
+        private $canonicalize;
         /**
          * @var bool
          */
-        protected $ignoreCase = false;
-        /**
-         * @param mixed $value
-         * @param float $delta
-         * @param int   $maxDepth
-         * @param bool  $canonicalize
-         * @param bool  $ignoreCase
-         *
-         * @throws \PHPUnit\Framework\Exception
-         */
-        public function __construct($value, $delta = 0.0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+        private $ignoreCase;
+        public function __construct($value, float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false)
         {
         }
         /**
@@ -14356,11 +15934,9 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
-         *
-         * @return mixed
          *
          * @throws ExpectationFailedException
          */
@@ -14370,9 +15946,9 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * Returns a string representation of the constraint.
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function toString()
+        public function toString() : string
         {
         }
     }
@@ -14382,14 +15958,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsJson extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
+        {
+        }
+        /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14398,19 +15978,11 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14423,30 +15995,23 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $suffix;
+        private $suffix;
+        public function __construct(string $suffix)
+        {
+        }
         /**
-         * @param string $suffix
+         * Returns a string representation of the constraint.
          */
-        public function __construct($suffix)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14456,22 +16021,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsFinite extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14483,13 +16044,14 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $value;
+        private $value;
+        public function __construct(string $value)
+        {
+        }
         /**
-         * Creates a new constraint.
-         *
-         * @param string $value
+         * Returns a string representation of the object.
          */
-        public function __construct($value)
+        public function toString() : string
         {
         }
         /**
@@ -14498,31 +16060,23 @@ namespace PHPUnit\Framework\Constraint {
          *
          * This method can be overridden to implement the evaluation algorithm.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
          * Throws an exception for the given compared value and test description
          *
-         * @param mixed             $other             Evaluated value or object.
+         * @param mixed             $other             evaluated value or object
          * @param string            $description       Additional information about the test
          * @param ComparisonFailure $comparisonFailure
          *
          * @throws ExpectationFailedException
+         * @throws \PHPUnit\Framework\Exception
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function fail($other, $description, \SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null)
-        {
-        }
-        /**
-         * Returns a string representation of the object.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function fail($other, $description, \SebastianBergmann\Comparator\ComparisonFailure $comparisonFailure = null) : void
         {
         }
     }
@@ -14534,14 +16088,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsWritable extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
+        {
+        }
+        /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14550,19 +16108,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14571,22 +16119,20 @@ namespace PHPUnit\Framework\Constraint {
      *
      * Uses array_replace_recursive() to check if a key value subset is part of the
      * subject array.
+     *
+     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3494
      */
     class ArraySubset extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * @var array|\Traversable
+         * @var iterable
          */
-        protected $subset;
+        private $subset;
         /**
          * @var bool
          */
-        protected $strict;
-        /**
-         * @param array|\Traversable $subset
-         * @param bool               $strict Check for object identity
-         */
-        public function __construct($subset, $strict = false)
+        private $strict;
+        public function __construct(iterable $subset, bool $strict = false)
         {
         }
         /**
@@ -14599,13 +16145,12 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
@@ -14613,9 +16158,9 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * Returns a string representation of the constraint.
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
@@ -14624,32 +16169,20 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
-        /**
-         * @param array|\Traversable $other
-         *
-         * @return array
-         */
-        private function toArray($other)
+        private function toArray(iterable $other) : array
         {
         }
     }
     class SameSize extends \PHPUnit\Framework\Constraint\Count
     {
-        /**
-         * @var int
-         */
-        protected $expectedCount;
-        /**
-         * @param \Countable|\Traversable|array $expected
-         */
-        public function __construct($expected)
+        public function __construct(iterable $expected)
         {
         }
     }
@@ -14661,14 +16194,14 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var Constraint[]
          */
-        protected $constraints = [];
+        private $constraints = [];
         public static function fromConstraints(\PHPUnit\Framework\Constraint\Constraint ...$constraints) : self
         {
         }
         /**
          * @param Constraint[] $constraints
          */
-        public function setConstraints(array $constraints)
+        public function setConstraints(array $constraints) : void
         {
         }
         /**
@@ -14681,31 +16214,26 @@ namespace PHPUnit\Framework\Constraint {
          * a boolean value instead: true in case of success, false in case of a
          * failure.
          *
-         * @param mixed  $other        Value or object to evaluate.
+         * @param mixed  $other        value or object to evaluate
          * @param string $description  Additional information about the test
          * @param bool   $returnResult Whether to return a result or throw an exception
          *
-         * @return mixed
-         *
          * @throws ExpectationFailedException
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
         public function evaluate($other, $description = '', $returnResult = false)
         {
         }
         /**
          * Returns a string representation of the constraint.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
          * Counts the number of constraint elements.
-         *
-         * @return int
          */
-        public function count()
+        public function count() : int
         {
         }
     }
@@ -14717,14 +16245,18 @@ namespace PHPUnit\Framework\Constraint {
     class FileExists extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
+        {
+        }
+        /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14733,19 +16265,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14755,22 +16277,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsTrue extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14781,32 +16299,30 @@ namespace PHPUnit\Framework\Constraint {
     class GreaterThan extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * @var int|float
+         * @var float|int
          */
-        protected $value;
+        private $value;
         /**
-         * @param int|float $value
+         * @param float|int $value
          */
         public function __construct($value)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         *
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -14818,14 +16334,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsReadable extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
+         * Returns a string representation of the constraint.
+         */
+        public function toString() : string
+        {
+        }
+        /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14834,19 +16354,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14856,22 +16366,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsEmpty extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14880,11 +16386,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14893,22 +16397,23 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $className;
+        private $className;
+        public function __construct(string $className)
+        {
+        }
         /**
-         * @param string $className
+         * Returns a string representation of the constraint.
          */
-        public function __construct($className)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14917,19 +16422,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -14939,35 +16434,34 @@ namespace PHPUnit\Framework\Constraint {
     class IsNan extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
     class ExceptionCode extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * @var int
+         * @var int|string
          */
-        protected $expectedCode;
+        private $expectedCode;
         /**
-         * @param int $expected
+         * @param int|string $expected
          */
         public function __construct($expected)
+        {
+        }
+        public function toString() : string
         {
         }
         /**
@@ -14975,10 +16469,8 @@ namespace PHPUnit\Framework\Constraint {
          * constraint is met, false otherwise.
          *
          * @param \Throwable $other
-         *
-         * @return bool
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -14987,17 +16479,11 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -15008,32 +16494,30 @@ namespace PHPUnit\Framework\Constraint {
     class LessThan extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * @var int|float
+         * @var float|int
          */
-        protected $value;
+        private $value;
         /**
-         * @param int|float $value
+         * @param float|int $value
          */
         public function __construct($value)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         *
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -15048,22 +16532,23 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $className;
+        private $className;
+        public function __construct(string $className)
+        {
+        }
         /**
-         * @param string $className
+         * Returns a string representation of the constraint.
          */
-        public function __construct($className)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -15072,22 +16557,14 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
-        {
-        }
-        private function getType()
+        private function getType() : string
         {
         }
     }
@@ -15100,30 +16577,23 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $prefix;
+        private $prefix;
+        public function __construct(string $prefix)
+        {
+        }
         /**
-         * @param string $prefix
+         * Returns a string representation of the constraint.
          */
-        public function __construct($prefix)
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -15139,24 +16609,22 @@ namespace PHPUnit\Framework\Constraint {
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
     }
     class ExceptionMessage extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * @var int
+         * @var string
          */
-        protected $expectedMessage;
-        /**
-         * @param string $expected
-         */
-        public function __construct($expected)
+        private $expectedMessage;
+        public function __construct(string $expected)
+        {
+        }
+        public function toString() : string
         {
         }
         /**
@@ -15164,10 +16632,8 @@ namespace PHPUnit\Framework\Constraint {
          * constraint is met, false otherwise.
          *
          * @param \Throwable $other
-         *
-         * @return bool
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -15176,17 +16642,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -15195,11 +16653,11 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var string
          */
-        protected $expectedMessageRegExp;
-        /**
-         * @param string $expected
-         */
-        public function __construct($expected)
+        private $expectedMessageRegExp;
+        public function __construct(string $expected)
+        {
+        }
+        public function toString() : string
         {
         }
         /**
@@ -15208,9 +16666,10 @@ namespace PHPUnit\Framework\Constraint {
          *
          * @param \PHPUnit\Framework\Exception $other
          *
-         * @return bool
+         * @throws \Exception
+         * @throws \PHPUnit\Framework\Exception
          */
-        protected function matches($other)
+        protected function matches($other) : bool
         {
         }
         /**
@@ -15219,17 +16678,9 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
-         *
-         * @return string
+         * @param mixed $other evaluated value or object
          */
-        protected function failureDescription($other)
-        {
-        }
-        /**
-         * @return string
-         */
-        public function toString()
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -15239,22 +16690,18 @@ namespace PHPUnit\Framework\Constraint {
     class IsNull extends \PHPUnit\Framework\Constraint\Constraint
     {
         /**
-         * Evaluates the constraint for parameter $other. Returns true if the
-         * constraint is met, false otherwise.
-         *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * Returns a string representation of the constraint.
          */
-        protected function matches($other)
+        public function toString() : string
         {
         }
         /**
-         * Returns a string representation of the constraint.
+         * Evaluates the constraint for parameter $other. Returns true if the
+         * constraint is met, false otherwise.
          *
-         * @return string
+         * @param mixed $other value or object to evaluate
          */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
     }
@@ -15267,42 +16714,36 @@ namespace PHPUnit\Framework\Constraint {
         /**
          * @var bool
          */
-        protected $checkForObjectIdentity;
+        private $checkForObjectIdentity;
         /**
          * @var bool
          */
-        protected $checkForNonObjectIdentity;
+        private $checkForNonObjectIdentity;
         /**
          * @var mixed
          */
-        protected $value;
+        private $value;
         /**
-         * @param mixed $value
-         * @param bool  $checkForObjectIdentity
-         * @param bool  $checkForNonObjectIdentity
-         *
          * @throws \PHPUnit\Framework\Exception
          */
-        public function __construct($value, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
+        public function __construct($value, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false)
+        {
+        }
+        /**
+         * Returns a string representation of the constraint.
+         *
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+         */
+        public function toString() : string
         {
         }
         /**
          * Evaluates the constraint for parameter $other. Returns true if the
          * constraint is met, false otherwise.
          *
-         * @param mixed $other Value or object to evaluate.
-         *
-         * @return bool
+         * @param mixed $other value or object to evaluate
          */
-        protected function matches($other)
-        {
-        }
-        /**
-         * Returns a string representation of the constraint.
-         *
-         * @return string
-         */
-        public function toString()
+        protected function matches($other) : bool
         {
         }
         /**
@@ -15311,11 +16752,11 @@ namespace PHPUnit\Framework\Constraint {
          * The beginning of failure messages is "Failed asserting that" in most
          * cases. This method should return the second part of that sentence.
          *
-         * @param mixed $other Evaluated value or object.
+         * @param mixed $other evaluated value or object
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        protected function failureDescription($other)
+        protected function failureDescription($other) : string
         {
         }
     }
@@ -15327,72 +16768,61 @@ namespace PHPUnit\Framework {
     /**
      * Iterator for test suites.
      */
-    class TestSuiteIterator implements \RecursiveIterator
+    final class TestSuiteIterator implements \RecursiveIterator
     {
         /**
          * @var int
          */
-        protected $position;
+        private $position = 0;
         /**
          * @var Test[]
          */
-        protected $tests;
-        /**
-         * @param TestSuite $testSuite
-         */
+        private $tests;
         public function __construct(\PHPUnit\Framework\TestSuite $testSuite)
         {
         }
         /**
          * Rewinds the Iterator to the first element.
          */
-        public function rewind()
+        public function rewind() : void
         {
         }
         /**
          * Checks if there is a current element after calls to rewind() or next().
-         *
-         * @return bool
          */
-        public function valid()
+        public function valid() : bool
         {
         }
         /**
          * Returns the key of the current element.
-         *
-         * @return int
          */
-        public function key()
+        public function key() : int
         {
         }
         /**
          * Returns the current element.
-         *
-         * @return Test
          */
-        public function current()
+        public function current() : ?\PHPUnit\Framework\Test
         {
         }
         /**
          * Moves forward to next element.
          */
-        public function next()
+        public function next() : void
         {
         }
         /**
          * Returns the sub iterator for the current element.
          *
-         * @return TestSuiteIterator
+         * @throws \UnexpectedValueException if the current element is no TestSuite
          */
-        public function getChildren()
+        public function getChildren() : self
         {
         }
         /**
          * Checks whether the current element has children.
-         *
-         * @return bool
          */
-        public function hasChildren()
+        public function hasChildren() : bool
         {
         }
     }
@@ -15419,34 +16849,16 @@ namespace PHPUnit\Framework {
          * @var array
          */
         protected $syntheticTrace = [];
-        /**
-         * Constructor.
-         *
-         * @param string $message
-         * @param int    $code
-         * @param string $file
-         * @param int    $line
-         * @param array  $trace
-         */
-        public function __construct($message, $code, $file, $line, $trace)
+        public function __construct(string $message, int $code, string $file, int $line, array $trace)
         {
         }
-        /**
-         * @return string
-         */
-        public function getSyntheticFile()
+        public function getSyntheticFile() : string
         {
         }
-        /**
-         * @return int
-         */
-        public function getSyntheticLine()
+        public function getSyntheticLine() : int
         {
         }
-        /**
-         * @return array
-         */
-        public function getSyntheticTrace()
+        public function getSyntheticTrace() : array
         {
         }
     }
@@ -15479,33 +16891,1780 @@ namespace PHPUnit\Framework {
          * @var bool
          */
         protected $useOutputBuffering = false;
-        /**
-         * @param string $message
-         */
-        public function __construct($className, $methodName, $message = '')
+        public function __construct(string $className, string $methodName, string $message = '')
         {
         }
-        /**
-         * @throws Exception
-         */
-        protected function runTest()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function getMessage()
+        public function getMessage() : string
         {
         }
         /**
          * Returns a string representation of the test case.
          *
-         * @return string
+         * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
          */
-        public function toString()
+        public function toString() : string
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        protected function runTest() : void
         {
         }
     }
+}
+namespace {
+    /**
+     * Interface for all mock objects which are generated by
+     * MockBuilder.
+     *
+     * @method InvocationMocker method($constraint)
+     *
+     * @deprecated Use PHPUnit\Framework\MockObject\MockObject instead
+     */
+    interface PHPUnit_Framework_MockObject_MockObject
+    {
+        /**
+         * @return InvocationMocker
+         */
+        public function __phpunit_setOriginalObject($originalObject);
+        /**
+         * @return InvocationMocker
+         */
+        public function __phpunit_getInvocationMocker();
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function __phpunit_verify(bool $unsetInvocationMocker = \true);
+        /**
+         * @return bool
+         */
+        public function __phpunit_hasMatchers();
+        public function __phpunit_setReturnValueGeneration(bool $returnValueGeneration);
+        /**
+         * Registers a new expectation in the mock object and returns the match
+         * object which can be infused with further details.
+         *
+         * @return InvocationMocker
+         */
+        public function expects(\PHPUnit\Framework\MockObject\Matcher\Invocation $matcher);
+    }
+}
+namespace PHPUnit\Framework\MockObject {
+    interface MockObject extends \PHPUnit_Framework_MockObject_MockObject
+    {
+    }
+    /**
+     * Interface for exceptions used by PHPUnit_MockObject.
+     */
+    interface Exception extends \Throwable
+    {
+    }
+    class RuntimeException extends \RuntimeException implements \PHPUnit\Framework\MockObject\Exception
+    {
+    }
+    class BadMethodCallException extends \BadMethodCallException implements \PHPUnit\Framework\MockObject\Exception
+    {
+    }
+    /**
+     * An object that stubs the process of a normal method for a mock object.
+     *
+     * The stub object will replace the code for the stubbed method and return a
+     * specific value instead of the original value.
+     */
+    interface Stub extends \PHPUnit\Framework\SelfDescribing
+    {
+        /**
+         * Fakes the processing of the invocation $invocation by returning a
+         * specific value.
+         *
+         * @param Invocation $invocation The invocation which was mocked and matched by the current method and argument matchers
+         */
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation);
+    }
+}
+namespace PHPUnit\Framework\MockObject\Stub {
+    /**
+     * Stubs a method by returning a user-defined value.
+     */
+    class ReturnStub implements \PHPUnit\Framework\MockObject\Stub
+    {
+        /**
+         * @var mixed
+         */
+        private $value;
+        public function __construct($value)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    class ReturnCallback implements \PHPUnit\Framework\MockObject\Stub
+    {
+        private $callback;
+        public function __construct($callback)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by returning a value from a map.
+     */
+    class ReturnValueMap implements \PHPUnit\Framework\MockObject\Stub
+    {
+        /**
+         * @var array
+         */
+        private $valueMap;
+        public function __construct(array $valueMap)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by returning the current object.
+     */
+    class ReturnSelf implements \PHPUnit\Framework\MockObject\Stub
+    {
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by returning a user-defined stack of values.
+     */
+    class ConsecutiveCalls implements \PHPUnit\Framework\MockObject\Stub
+    {
+        /**
+         * @var array
+         */
+        private $stack;
+        /**
+         * @var mixed
+         */
+        private $value;
+        public function __construct(array $stack)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by raising a user-defined exception.
+     */
+    class Exception implements \PHPUnit\Framework\MockObject\Stub
+    {
+        private $exception;
+        public function __construct(\Throwable $exception)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation) : void
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by returning an argument that was passed to the mocked method.
+     */
+    class ReturnArgument implements \PHPUnit\Framework\MockObject\Stub
+    {
+        /**
+         * @var int
+         */
+        private $argumentIndex;
+        public function __construct($argumentIndex)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by returning a user-defined reference to a value.
+     */
+    class ReturnReference implements \PHPUnit\Framework\MockObject\Stub
+    {
+        /**
+         * @var mixed
+         */
+        private $reference;
+        public function __construct(&$reference)
+        {
+        }
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Stubs a method by returning a user-defined value.
+     */
+    interface MatcherCollection
+    {
+        /**
+         * Adds a new matcher to the collection which can be used as an expectation
+         * or a stub.
+         *
+         * @param Invocation $matcher Matcher for invocations to mock objects
+         */
+        public function addMatcher(\PHPUnit\Framework\MockObject\Matcher\Invocation $matcher);
+    }
+}
+namespace PHPUnit\Framework\MockObject {
+    /**
+     * Interface for classes which must verify a given expectation.
+     */
+    interface Verifiable
+    {
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function verify();
+    }
+}
+namespace PHPUnit\Framework\MockObject\Matcher {
+    /**
+     * Interface for classes which matches an invocation based on its
+     * method name, argument, order or call count.
+     */
+    interface Invocation extends \PHPUnit\Framework\SelfDescribing, \PHPUnit\Framework\MockObject\Verifiable
+    {
+        /**
+         * Registers the invocation $invocation in the object as being invoked.
+         * This will only occur after matches() returns true which means the
+         * current invocation is the correct one.
+         *
+         * The matcher can store information from the invocation which can later
+         * be checked in verify(), or it can check the values directly and throw
+         * and exception if an expectation is not met.
+         *
+         * If the matcher is a stub it will also have a return value.
+         *
+         * @param BaseInvocation $invocation Object containing information on a mocked or stubbed method which was invoked
+         */
+        public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation);
+        /**
+         * Checks if the invocation $invocation matches the current rules. If it does
+         * the matcher will get the invoked() method called which should check if an
+         * expectation is met.
+         *
+         * @param BaseInvocation $invocation Object containing information on a mocked or stubbed method which was invoked
+         *
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation);
+    }
+    /**
+     * Invocation matcher which does not care about previous state from earlier
+     * invocations.
+     *
+     * This abstract class can be implemented by matchers which does not care about
+     * state but only the current run-time value of the invocation itself.
+     */
+    abstract class StatelessInvocation implements \PHPUnit\Framework\MockObject\Matcher\Invocation
+    {
+        /**
+         * Registers the invocation $invocation in the object as being invoked.
+         * This will only occur after matches() returns true which means the
+         * current invocation is the correct one.
+         *
+         * The matcher can store information from the invocation which can later
+         * be checked in verify(), or it can check the values directly and throw
+         * and exception if an expectation is not met.
+         *
+         * If the matcher is a stub it will also have a return value.
+         *
+         * @param BaseInvocation $invocation Object containing information on a mocked or stubbed method which was invoked
+         */
+        public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        /**
+         * Checks if the invocation $invocation matches the current rules. If it does
+         * the matcher will get the invoked() method called which should check if an
+         * expectation is met.
+         *
+         * @return bool
+         */
+        public function verify()
+        {
+        }
+    }
+    /**
+     * Invocation matcher which looks for a specific method name in the invocations.
+     *
+     * Checks the method name all incoming invocations, the name is checked against
+     * the defined constraint $constraint. If the constraint is met it will return
+     * true in matches().
+     */
+    class MethodName extends \PHPUnit\Framework\MockObject\Matcher\StatelessInvocation
+    {
+        /**
+         * @var Constraint
+         */
+        private $constraint;
+        /**
+         * @param  Constraint|string
+         *
+         * @throws Constraint
+         * @throws \PHPUnit\Framework\Exception
+         */
+        public function __construct($constraint)
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+    }
+    class DeferredError extends \PHPUnit\Framework\MockObject\Matcher\StatelessInvocation
+    {
+        /**
+         * @var \Throwable
+         */
+        private $exception;
+        public function __construct(\Throwable $exception)
+        {
+        }
+        public function verify() : void
+        {
+        }
+        public function toString() : string
+        {
+        }
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation) : bool
+        {
+        }
+    }
+    /**
+     * Records invocations and provides convenience methods for checking them later
+     * on.
+     * This abstract class can be implemented by matchers which needs to check the
+     * number of times an invocation has occurred.
+     */
+    abstract class InvokedRecorder implements \PHPUnit\Framework\MockObject\Matcher\Invocation
+    {
+        /**
+         * @var BaseInvocation[]
+         */
+        private $invocations = [];
+        /**
+         * @return int
+         */
+        public function getInvocationCount()
+        {
+        }
+        /**
+         * @return BaseInvocation[]
+         */
+        public function getInvocations()
+        {
+        }
+        /**
+         * @return bool
+         */
+        public function hasBeenInvoked()
+        {
+        }
+        public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation) : void
+        {
+        }
+        /**
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+    }
+    /**
+     * Invocation matcher which checks if a method has been invoked at least
+     * N times.
+     */
+    class InvokedAtLeastCount extends \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder
+    {
+        /**
+         * @var int
+         */
+        private $requiredInvocations;
+        /**
+         * @param int $requiredInvocations
+         */
+        public function __construct($requiredInvocations)
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function verify() : void
+        {
+        }
+    }
+    /**
+     * Invocation matcher which checks if a method has been invoked a certain amount
+     * of times.
+     * If the number of invocations exceeds the value it will immediately throw an
+     * exception,
+     * If the number is less it will later be checked in verify() and also throw an
+     * exception.
+     */
+    class InvokedCount extends \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder
+    {
+        /**
+         * @var int
+         */
+        private $expectedCount;
+        /**
+         * @param int $expectedCount
+         */
+        public function __construct($expectedCount)
+        {
+        }
+        /**
+         * @return bool
+         */
+        public function isNever()
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * @throws ExpectationFailedException
+         */
+        public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation) : void
+        {
+        }
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function verify() : void
+        {
+        }
+    }
+    /**
+     * Invocation matcher which allows any parameters to a method.
+     */
+    class AnyParameters extends \PHPUnit\Framework\MockObject\Matcher\StatelessInvocation
+    {
+        public function toString() : string
+        {
+        }
+        /**
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+    }
+    /**
+     * Invocation matcher which checks if a method has been invoked at least
+     * N times.
+     */
+    class InvokedAtMostCount extends \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder
+    {
+        /**
+         * @var int
+         */
+        private $allowedInvocations;
+        /**
+         * @param int $allowedInvocations
+         */
+        public function __construct($allowedInvocations)
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function verify() : void
+        {
+        }
+    }
+    /**
+     * Invocation matcher which checks if a method was invoked at a certain index.
+     *
+     * If the expected index number does not match the current invocation index it
+     * will not match which means it skips all method and parameter matching. Only
+     * once the index is reached will the method and parameter start matching and
+     * verifying.
+     *
+     * If the index is never reached it will throw an exception in index.
+     */
+    class InvokedAtIndex implements \PHPUnit\Framework\MockObject\Matcher\Invocation
+    {
+        /**
+         * @var int
+         */
+        private $sequenceIndex;
+        /**
+         * @var int
+         */
+        private $currentIndex = -1;
+        /**
+         * @param int $sequenceIndex
+         */
+        public function __construct($sequenceIndex)
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation) : void
+        {
+        }
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function verify() : void
+        {
+        }
+    }
+    /**
+     * Invocation matcher which looks for specific parameters in the invocations.
+     *
+     * Checks the parameters of all incoming invocations, the parameter list is
+     * checked against the defined constraints in $parameters. If the constraint
+     * is met it will return true in matches().
+     */
+    class Parameters extends \PHPUnit\Framework\MockObject\Matcher\StatelessInvocation
+    {
+        /**
+         * @var Constraint[]
+         */
+        private $parameters = [];
+        /**
+         * @var BaseInvocation
+         */
+        private $invocation;
+        /**
+         * @var ExpectationFailedException
+         */
+        private $parameterVerificationResult;
+        /**
+         * @throws \PHPUnit\Framework\Exception
+         */
+        public function __construct(array $parameters)
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * @throws \Exception
+         *
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        /**
+         * Checks if the invocation $invocation matches the current rules. If it
+         * does the matcher will get the invoked() method called which should check
+         * if an expectation is met.
+         *
+         * @throws ExpectationFailedException
+         *
+         * @return bool
+         */
+        public function verify()
+        {
+        }
+        /**
+         * @throws ExpectationFailedException
+         *
+         * @return bool
+         */
+        private function guardAgainstDuplicateEvaluationOfParameterConstraints()
+        {
+        }
+    }
+    /**
+     * Invocation matcher which looks for sets of specific parameters in the invocations.
+     *
+     * Checks the parameters of the incoming invocations, the parameter list is
+     * checked against the defined constraints in $parameters. If the constraint
+     * is met it will return true in matches().
+     *
+     * It takes a list of match groups and and increases a call index after each invocation.
+     * So the first invocation uses the first group of constraints, the second the next and so on.
+     */
+    class ConsecutiveParameters extends \PHPUnit\Framework\MockObject\Matcher\StatelessInvocation
+    {
+        /**
+         * @var array
+         */
+        private $parameterGroups = [];
+        /**
+         * @var array
+         */
+        private $invocations = [];
+        /**
+         * @throws \PHPUnit\Framework\Exception
+         */
+        public function __construct(array $parameterGroups)
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * @throws \PHPUnit\Framework\ExpectationFailedException
+         *
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        public function verify() : void
+        {
+        }
+        /**
+         * Verify a single invocation
+         *
+         * @param int $callIndex
+         *
+         * @throws ExpectationFailedException
+         */
+        private function verifyInvocation(\PHPUnit\Framework\MockObject\Invocation $invocation, $callIndex) : void
+        {
+        }
+    }
+    /**
+     * Invocation matcher which checks if a method has been invoked zero or more
+     * times. This matcher will always match.
+     */
+    class AnyInvokedCount extends \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder
+    {
+        public function toString() : string
+        {
+        }
+        public function verify() : void
+        {
+        }
+    }
+    /**
+     * Invocation matcher which checks if a method has been invoked at least one
+     * time.
+     *
+     * If the number of invocations is 0 it will throw an exception in verify.
+     */
+    class InvokedAtLeastOnce extends \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder
+    {
+        public function toString() : string
+        {
+        }
+        /**
+         * Verifies that the current expectation is valid. If everything is OK the
+         * code should just return, if not it must throw an exception.
+         *
+         * @throws ExpectationFailedException
+         */
+        public function verify() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework\MockObject\Builder {
+    /**
+     * Builder interface for unique identifiers.
+     *
+     * Defines the interface for recording unique identifiers. The identifiers
+     * can be used to define the invocation order of expectations. The expectation
+     * is recorded using id() and then defined in order using
+     * PHPUnit\Framework\MockObject\Builder\Match::after().
+     */
+    interface Identity
+    {
+        /**
+         * Sets the identification of the expectation to $id.
+         *
+         * @note The identifier is unique per mock object.
+         *
+         * @param string $id unique identification of expectation
+         */
+        public function id($id);
+    }
+    /**
+     * Builder interface for stubs which are actions replacing an invocation.
+     */
+    interface Stub extends \PHPUnit\Framework\MockObject\Builder\Identity
+    {
+        /**
+         * Stubs the matching method with the stub object $stub. Any invocations of
+         * the matched method will now be handled by the stub instead.
+         *
+         * @return Identity
+         */
+        public function will(\PHPUnit\Framework\MockObject\Stub $stub);
+    }
+    /**
+     * Builder interface for matcher of method names.
+     */
+    interface MethodNameMatch extends \PHPUnit\Framework\MockObject\Builder\ParametersMatch
+    {
+        /**
+         * Adds a new method name match and returns the parameter match object for
+         * further matching possibilities.
+         *
+         * @param \PHPUnit\Framework\Constraint\Constraint $name Constraint for matching method, if a string is passed it will use the PHPUnit_Framework_Constraint_IsEqual
+         *
+         * @return ParametersMatch
+         */
+        public function method($name);
+    }
+    /**
+     * Builder for mocked or stubbed invocations.
+     *
+     * Provides methods for building expectations without having to resort to
+     * instantiating the various matchers manually. These methods also form a
+     * more natural way of reading the expectation. This class should be together
+     * with the test case PHPUnit\Framework\MockObject\TestCase.
+     */
+    class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\MethodNameMatch
+    {
+        /**
+         * @var MatcherCollection
+         */
+        private $collection;
+        /**
+         * @var Matcher
+         */
+        private $matcher;
+        /**
+         * @var string[]
+         */
+        private $configurableMethods;
+        public function __construct(\PHPUnit\Framework\MockObject\Stub\MatcherCollection $collection, \PHPUnit\Framework\MockObject\Matcher\Invocation $invocationMatcher, array $configurableMethods)
+        {
+        }
+        /**
+         * @return Matcher
+         */
+        public function getMatcher()
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function id($id)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function will(\PHPUnit\Framework\MockObject\Stub $stub)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function willReturn($value, ...$nextValues)
+        {
+        }
+        /**
+         * @param mixed $reference
+         *
+         * @return InvocationMocker
+         */
+        public function willReturnReference(&$reference)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function willReturnMap(array $valueMap)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function willReturnArgument($argumentIndex)
+        {
+        }
+        /**
+         * @param callable $callback
+         *
+         * @return InvocationMocker
+         */
+        public function willReturnCallback($callback)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function willReturnSelf()
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function willReturnOnConsecutiveCalls(...$values)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function willThrowException(\Throwable $exception)
+        {
+        }
+        /**
+         * @return InvocationMocker
+         */
+        public function after($id)
+        {
+        }
+        /**
+         * @param array ...$arguments
+         *
+         * @throws RuntimeException
+         *
+         * @return InvocationMocker
+         */
+        public function with(...$arguments)
+        {
+        }
+        /**
+         * @param array ...$arguments
+         *
+         * @throws RuntimeException
+         *
+         * @return InvocationMocker
+         */
+        public function withConsecutive(...$arguments)
+        {
+        }
+        /**
+         * @throws RuntimeException
+         *
+         * @return InvocationMocker
+         */
+        public function withAnyParameters()
+        {
+        }
+        /**
+         * @param Constraint|string $constraint
+         *
+         * @throws RuntimeException
+         *
+         * @return InvocationMocker
+         */
+        public function method($constraint)
+        {
+        }
+        /**
+         * Validate that a parameters matcher can be defined, throw exceptions otherwise.
+         *
+         * @throws RuntimeException
+         */
+        private function canDefineParameters() : void
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework\MockObject {
+    /**
+     * Implementation of the Builder pattern for Mock objects.
+     */
+    class MockBuilder
+    {
+        /**
+         * @var TestCase
+         */
+        private $testCase;
+        /**
+         * @var string
+         */
+        private $type;
+        /**
+         * @var array
+         */
+        private $methods = [];
+        /**
+         * @var array
+         */
+        private $methodsExcept = [];
+        /**
+         * @var string
+         */
+        private $mockClassName = '';
+        /**
+         * @var array
+         */
+        private $constructorArgs = [];
+        /**
+         * @var bool
+         */
+        private $originalConstructor = true;
+        /**
+         * @var bool
+         */
+        private $originalClone = true;
+        /**
+         * @var bool
+         */
+        private $autoload = true;
+        /**
+         * @var bool
+         */
+        private $cloneArguments = false;
+        /**
+         * @var bool
+         */
+        private $callOriginalMethods = false;
+        /**
+         * @var object
+         */
+        private $proxyTarget;
+        /**
+         * @var bool
+         */
+        private $allowMockingUnknownTypes = true;
+        /**
+         * @var bool
+         */
+        private $returnValueGeneration = true;
+        /**
+         * @var Generator
+         */
+        private $generator;
+        /**
+         * @param array|string $type
+         */
+        public function __construct(\PHPUnit\Framework\TestCase $testCase, $type)
+        {
+        }
+        /**
+         * Creates a mock object using a fluent interface.
+         *
+         * @return MockObject
+         */
+        public function getMock()
+        {
+        }
+        /**
+         * Creates a mock object for an abstract class using a fluent interface.
+         *
+         * @return MockObject
+         */
+        public function getMockForAbstractClass()
+        {
+        }
+        /**
+         * Creates a mock object for a trait using a fluent interface.
+         *
+         * @return MockObject
+         */
+        public function getMockForTrait()
+        {
+        }
+        /**
+         * Specifies the subset of methods to mock. Default is to mock none of them.
+         *
+         * @return MockBuilder
+         */
+        public function setMethods(array $methods = null)
+        {
+        }
+        /**
+         * Specifies the subset of methods to not mock. Default is to mock all of them.
+         *
+         * @return MockBuilder
+         */
+        public function setMethodsExcept(array $methods = [])
+        {
+        }
+        /**
+         * Specifies the arguments for the constructor.
+         *
+         * @return MockBuilder
+         */
+        public function setConstructorArgs(array $args)
+        {
+        }
+        /**
+         * Specifies the name for the mock class.
+         *
+         * @param string $name
+         *
+         * @return MockBuilder
+         */
+        public function setMockClassName($name)
+        {
+        }
+        /**
+         * Disables the invocation of the original constructor.
+         *
+         * @return MockBuilder
+         */
+        public function disableOriginalConstructor()
+        {
+        }
+        /**
+         * Enables the invocation of the original constructor.
+         *
+         * @return MockBuilder
+         */
+        public function enableOriginalConstructor()
+        {
+        }
+        /**
+         * Disables the invocation of the original clone constructor.
+         *
+         * @return MockBuilder
+         */
+        public function disableOriginalClone()
+        {
+        }
+        /**
+         * Enables the invocation of the original clone constructor.
+         *
+         * @return MockBuilder
+         */
+        public function enableOriginalClone()
+        {
+        }
+        /**
+         * Disables the use of class autoloading while creating the mock object.
+         *
+         * @return MockBuilder
+         */
+        public function disableAutoload()
+        {
+        }
+        /**
+         * Enables the use of class autoloading while creating the mock object.
+         *
+         * @return MockBuilder
+         */
+        public function enableAutoload()
+        {
+        }
+        /**
+         * Disables the cloning of arguments passed to mocked methods.
+         *
+         * @return MockBuilder
+         */
+        public function disableArgumentCloning()
+        {
+        }
+        /**
+         * Enables the cloning of arguments passed to mocked methods.
+         *
+         * @return MockBuilder
+         */
+        public function enableArgumentCloning()
+        {
+        }
+        /**
+         * Enables the invocation of the original methods.
+         *
+         * @return MockBuilder
+         */
+        public function enableProxyingToOriginalMethods()
+        {
+        }
+        /**
+         * Disables the invocation of the original methods.
+         *
+         * @return MockBuilder
+         */
+        public function disableProxyingToOriginalMethods()
+        {
+        }
+        /**
+         * Sets the proxy target.
+         *
+         * @param object $object
+         *
+         * @return MockBuilder
+         */
+        public function setProxyTarget($object)
+        {
+        }
+        /**
+         * @return MockBuilder
+         */
+        public function allowMockingUnknownTypes()
+        {
+        }
+        /**
+         * @return MockBuilder
+         */
+        public function disallowMockingUnknownTypes()
+        {
+        }
+        /**
+         * @return MockBuilder
+         */
+        public function enableAutoReturnValueGeneration()
+        {
+        }
+        /**
+         * @return MockBuilder
+         */
+        public function disableAutoReturnValueGeneration()
+        {
+        }
+    }
+    final class MockMethodSet
+    {
+        /**
+         * @var MockMethod[]
+         */
+        private $methods = [];
+        public function addMethods(\PHPUnit\Framework\MockObject\MockMethod ...$methods) : void
+        {
+        }
+        public function asArray() : array
+        {
+        }
+        public function hasMethod(string $methodName) : bool
+        {
+        }
+    }
+    /**
+     * Main matcher which defines a full expectation using method, parameter and
+     * invocation matchers.
+     * This matcher encapsulates all the other matchers and allows the builder to
+     * set the specific matchers when the appropriate methods are called (once(),
+     * where() etc.).
+     *
+     * All properties are public so that they can easily be accessed by the builder.
+     */
+    class Matcher implements \PHPUnit\Framework\MockObject\Matcher\Invocation
+    {
+        /**
+         * @var MatcherInvocation
+         */
+        private $invocationMatcher;
+        /**
+         * @var mixed
+         */
+        private $afterMatchBuilderId;
+        /**
+         * @var bool
+         */
+        private $afterMatchBuilderIsInvoked = false;
+        /**
+         * @var MethodName
+         */
+        private $methodNameMatcher;
+        /**
+         * @var Parameters
+         */
+        private $parametersMatcher;
+        /**
+         * @var Stub
+         */
+        private $stub;
+        public function __construct(\PHPUnit\Framework\MockObject\Matcher\Invocation $invocationMatcher)
+        {
+        }
+        public function hasMatchers() : bool
+        {
+        }
+        public function hasMethodNameMatcher() : bool
+        {
+        }
+        public function getMethodNameMatcher() : \PHPUnit\Framework\MockObject\Matcher\MethodName
+        {
+        }
+        public function setMethodNameMatcher(\PHPUnit\Framework\MockObject\Matcher\MethodName $matcher) : void
+        {
+        }
+        public function hasParametersMatcher() : bool
+        {
+        }
+        public function getParametersMatcher() : \PHPUnit\Framework\MockObject\Matcher\Parameters
+        {
+        }
+        public function setParametersMatcher($matcher) : void
+        {
+        }
+        public function setStub($stub) : void
+        {
+        }
+        public function setAfterMatchBuilderId($id) : void
+        {
+        }
+        /**
+         * @throws \Exception
+         * @throws RuntimeException
+         * @throws ExpectationFailedException
+         */
+        public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        /**
+         * @throws RuntimeException
+         * @throws ExpectationFailedException
+         *
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation)
+        {
+        }
+        /**
+         * @throws RuntimeException
+         * @throws ExpectationFailedException
+         */
+        public function verify() : void
+        {
+        }
+        public function toString() : string
+        {
+        }
+    }
+    /**
+     * Mock Object Code Generator
+     */
+    class Generator
+    {
+        /**
+         * @var array
+         */
+        private const BLACKLISTED_METHOD_NAMES = ['__CLASS__' => true, '__DIR__' => true, '__FILE__' => true, '__FUNCTION__' => true, '__LINE__' => true, '__METHOD__' => true, '__NAMESPACE__' => true, '__TRAIT__' => true, '__clone' => true, '__halt_compiler' => true];
+        /**
+         * @var array
+         */
+        private static $cache = [];
+        /**
+         * @var Text_Template[]
+         */
+        private static $templates = [];
+        /**
+         * Returns a mock object for the specified class.
+         *
+         * @param string|string[] $type
+         * @param array           $methods
+         * @param string          $mockClassName
+         * @param bool            $callOriginalConstructor
+         * @param bool            $callOriginalClone
+         * @param bool            $callAutoload
+         * @param bool            $cloneArguments
+         * @param bool            $callOriginalMethods
+         * @param object          $proxyTarget
+         * @param bool            $allowMockingUnknownTypes
+         * @param bool            $returnValueGeneration
+         *
+         * @throws Exception
+         * @throws RuntimeException
+         * @throws \PHPUnit\Framework\Exception
+         * @throws \ReflectionException
+         *
+         * @return MockObject
+         */
+        public function getMock($type, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = true, $callOriginalMethods = false, $proxyTarget = null, $allowMockingUnknownTypes = true, $returnValueGeneration = true)
+        {
+        }
+        /**
+         * Returns a mock object for the specified abstract class with all abstract
+         * methods of the class mocked. Concrete methods to mock can be specified with
+         * the last parameter
+         *
+         * @param string $originalClassName
+         * @param string $mockClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         * @param array  $mockedMethods
+         * @param bool   $cloneArguments
+         *
+         * @throws \ReflectionException
+         * @throws RuntimeException
+         * @throws Exception
+         *
+         * @return MockObject
+         */
+        public function getMockForAbstractClass($originalClassName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = true)
+        {
+        }
+        /**
+         * Returns a mock object for the specified trait with all abstract methods
+         * of the trait mocked. Concrete methods to mock can be specified with the
+         * `$mockedMethods` parameter.
+         *
+         * @param string $traitName
+         * @param string $mockClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         * @param array  $mockedMethods
+         * @param bool   $cloneArguments
+         *
+         * @throws \ReflectionException
+         * @throws RuntimeException
+         * @throws Exception
+         *
+         * @return MockObject
+         */
+        public function getMockForTrait($traitName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = true)
+        {
+        }
+        /**
+         * Returns an object for the specified trait.
+         *
+         * @param string $traitName
+         * @param string $traitClassName
+         * @param bool   $callOriginalConstructor
+         * @param bool   $callOriginalClone
+         * @param bool   $callAutoload
+         *
+         * @throws \ReflectionException
+         * @throws RuntimeException
+         * @throws Exception
+         *
+         * @return object
+         */
+        public function getObjectForTrait($traitName, array $arguments = [], $traitClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
+        {
+        }
+        /**
+         * @param array|string $type
+         * @param array        $methods
+         * @param string       $mockClassName
+         * @param bool         $callOriginalClone
+         * @param bool         $callAutoload
+         * @param bool         $cloneArguments
+         * @param bool         $callOriginalMethods
+         *
+         * @throws \ReflectionException
+         * @throws \PHPUnit\Framework\MockObject\RuntimeException
+         *
+         * @return array
+         */
+        public function generate($type, array $methods = null, $mockClassName = '', $callOriginalClone = true, $callAutoload = true, $cloneArguments = true, $callOriginalMethods = false)
+        {
+        }
+        /**
+         * @param string $wsdlFile
+         * @param string $className
+         *
+         * @throws RuntimeException
+         *
+         * @return string
+         */
+        public function generateClassFromWsdl($wsdlFile, $className, array $methods = [], array $options = [])
+        {
+        }
+        /**
+         * @param string $className
+         *
+         * @throws \ReflectionException
+         *
+         * @return string[]
+         */
+        public function getClassMethods($className) : array
+        {
+        }
+        /**
+         * @throws \ReflectionException
+         *
+         * @return MockMethod[]
+         */
+        public function mockClassMethods(string $className, bool $callOriginalMethods, bool $cloneArguments) : array
+        {
+        }
+        /**
+         * @throws \ReflectionException
+         *
+         * @return \ReflectionMethod[]
+         */
+        private function userDefinedInterfaceMethods(string $interfaceName) : array
+        {
+        }
+        /**
+         * @param string       $code
+         * @param string       $className
+         * @param array|string $type
+         * @param bool         $callOriginalConstructor
+         * @param bool         $callAutoload
+         * @param bool         $callOriginalMethods
+         * @param object       $proxyTarget
+         * @param bool         $returnValueGeneration
+         *
+         * @throws \ReflectionException
+         * @throws RuntimeException
+         *
+         * @return MockObject
+         */
+        private function getObject($code, $className, $type = '', $callOriginalConstructor = false, $callAutoload = false, array $arguments = [], $callOriginalMethods = false, $proxyTarget = null, $returnValueGeneration = true)
+        {
+        }
+        /**
+         * @param string $code
+         * @param string $className
+         */
+        private function evalClass($code, $className) : void
+        {
+        }
+        /**
+         * @param array|string $type
+         * @param null|array   $explicitMethods
+         * @param string       $mockClassName
+         * @param bool         $callOriginalClone
+         * @param bool         $callAutoload
+         * @param bool         $cloneArguments
+         * @param bool         $callOriginalMethods
+         *
+         * @throws \InvalidArgumentException
+         * @throws \ReflectionException
+         * @throws RuntimeException
+         *
+         * @return array
+         */
+        private function generateMock($type, $explicitMethods, $mockClassName, $callOriginalClone, $callAutoload, $cloneArguments, $callOriginalMethods)
+        {
+        }
+        /**
+         * @param array|string $type
+         * @param string       $className
+         * @param string       $prefix
+         *
+         * @return array
+         */
+        private function generateClassName($type, $className, $prefix)
+        {
+        }
+        /**
+         * @param bool $isInterface
+         *
+         * @return string
+         */
+        private function generateMockClassDeclaration(array $mockClassName, $isInterface, array $additionalInterfaces = [])
+        {
+        }
+        /**
+         * @return bool
+         */
+        private function canMockMethod(\ReflectionMethod $method)
+        {
+        }
+        /**
+         * Returns whether a method name is blacklisted
+         *
+         * @param string $name
+         *
+         * @return bool
+         */
+        private function isMethodNameBlacklisted($name)
+        {
+        }
+        /**
+         * @param string $template
+         *
+         * @throws \InvalidArgumentException
+         *
+         * @return Text_Template
+         */
+        private function getTemplate($template)
+        {
+        }
+    }
+    /**
+     * Interface for classes which can be invoked.
+     *
+     * The invocation will be taken from a mock object and passed to an object
+     * of this class.
+     */
+    interface Invokable extends \PHPUnit\Framework\MockObject\Verifiable
+    {
+        /**
+         * Invokes the invocation object $invocation so that it can be checked for
+         * expectations or matched against stubs.
+         *
+         * @param Invocation $invocation The invocation object passed from mock object
+         *
+         * @return object
+         */
+        public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation);
+        /**
+         * Checks if the invocation matches.
+         *
+         * @param Invocation $invocation The invocation object passed from mock object
+         *
+         * @return bool
+         */
+        public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation);
+    }
+    /**
+     * Interface for invocations.
+     */
+    interface Invocation
+    {
+        /**
+         * @return mixed mocked return value
+         */
+        public function generateReturnValue();
+        public function getClassName() : string;
+        public function getMethodName() : string;
+        public function getParameters() : array;
+        public function getReturnType() : string;
+        public function isReturnTypeNullable() : bool;
+    }
+}
+namespace PHPUnit\Framework\MockObject\Invocation {
+    /**
+     * Represents a static invocation.
+     */
+    class StaticInvocation implements \PHPUnit\Framework\MockObject\Invocation, \PHPUnit\Framework\SelfDescribing
+    {
+        /**
+         * @var array
+         */
+        private static $uncloneableExtensions = ['mysqli' => true, 'SQLite' => true, 'sqlite3' => true, 'tidy' => true, 'xmlwriter' => true, 'xsl' => true];
+        /**
+         * @var array
+         */
+        private static $uncloneableClasses = ['Closure', 'COMPersistHelper', 'IteratorIterator', 'RecursiveIteratorIterator', 'SplFileObject', 'PDORow', 'ZipArchive'];
+        /**
+         * @var string
+         */
+        private $className;
+        /**
+         * @var string
+         */
+        private $methodName;
+        /**
+         * @var array
+         */
+        private $parameters;
+        /**
+         * @var string
+         */
+        private $returnType;
+        /**
+         * @var bool
+         */
+        private $isReturnTypeNullable = false;
+        /**
+         * @var bool
+         */
+        private $proxiedCall = false;
+        /**
+         * @param string $className
+         * @param string $methodName
+         * @param string $returnType
+         * @param bool   $cloneObjects
+         */
+        public function __construct($className, $methodName, array $parameters, $returnType, $cloneObjects = false)
+        {
+        }
+        public function getClassName() : string
+        {
+        }
+        public function getMethodName() : string
+        {
+        }
+        public function getParameters() : array
+        {
+        }
+        public function getReturnType() : string
+        {
+        }
+        public function isReturnTypeNullable() : bool
+        {
+        }
+        /**
+         * @throws \ReflectionException
+         * @throws \PHPUnit\Framework\MockObject\RuntimeException
+         * @throws \PHPUnit\Framework\Exception
+         *
+         * @return mixed Mocked return value
+         */
+        public function generateReturnValue()
+        {
+        }
+        public function setProxiedCall() : void
+        {
+        }
+        public function toString() : string
+        {
+        }
+        /**
+         * @param object $original
+         *
+         * @return object
+         */
+        private function cloneObject($original)
+        {
+        }
+    }
+    /**
+     * Represents a non-static invocation.
+     */
+    class ObjectInvocation extends \PHPUnit\Framework\MockObject\Invocation\StaticInvocation
+    {
+        /**
+         * @var object
+         */
+        private $object;
+        /**
+         * @param string $className
+         * @param string $methodName
+         * @param string $returnType
+         * @param object $object
+         * @param bool   $cloneObjects
+         */
+        public function __construct($className, $methodName, array $parameters, $returnType, $object, $cloneObjects = false)
+        {
+        }
+        public function getObject()
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework\MockObject {
+    final class MockMethod
+    {
+        /**
+         * @var Text_Template[]
+         */
+        private static $templates = [];
+        /**
+         * @var string
+         */
+        private $className;
+        /**
+         * @var string
+         */
+        private $methodName;
+        /**
+         * @var bool
+         */
+        private $cloneArguments;
+        /**
+         * @var string string
+         */
+        private $modifier;
+        /**
+         * @var string
+         */
+        private $argumentsForDeclaration;
+        /**
+         * @var string
+         */
+        private $argumentsForCall;
+        /**
+         * @var string
+         */
+        private $returnType;
+        /**
+         * @var string
+         */
+        private $reference;
+        /**
+         * @var bool
+         */
+        private $callOriginalMethod;
+        /**
+         * @var bool
+         */
+        private $static;
+        /**
+         * @var ?string
+         */
+        private $deprecation;
+        /**
+         * @var bool
+         */
+        private $allowsReturnNull;
+        public static function fromReflection(\ReflectionMethod $method, bool $callOriginalMethod, bool $cloneArguments) : self
+        {
+        }
+        public static function fromName(string $fullClassName, string $methodName, bool $cloneArguments) : self
+        {
+        }
+        public function __construct(string $className, string $methodName, bool $cloneArguments, string $modifier, string $argumentsForDeclaration, string $argumentsForCall, string $returnType, string $reference, bool $callOriginalMethod, bool $static, ?string $deprecation, bool $allowsReturnNull)
+        {
+        }
+        public function getName() : string
+        {
+        }
+        /**
+         * @throws \ReflectionException
+         * @throws \PHPUnit\Framework\MockObject\RuntimeException
+         * @throws \InvalidArgumentException
+         */
+        public function generateCode() : string
+        {
+        }
+        private function getTemplate(string $template) : \Text_Template
+        {
+        }
+        /**
+         * Returns the parameters of a function or method.
+         *
+         * @throws RuntimeException
+         */
+        private static function getMethodParameters(\ReflectionMethod $method, bool $forCall = false) : string
+        {
+        }
+    }
+}
+namespace PHPUnit\Framework {
     /**
      * A warning.
      */
@@ -15537,28 +18696,26 @@ namespace PHPUnit\Framework {
         public function __construct($message = '')
         {
         }
-        /**
-         * @throws Exception
-         */
-        protected function runTest()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function getMessage()
+        public function getMessage() : string
         {
         }
         /**
          * Returns a string representation of the test case.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
+        {
+        }
+        /**
+         * @throws Exception
+         */
+        protected function runTest() : void
         {
         }
     }
     class InvalidCoversTargetException extends \PHPUnit\Framework\CodeCoverageException
+    {
+    }
+    final class UnexpectedValueException extends \PHPUnit\Framework\Exception
     {
     }
     /**
@@ -15577,31 +18734,39 @@ namespace PHPUnit\Framework {
          */
         protected $className;
         /**
-         * @var ExceptionWrapper|null
+         * @var null|ExceptionWrapper
          */
         protected $previous;
-        /**
-         * @param Throwable $t
-         */
         public function __construct(\Throwable $t)
         {
         }
         /**
-         * @return string
+         * @throws \InvalidArgumentException
          */
-        public function getClassName()
+        public function __toString() : string
+        {
+        }
+        public function getClassName() : string
+        {
+        }
+        public function getPreviousWrapped() : ?self
+        {
+        }
+        public function setClassName(string $className) : void
+        {
+        }
+        public function setOriginalException(\Throwable $t) : void
+        {
+        }
+        public function getOriginalException() : ?\Throwable
         {
         }
         /**
-         * @return ExceptionWrapper
+         * Method to contain static originalException to exclude it from stacktrace to prevent the stacktrace contents,
+         * which can be quite big, from being garbage-collected, thus blocking memory until shutdown.
+         * Approach works both for var_dump() and var_export() and print_r()
          */
-        public function getPreviousWrapped()
-        {
-        }
-        /**
-         * @return string
-         */
-        public function __toString()
+        private function originalException(\Throwable $exceptionToStore = null) : ?\Throwable
         {
         }
     }
@@ -15611,11 +18776,7 @@ namespace PHPUnit\Framework {
     class TestFailure
     {
         /**
-         * @var string
-         */
-        private $testName;
-        /**
-         * @var Test|null
+         * @var null|Test
          */
         protected $failedTest;
         /**
@@ -15623,9 +18784,20 @@ namespace PHPUnit\Framework {
          */
         protected $thrownException;
         /**
+         * @var string
+         */
+        private $testName;
+        /**
+         * Returns a description for an exception.
+         *
+         * @throws \InvalidArgumentException
+         */
+        public static function exceptionToString(\Throwable $e) : string
+        {
+        }
+        /**
          * Constructs a TestFailure with the given test and exception.
          *
-         * @param Test      $failedTest
          * @param Throwable $t
          */
         public function __construct(\PHPUnit\Framework\Test $failedTest, $t)
@@ -15633,36 +18805,22 @@ namespace PHPUnit\Framework {
         }
         /**
          * Returns a short description of the failure.
-         *
-         * @return string
          */
-        public function toString()
+        public function toString() : string
         {
         }
         /**
          * Returns a description for the thrown exception.
          *
-         * @return string
+         * @throws \InvalidArgumentException
          */
-        public function getExceptionAsString()
-        {
-        }
-        /**
-         * Returns a description for an exception.
-         *
-         * @param Throwable $e
-         *
-         * @return string
-         */
-        public static function exceptionToString(\Throwable $e)
+        public function getExceptionAsString() : string
         {
         }
         /**
          * Returns the name of the failing test (including data set, if any).
-         *
-         * @return string
          */
-        public function getTestName()
+        public function getTestName() : string
         {
         }
         /**
@@ -15672,35 +18830,27 @@ namespace PHPUnit\Framework {
          * isolation.
          *
          * @see Exception
-         *
-         * @return Test|null
          */
-        public function failedTest()
+        public function failedTest() : ?\PHPUnit\Framework\Test
         {
         }
         /**
          * Gets the thrown exception.
-         *
-         * @return Throwable
          */
-        public function thrownException()
+        public function thrownException() : \Throwable
         {
         }
         /**
          * Returns the exception's message.
-         *
-         * @return string
          */
-        public function exceptionMessage()
+        public function exceptionMessage() : string
         {
         }
         /**
          * Returns true if the thrown exception
          * is of type AssertionFailedError.
-         *
-         * @return bool
          */
-        public function isFailure()
+        public function isFailure() : bool
         {
         }
     }
@@ -15712,9 +18862,13 @@ namespace PHPUnit\TextUI {
      */
     class TestRunner extends \PHPUnit\Runner\BaseTestRunner
     {
-        const SUCCESS_EXIT = 0;
-        const FAILURE_EXIT = 1;
-        const EXCEPTION_EXIT = 2;
+        public const SUCCESS_EXIT = 0;
+        public const FAILURE_EXIT = 1;
+        public const EXCEPTION_EXIT = 2;
+        /**
+         * @var bool
+         */
+        protected static $versionStringPrinted = false;
         /**
          * @var CodeCoverageFilter
          */
@@ -15728,10 +18882,6 @@ namespace PHPUnit\TextUI {
          */
         protected $printer;
         /**
-         * @var bool
-         */
-        protected static $versionStringPrinted = false;
-        /**
          * @var Runtime
          */
         private $runtime;
@@ -15740,91 +18890,82 @@ namespace PHPUnit\TextUI {
          */
         private $messagePrinted = false;
         /**
-         * @param TestSuiteLoader    $loader
-         * @param CodeCoverageFilter $filter
+         * @var Hook[]
          */
+        private $extensions = [];
+        /**
+         * @param ReflectionClass|Test $test
+         * @param bool                 $exit
+         *
+         * @throws \RuntimeException
+         * @throws \InvalidArgumentException
+         * @throws Exception
+         * @throws \ReflectionException
+         */
+        public static function run($test, array $arguments = [], $exit = true) : \PHPUnit\Framework\TestResult
+        {
+        }
         public function __construct(\PHPUnit\Runner\TestSuiteLoader $loader = null, \SebastianBergmann\CodeCoverage\Filter $filter = null)
         {
         }
         /**
-         * @param Test|ReflectionClass $test
-         * @param array                $arguments
-         * @param bool                 $exit
-         *
-         * @return TestResult
-         *
+         * @throws \PHPUnit\Runner\Exception
          * @throws Exception
+         * @throws \InvalidArgumentException
+         * @throws \RuntimeException
+         * @throws \ReflectionException
          */
-        public static function run($test, array $arguments = [], $exit = true)
+        public function doRun(\PHPUnit\Framework\Test $suite, array $arguments = [], bool $exit = true) : \PHPUnit\Framework\TestResult
+        {
+        }
+        public function setPrinter(\PHPUnit\TextUI\ResultPrinter $resultPrinter) : void
         {
         }
         /**
-         * @return TestResult
+         * Returns the loader to be used.
          */
-        protected function createTestResult()
+        public function getLoader() : \PHPUnit\Runner\TestSuiteLoader
         {
         }
-        /**
-         * @param TestSuite $suite
-         * @param array     $arguments
-         */
-        private function processSuiteFilters(\PHPUnit\Framework\TestSuite $suite, array $arguments)
-        {
-        }
-        /**
-         * @param Test  $suite
-         * @param array $arguments
-         * @param bool  $exit
-         *
-         * @return TestResult
-         */
-        public function doRun(\PHPUnit\Framework\Test $suite, array $arguments = [], $exit = true)
-        {
-        }
-        /**
-         * @param ResultPrinter $resultPrinter
-         */
-        public function setPrinter(\PHPUnit\TextUI\ResultPrinter $resultPrinter)
+        protected function createTestResult() : \PHPUnit\Framework\TestResult
         {
         }
         /**
          * Override to define how to handle a failed loading of
          * a test suite.
-         *
-         * @param string $message
          */
-        protected function runFailed($message)
+        protected function runFailed(string $message) : void
+        {
+        }
+        protected function write(string $buffer) : void
         {
         }
         /**
-         * @param string $buffer
+         * @throws Exception
          */
-        protected function write($buffer)
+        protected function handleConfiguration(array &$arguments) : void
         {
         }
         /**
-         * Returns the loader to be used.
-         *
-         * @return TestSuiteLoader
+         * @throws \ReflectionException
+         * @throws \InvalidArgumentException
          */
-        public function getLoader()
+        private function processSuiteFilters(\PHPUnit\Framework\TestSuite $suite, array $arguments) : void
         {
         }
-        /**
-         * @param array $arguments
-         */
-        protected function handleConfiguration(array &$arguments)
-        {
-        }
-        /**
-         * @param string $type
-         * @param string $message
-         */
-        private function writeMessage($type, $message)
+        private function writeMessage(string $type, string $message) : void
         {
         }
     }
 }
+/*
+ * This file is part of PHPUnit.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace foo {
     function func()
     {
@@ -15833,44 +18974,27 @@ namespace foo {
 namespace {
     \define('TEST_FILES_PATH', __DIR__ . \DIRECTORY_SEPARATOR . '_files' . \DIRECTORY_SEPARATOR);
     const GITHUB_ISSUE = 797;
-    function globalFunction()
-    {
-    }
-    /**
-     * Returns a matcher that matches when the method is executed
-     * zero or more times.
+    /*
+     * This file is part of PHPUnit.
      *
-     * @return PHPUnit\Framework\MockObject\Matcher\AnyInvokedCount
+     * (c) Sebastian Bergmann <sebastian@phpunit.de>
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
      */
-    function any()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsAnything matcher object.
-     *
-     * @return IsAnything
-     */
-    function anything()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\ArrayHasKey matcher object.
-     *
-     * @param mixed $key
-     *
-     * @return ArrayHasKey
-     */
-    function arrayHasKey($key)
+    function globalFunction() : void
     {
     }
     /**
      * Asserts that an array has a specified key.
      *
-     * @param mixed             $key
+     * @param int|string        $key
      * @param array|ArrayAccess $array
-     * @param string            $message
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertArrayHasKey($key, $array, $message = '')
+    function assertArrayHasKey($key, $array, string $message = '') : void
     {
     }
     /**
@@ -15878,167 +19002,107 @@ namespace {
      *
      * @param array|ArrayAccess $subset
      * @param array|ArrayAccess $array
-     * @param bool              $strict  Check for object identity
-     * @param string            $message
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     *
+     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3494
      */
-    function assertArraySubset($subset, $array, $strict = \false, $message = '')
+    function assertArraySubset($subset, $array, bool $checkForObjectIdentity = \false, string $message = '') : void
     {
     }
     /**
      * Asserts that an array does not have a specified key.
      *
-     * @param mixed             $key
+     * @param int|string        $key
      * @param array|ArrayAccess $array
-     * @param string            $message
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertArrayNotHasKey($key, $array, $message = '')
+    function assertArrayNotHasKey($key, $array, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a haystack contains a needle.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertContains($needle, $haystack, string $message = '', bool $ignoreCase = \false, bool $checkForObjectIdentity = \true, bool $checkForNonObjectIdentity = \false) : void
     {
     }
     /**
      * Asserts that a haystack that is stored in a static attribute of a class
      * or an attribute of an object contains a needle.
      *
-     * @param mixed  $needle
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param string $message
-     * @param bool   $ignoreCase
-     * @param bool   $checkForObjectIdentity
-     * @param bool   $checkForNonObjectIdentity
+     * @param object|string $haystackClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeContains($needle, $haystackAttributeName, $haystackClassOrObject, $message = '', $ignoreCase = \false, $checkForObjectIdentity = \true, $checkForNonObjectIdentity = \false)
+    function assertAttributeContains($needle, string $haystackAttributeName, $haystackClassOrObject, string $message = '', bool $ignoreCase = \false, bool $checkForObjectIdentity = \true, bool $checkForNonObjectIdentity = \false) : void
     {
     }
     /**
-     * Asserts that a haystack that is stored in a static attribute of a class
-     * or an attribute of an object contains only values of a given type.
+     * Asserts that a haystack does not contain a needle.
      *
-     * @param string $type
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param bool   $isNativeType
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeContainsOnly($type, $haystackAttributeName, $haystackClassOrObject, $isNativeType = \null, $message = '')
-    {
-    }
-    /**
-     * Asserts the number of elements of an array, Countable or Traversable
-     * that is stored in an attribute.
-     *
-     * @param int    $expectedCount
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param string $message
-     */
-    function assertAttributeCount($expectedCount, $haystackAttributeName, $haystackClassOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that a static attribute of a class or an attribute of an object
-     * is empty.
-     *
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param string $message
-     */
-    function assertAttributeEmpty($haystackAttributeName, $haystackClassOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is equal to an attribute of an object.
-     *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param string $actualClassOrObject
-     * @param string $message
-     * @param float  $delta
-     * @param int    $maxDepth
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
-     */
-    function assertAttributeEquals($expected, $actualAttributeName, $actualClassOrObject, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false)
-    {
-    }
-    /**
-     * Asserts that an attribute is greater than another value.
-     *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param string $actualClassOrObject
-     * @param string $message
-     */
-    function assertAttributeGreaterThan($expected, $actualAttributeName, $actualClassOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that an attribute is greater than or equal to another value.
-     *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param string $actualClassOrObject
-     * @param string $message
-     */
-    function assertAttributeGreaterThanOrEqual($expected, $actualAttributeName, $actualClassOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that an attribute is of a given type.
-     *
-     * @param string $expected
-     * @param string $attributeName
-     * @param mixed  $classOrObject
-     * @param string $message
-     */
-    function assertAttributeInstanceOf($expected, $attributeName, $classOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that an attribute is of a given type.
-     *
-     * @param string $expected
-     * @param string $attributeName
-     * @param mixed  $classOrObject
-     * @param string $message
-     */
-    function assertAttributeInternalType($expected, $attributeName, $classOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that an attribute is smaller than another value.
-     *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param string $actualClassOrObject
-     * @param string $message
-     */
-    function assertAttributeLessThan($expected, $actualAttributeName, $actualClassOrObject, $message = '')
-    {
-    }
-    /**
-     * Asserts that an attribute is smaller than or equal to another value.
-     *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param string $actualClassOrObject
-     * @param string $message
-     */
-    function assertAttributeLessThanOrEqual($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+    function assertNotContains($needle, $haystack, string $message = '', bool $ignoreCase = \false, bool $checkForObjectIdentity = \true, bool $checkForNonObjectIdentity = \false) : void
     {
     }
     /**
      * Asserts that a haystack that is stored in a static attribute of a class
      * or an attribute of an object does not contain a needle.
      *
-     * @param mixed  $needle
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param string $message
-     * @param bool   $ignoreCase
-     * @param bool   $checkForObjectIdentity
-     * @param bool   $checkForNonObjectIdentity
+     * @param object|string $haystackClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotContains($needle, $haystackAttributeName, $haystackClassOrObject, $message = '', $ignoreCase = \false, $checkForObjectIdentity = \true, $checkForNonObjectIdentity = \false)
+    function assertAttributeNotContains($needle, string $haystackAttributeName, $haystackClassOrObject, string $message = '', bool $ignoreCase = \false, bool $checkForObjectIdentity = \true, bool $checkForNonObjectIdentity = \false) : void
+    {
+    }
+    /**
+     * Asserts that a haystack contains only values of a given type.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = \null, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a haystack contains only instances of a given class name.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a haystack that is stored in a static attribute of a class
+     * or an attribute of an object contains only values of a given type.
+     *
+     * @param object|string $haystackClassOrObject
+     * @param bool          $isNativeType
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeContainsOnly(string $type, string $haystackAttributeName, $haystackClassOrObject, ?bool $isNativeType = \null, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a haystack does not contain only values of a given type.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = \null, string $message = '') : void
     {
     }
     /**
@@ -16046,610 +19110,549 @@ namespace {
      * or an attribute of an object does not contain only values of a given
      * type.
      *
-     * @param string $type
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param bool   $isNativeType
-     * @param string $message
+     * @param object|string $haystackClassOrObject
+     * @param bool          $isNativeType
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotContainsOnly($type, $haystackAttributeName, $haystackClassOrObject, $isNativeType = \null, $message = '')
+    function assertAttributeNotContainsOnly(string $type, string $haystackAttributeName, $haystackClassOrObject, ?bool $isNativeType = \null, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts the number of elements of an array, Countable or Traversable.
+     *
+     * @param Countable|iterable $haystack
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertCount(int $expectedCount, $haystack, string $message = '') : void
     {
     }
     /**
      * Asserts the number of elements of an array, Countable or Traversable
      * that is stored in an attribute.
      *
-     * @param int    $expectedCount
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param string $message
+     * @param object|string $haystackClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotCount($expectedCount, $haystackAttributeName, $haystackClassOrObject, $message = '')
+    function assertAttributeCount(int $expectedCount, string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts the number of elements of an array, Countable or Traversable.
+     *
+     * @param Countable|iterable $haystack
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotCount(int $expectedCount, $haystack, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts the number of elements of an array, Countable or Traversable
+     * that is stored in an attribute.
+     *
+     * @param object|string $haystackClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeNotCount(int $expectedCount, string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two variables are equal.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertEquals($expected, $actual, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = \false, bool $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that a variable is equal to an attribute of an object.
+     *
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeEquals($expected, string $actualAttributeName, $actualClassOrObject, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = \false, bool $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that two variables are not equal.
+     *
+     * @param float $delta
+     * @param int   $maxDepth
+     * @param bool  $canonicalize
+     * @param bool  $ignoreCase
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotEquals($expected, $actual, string $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that a variable is not equal to an attribute of an object.
+     *
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeNotEquals($expected, string $actualAttributeName, $actualClassOrObject, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = \false, bool $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that a variable is empty.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertEmpty($actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a static attribute of a class or an attribute of an object
+     * is empty.
+     *
+     * @param object|string $haystackClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeEmpty(string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is not empty.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotEmpty($actual, string $message = '') : void
     {
     }
     /**
      * Asserts that a static attribute of a class or an attribute of an object
      * is not empty.
      *
-     * @param string $haystackAttributeName
-     * @param mixed  $haystackClassOrObject
-     * @param string $message
+     * @param object|string $haystackClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotEmpty($haystackAttributeName, $haystackClassOrObject, $message = '')
+    function assertAttributeNotEmpty(string $haystackAttributeName, $haystackClassOrObject, string $message = '') : void
     {
     }
     /**
-     * Asserts that a variable is not equal to an attribute of an object.
+     * Asserts that a value is greater than another value.
      *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param string $actualClassOrObject
-     * @param string $message
-     * @param float  $delta
-     * @param int    $maxDepth
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotEquals($expected, $actualAttributeName, $actualClassOrObject, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false)
+    function assertGreaterThan($expected, $actual, string $message = '') : void
     {
     }
     /**
-     * Asserts that an attribute is of a given type.
+     * Asserts that an attribute is greater than another value.
      *
-     * @param string $expected
-     * @param string $attributeName
-     * @param mixed  $classOrObject
-     * @param string $message
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotInstanceOf($expected, $attributeName, $classOrObject, $message = '')
+    function assertAttributeGreaterThan($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
     {
     }
     /**
-     * Asserts that an attribute is of a given type.
+     * Asserts that a value is greater than or equal to another value.
      *
-     * @param string $expected
-     * @param string $attributeName
-     * @param mixed  $classOrObject
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotInternalType($expected, $attributeName, $classOrObject, $message = '')
+    function assertGreaterThanOrEqual($expected, $actual, string $message = '') : void
     {
     }
     /**
-     * Asserts that a variable and an attribute of an object do not have the
-     * same type and value.
+     * Asserts that an attribute is greater than or equal to another value.
      *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param object $actualClassOrObject
-     * @param string $message
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeNotSame($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+    function assertAttributeGreaterThanOrEqual($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
     {
     }
     /**
-     * Asserts that a variable and an attribute of an object have the same type
-     * and value.
+     * Asserts that a value is smaller than another value.
      *
-     * @param mixed  $expected
-     * @param string $actualAttributeName
-     * @param object $actualClassOrObject
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertAttributeSame($expected, $actualAttributeName, $actualClassOrObject, $message = '')
+    function assertLessThan($expected, $actual, string $message = '') : void
     {
     }
     /**
-     * Asserts that a class has a specified attribute.
+     * Asserts that an attribute is smaller than another value.
      *
-     * @param string $attributeName
-     * @param string $className
-     * @param string $message
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertClassHasAttribute($attributeName, $className, $message = '')
+    function assertAttributeLessThan($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
     {
     }
     /**
-     * Asserts that a class has a specified static attribute.
+     * Asserts that a value is smaller than or equal to another value.
      *
-     * @param string $attributeName
-     * @param string $className
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertClassHasStaticAttribute($attributeName, $className, $message = '')
+    function assertLessThanOrEqual($expected, $actual, string $message = '') : void
     {
     }
     /**
-     * Asserts that a class does not have a specified attribute.
+     * Asserts that an attribute is smaller than or equal to another value.
      *
-     * @param string $attributeName
-     * @param string $className
-     * @param string $message
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertClassNotHasAttribute($attributeName, $className, $message = '')
-    {
-    }
-    /**
-     * Asserts that a class does not have a specified static attribute.
-     *
-     * @param string $attributeName
-     * @param string $className
-     * @param string $message
-     */
-    function assertClassNotHasStaticAttribute($attributeName, $className, $message = '')
-    {
-    }
-    /**
-     * Asserts that a haystack contains a needle.
-     *
-     * @param mixed  $needle
-     * @param mixed  $haystack
-     * @param string $message
-     * @param bool   $ignoreCase
-     * @param bool   $checkForObjectIdentity
-     * @param bool   $checkForNonObjectIdentity
-     */
-    function assertContains($needle, $haystack, $message = '', $ignoreCase = \false, $checkForObjectIdentity = \true, $checkForNonObjectIdentity = \false)
-    {
-    }
-    /**
-     * Asserts that a haystack contains only values of a given type.
-     *
-     * @param string $type
-     * @param mixed  $haystack
-     * @param bool   $isNativeType
-     * @param string $message
-     */
-    function assertContainsOnly($type, $haystack, $isNativeType = \null, $message = '')
-    {
-    }
-    /**
-     * Asserts that a haystack contains only instances of a given classname
-     *
-     * @param string             $classname
-     * @param array|\Traversable $haystack
-     * @param string             $message
-     */
-    function assertContainsOnlyInstancesOf($classname, $haystack, $message = '')
-    {
-    }
-    /**
-     * Asserts the number of elements of an array, Countable or Traversable.
-     *
-     * @param int    $expectedCount
-     * @param mixed  $haystack
-     * @param string $message
-     */
-    function assertCount($expectedCount, $haystack, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is empty.
-     *
-     * @param mixed  $actual
-     * @param string $message
-     *
-     * @throws AssertionFailedError
-     */
-    function assertEmpty($actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a hierarchy of DOMElements matches.
-     *
-     * @param DOMElement $expectedElement
-     * @param DOMElement $actualElement
-     * @param bool       $checkAttributes
-     * @param string     $message
-     */
-    function assertEqualXMLStructure(\DOMElement $expectedElement, \DOMElement $actualElement, $checkAttributes = \false, $message = '')
-    {
-    }
-    /**
-     * Asserts that two variables are equal.
-     *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
-     * @param float  $delta
-     * @param int    $maxDepth
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
-     */
-    function assertEquals($expected, $actual, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false)
-    {
-    }
-    /**
-     * Asserts that a condition is not true.
-     *
-     * @param bool   $condition
-     * @param string $message
-     *
-     * @throws AssertionFailedError
-     */
-    function assertNotTrue($condition, $message = '')
-    {
-    }
-    /**
-     * Asserts that a condition is false.
-     *
-     * @param bool   $condition
-     * @param string $message
-     *
-     * @throws AssertionFailedError
-     */
-    function assertFalse($condition, $message = '')
+    function assertAttributeLessThanOrEqual($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
     {
     }
     /**
      * Asserts that the contents of one file is equal to the contents of another
      * file.
      *
-     * @param string $expected
-     * @param string $actual
-     * @param string $message
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertFileEquals($expected, $actual, $message = '', $canonicalize = \false, $ignoreCase = \false)
-    {
-    }
-    /**
-     * Asserts that a file exists.
-     *
-     * @param string $filename
-     * @param string $message
-     */
-    function assertFileExists($filename, $message = '')
+    function assertFileEquals(string $expected, string $actual, string $message = '', bool $canonicalize = \false, bool $ignoreCase = \false) : void
     {
     }
     /**
      * Asserts that the contents of one file is not equal to the contents of
      * another file.
      *
-     * @param string $expected
-     * @param string $actual
-     * @param string $message
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertFileNotEquals($expected, $actual, $message = '', $canonicalize = \false, $ignoreCase = \false)
+    function assertFileNotEquals(string $expected, string $actual, string $message = '', bool $canonicalize = \false, bool $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that the contents of a string is equal
+     * to the contents of a file.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertStringEqualsFile(string $expectedFile, string $actualString, string $message = '', bool $canonicalize = \false, bool $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that the contents of a string is not equal
+     * to the contents of a file.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = '', bool $canonicalize = \false, bool $ignoreCase = \false) : void
+    {
+    }
+    /**
+     * Asserts that a file/dir is readable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertIsReadable(string $filename, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a file/dir exists and is not readable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotIsReadable(string $filename, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a file/dir exists and is writable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertIsWritable(string $filename, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a file/dir exists and is not writable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotIsWritable(string $filename, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a directory exists.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertDirectoryExists(string $directory, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a directory does not exist.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertDirectoryNotExists(string $directory, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a directory exists and is readable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertDirectoryIsReadable(string $directory, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a directory exists and is not readable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertDirectoryNotIsReadable(string $directory, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a directory exists and is writable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertDirectoryIsWritable(string $directory, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a directory exists and is not writable.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertDirectoryNotIsWritable(string $directory, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a file exists.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertFileExists(string $filename, string $message = '') : void
     {
     }
     /**
      * Asserts that a file does not exist.
      *
-     * @param string $filename
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertFileNotExists($filename, $message = '')
+    function assertFileNotExists(string $filename, string $message = '') : void
     {
     }
     /**
-     * Asserts that a value is greater than another value.
+     * Asserts that a file exists and is readable.
      *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertGreaterThan($expected, $actual, $message = '')
+    function assertFileIsReadable(string $file, string $message = '') : void
     {
     }
     /**
-     * Asserts that a value is greater than or equal to another value.
+     * Asserts that a file exists and is not readable.
      *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertGreaterThanOrEqual($expected, $actual, $message = '')
+    function assertFileNotIsReadable(string $file, string $message = '') : void
     {
     }
     /**
-     * Asserts that a variable is of a given type.
+     * Asserts that a file exists and is writable.
      *
-     * @param string $expected
-     * @param mixed  $actual
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertInstanceOf($expected, $actual, $message = '')
+    function assertFileIsWritable(string $file, string $message = '') : void
     {
     }
     /**
-     * Asserts that a variable is of a given type.
+     * Asserts that a file exists and is not writable.
      *
-     * @param string $expected
-     * @param mixed  $actual
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertInternalType($expected, $actual, $message = '')
+    function assertFileNotIsWritable(string $file, string $message = '') : void
     {
     }
     /**
-     * Asserts that a string is a valid JSON string.
+     * Asserts that a condition is true.
      *
-     * @param string $actualJson
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertJson($actualJson, $message = '')
+    function assertTrue($condition, string $message = '') : void
     {
     }
     /**
-     * Asserts that two JSON files are equal.
+     * Asserts that a condition is not true.
      *
-     * @param string $expectedFile
-     * @param string $actualFile
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertJsonFileEqualsJsonFile($expectedFile, $actualFile, $message = '')
+    function assertNotTrue($condition, string $message = '') : void
     {
     }
     /**
-     * Asserts that two JSON files are not equal.
+     * Asserts that a condition is false.
      *
-     * @param string $expectedFile
-     * @param string $actualFile
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertJsonFileNotEqualsJsonFile($expectedFile, $actualFile, $message = '')
-    {
-    }
-    /**
-     * Asserts that the generated JSON encoded object and the content of the given file are equal.
-     *
-     * @param string $expectedFile
-     * @param string $actualJson
-     * @param string $message
-     */
-    function assertJsonStringEqualsJsonFile($expectedFile, $actualJson, $message = '')
-    {
-    }
-    /**
-     * Asserts that two given JSON encoded objects or arrays are equal.
-     *
-     * @param string $expectedJson
-     * @param string $actualJson
-     * @param string $message
-     */
-    function assertJsonStringEqualsJsonString($expectedJson, $actualJson, $message = '')
-    {
-    }
-    /**
-     * Asserts that the generated JSON encoded object and the content of the given file are not equal.
-     *
-     * @param string $expectedFile
-     * @param string $actualJson
-     * @param string $message
-     */
-    function assertJsonStringNotEqualsJsonFile($expectedFile, $actualJson, $message = '')
-    {
-    }
-    /**
-     * Asserts that two given JSON encoded objects or arrays are not equal.
-     *
-     * @param string $expectedJson
-     * @param string $actualJson
-     * @param string $message
-     */
-    function assertJsonStringNotEqualsJsonString($expectedJson, $actualJson, $message = '')
-    {
-    }
-    /**
-     * Asserts that a value is smaller than another value.
-     *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertLessThan($expected, $actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a value is smaller than or equal to another value.
-     *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertLessThanOrEqual($expected, $actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is finite.
-     *
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertFinite($actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is infinite.
-     *
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertInfinite($actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is nan.
-     *
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertNan($actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a haystack does not contain a needle.
-     *
-     * @param mixed  $needle
-     * @param mixed  $haystack
-     * @param string $message
-     * @param bool   $ignoreCase
-     * @param bool   $checkForObjectIdentity
-     * @param bool   $checkForNonObjectIdentity
-     */
-    function assertNotContains($needle, $haystack, $message = '', $ignoreCase = \false, $checkForObjectIdentity = \true, $checkForNonObjectIdentity = \false)
-    {
-    }
-    /**
-     * Asserts that a haystack does not contain only values of a given type.
-     *
-     * @param string $type
-     * @param mixed  $haystack
-     * @param bool   $isNativeType
-     * @param string $message
-     */
-    function assertNotContainsOnly($type, $haystack, $isNativeType = \null, $message = '')
-    {
-    }
-    /**
-     * Asserts the number of elements of an array, Countable or Traversable.
-     *
-     * @param int    $expectedCount
-     * @param mixed  $haystack
-     * @param string $message
-     */
-    function assertNotCount($expectedCount, $haystack, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is not empty.
-     *
-     * @param mixed  $actual
-     * @param string $message
-     *
-     * @throws AssertionFailedError
-     */
-    function assertNotEmpty($actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that two variables are not equal.
-     *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
-     * @param float  $delta
-     * @param int    $maxDepth
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
-     */
-    function assertNotEquals($expected, $actual, $message = '', $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false)
-    {
-    }
-    /**
-     * Asserts that a variable is not of a given type.
-     *
-     * @param string $expected
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertNotInstanceOf($expected, $actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is not of a given type.
-     *
-     * @param string $expected
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertNotInternalType($expected, $actual, $message = '')
+    function assertFalse($condition, string $message = '') : void
     {
     }
     /**
      * Asserts that a condition is not false.
      *
-     * @param bool   $condition
-     * @param string $message
-     *
-     * @throws AssertionFailedError
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertNotFalse($condition, $message = '')
-    {
-    }
-    /**
-     * Asserts that a variable is not null.
-     *
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertNotNull($actual, $message = '')
-    {
-    }
-    /**
-     * Asserts that a string does not match a given regular expression.
-     *
-     * @param string $pattern
-     * @param string $string
-     * @param string $message
-     */
-    function assertNotRegExp($pattern, $string, $message = '')
-    {
-    }
-    /**
-     * Asserts that two variables do not have the same type and value.
-     * Used on objects, it asserts that two variables do not reference
-     * the same object.
-     *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
-     */
-    function assertNotSame($expected, $actual, $message = '')
-    {
-    }
-    /**
-     * Assert that the size of two arrays (or `Countable` or `Traversable` objects)
-     * is not the same.
-     *
-     * @param array|\Countable|\Traversable $expected
-     * @param array|\Countable|\Traversable $actual
-     * @param string                        $message
-     */
-    function assertNotSameSize($expected, $actual, $message = '')
+    function assertNotFalse($condition, string $message = '') : void
     {
     }
     /**
      * Asserts that a variable is null.
      *
-     * @param mixed  $actual
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertNull($actual, $message = '')
+    function assertNull($actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is not null.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotNull($actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is finite.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertFinite($actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is infinite.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertInfinite($actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is nan.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNan($actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a class has a specified attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertClassHasAttribute(string $attributeName, string $className, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a class does not have a specified attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertClassNotHasAttribute(string $attributeName, string $className, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a class has a specified static attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertClassHasStaticAttribute(string $attributeName, string $className, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a class does not have a specified static attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = '') : void
     {
     }
     /**
      * Asserts that an object has a specified attribute.
      *
-     * @param string $attributeName
      * @param object $object
-     * @param string $message
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertObjectHasAttribute($attributeName, $object, $message = '')
+    function assertObjectHasAttribute(string $attributeName, $object, string $message = '') : void
     {
     }
     /**
      * Asserts that an object does not have a specified attribute.
      *
-     * @param string $attributeName
      * @param object $object
-     * @param string $message
-     */
-    function assertObjectNotHasAttribute($attributeName, $object, $message = '')
-    {
-    }
-    /**
-     * Asserts that a string matches a given regular expression.
      *
-     * @param string $pattern
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertRegExp($pattern, $string, $message = '')
+    function assertObjectNotHasAttribute(string $attributeName, $object, string $message = '') : void
     {
     }
     /**
@@ -16657,108 +19660,214 @@ namespace {
      * Used on objects, it asserts that two variables reference
      * the same object.
      *
-     * @param mixed  $expected
-     * @param mixed  $actual
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertSame($expected, $actual, $message = '')
+    function assertSame($expected, $actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable and an attribute of an object have the same type
+     * and value.
+     *
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeSame($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two variables do not have the same type and value.
+     * Used on objects, it asserts that two variables do not reference
+     * the same object.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotSame($expected, $actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable and an attribute of an object do not have the
+     * same type and value.
+     *
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeNotSame($expected, string $actualAttributeName, $actualClassOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is of a given type.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertInstanceOf(string $expected, $actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that an attribute is of a given type.
+     *
+     * @param object|string $classOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeInstanceOf(string $expected, string $attributeName, $classOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is not of a given type.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotInstanceOf(string $expected, $actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that an attribute is of a given type.
+     *
+     * @param object|string $classOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeNotInstanceOf(string $expected, string $attributeName, $classOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is of a given type.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertInternalType(string $expected, $actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that an attribute is of a given type.
+     *
+     * @param object|string $classOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeInternalType(string $expected, string $attributeName, $classOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a variable is not of a given type.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotInternalType(string $expected, $actual, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that an attribute is of a given type.
+     *
+     * @param object|string $classOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertAttributeNotInternalType(string $expected, string $attributeName, $classOrObject, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a string matches a given regular expression.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertRegExp(string $pattern, string $string, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a string does not match a given regular expression.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertNotRegExp(string $pattern, string $string, string $message = '') : void
     {
     }
     /**
      * Assert that the size of two arrays (or `Countable` or `Traversable` objects)
      * is the same.
      *
-     * @param array|\Countable|\Traversable $expected
-     * @param array|\Countable|\Traversable $actual
-     * @param string                        $message
+     * @param Countable|iterable $expected
+     * @param Countable|iterable $actual
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertSameSize($expected, $actual, $message = '')
+    function assertSameSize($expected, $actual, string $message = '') : void
     {
     }
     /**
-     * Asserts that a string ends not with a given prefix.
+     * Assert that the size of two arrays (or `Countable` or `Traversable` objects)
+     * is not the same.
      *
-     * @param string $suffix
-     * @param string $string
-     * @param string $message
-     */
-    function assertStringEndsNotWith($suffix, $string, $message = '')
-    {
-    }
-    /**
-     * Asserts that a string ends with a given prefix.
+     * @param Countable|iterable $expected
+     * @param Countable|iterable $actual
      *
-     * @param string $suffix
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringEndsWith($suffix, $string, $message = '')
-    {
-    }
-    /**
-     * Asserts that the contents of a string is equal
-     * to the contents of a file.
-     *
-     * @param string $expectedFile
-     * @param string $actualString
-     * @param string $message
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
-     */
-    function assertStringEqualsFile($expectedFile, $actualString, $message = '', $canonicalize = \false, $ignoreCase = \false)
+    function assertNotSameSize($expected, $actual, string $message = '') : void
     {
     }
     /**
      * Asserts that a string matches a given format string.
      *
-     * @param string $format
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringMatchesFormat($format, $string, $message = '')
+    function assertStringMatchesFormat(string $format, string $string, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a string does not match a given format string.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertStringNotMatchesFormat(string $format, string $string, string $message = '') : void
     {
     }
     /**
      * Asserts that a string matches a given format file.
      *
-     * @param string $formatFile
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringMatchesFormatFile($formatFile, $string, $message = '')
-    {
-    }
-    /**
-     * Asserts that the contents of a string is not equal
-     * to the contents of a file.
-     *
-     * @param string $expectedFile
-     * @param string $actualString
-     * @param string $message
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
-     */
-    function assertStringNotEqualsFile($expectedFile, $actualString, $message = '', $canonicalize = \false, $ignoreCase = \false)
+    function assertStringMatchesFormatFile(string $formatFile, string $string, string $message = '') : void
     {
     }
     /**
      * Asserts that a string does not match a given format string.
      *
-     * @param string $format
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringNotMatchesFormat($format, $string, $message = '')
+    function assertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = '') : void
     {
     }
     /**
-     * Asserts that a string does not match a given format string.
+     * Asserts that a string starts with a given prefix.
      *
-     * @param string $formatFile
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringNotMatchesFormatFile($formatFile, $string, $message = '')
+    function assertStringStartsWith(string $prefix, string $string, string $message = '') : void
     {
     }
     /**
@@ -16766,245 +19875,335 @@ namespace {
      *
      * @param string $prefix
      * @param string $string
-     * @param string $message
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringStartsNotWith($prefix, $string, $message = '')
+    function assertStringStartsNotWith($prefix, $string, string $message = '') : void
     {
     }
     /**
-     * Asserts that a string starts with a given prefix.
+     * Asserts that a string ends with a given suffix.
      *
-     * @param string $prefix
-     * @param string $string
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertStringStartsWith($prefix, $string, $message = '')
+    function assertStringEndsWith(string $suffix, string $string, string $message = '') : void
     {
     }
     /**
-     * Evaluates a PHPUnit\Framework\Constraint matcher object.
+     * Asserts that a string ends not with a given suffix.
      *
-     * @param mixed      $value
-     * @param Constraint $constraint
-     * @param string     $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, $message = '')
-    {
-    }
-    /**
-     * Asserts that a condition is true.
-     *
-     * @param bool   $condition
-     * @param string $message
-     *
-     * @throws AssertionFailedError
-     */
-    function assertTrue($condition, $message = '')
+    function assertStringEndsNotWith(string $suffix, string $string, string $message = '') : void
     {
     }
     /**
      * Asserts that two XML files are equal.
      *
-     * @param string $expectedFile
-     * @param string $actualFile
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertXmlFileEqualsXmlFile($expectedFile, $actualFile, $message = '')
+    function assertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '') : void
     {
     }
     /**
      * Asserts that two XML files are not equal.
      *
-     * @param string $expectedFile
-     * @param string $actualFile
-     * @param string $message
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertXmlFileNotEqualsXmlFile($expectedFile, $actualFile, $message = '')
+    function assertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '') : void
     {
     }
     /**
      * Asserts that two XML documents are equal.
      *
-     * @param string             $expectedFile
-     * @param string|DOMDocument $actualXml
-     * @param string             $message
+     * @param DOMDocument|string $actualXml
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertXmlStringEqualsXmlFile($expectedFile, $actualXml, $message = '')
+    function assertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two XML documents are not equal.
+     *
+     * @param DOMDocument|string $actualXml
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = '') : void
     {
     }
     /**
      * Asserts that two XML documents are equal.
      *
-     * @param string|DOMDocument $expectedXml
-     * @param string|DOMDocument $actualXml
-     * @param string             $message
+     * @param DOMDocument|string $expectedXml
+     * @param DOMDocument|string $actualXml
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertXmlStringEqualsXmlString($expectedXml, $actualXml, $message = '')
+    function assertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = '') : void
     {
     }
     /**
      * Asserts that two XML documents are not equal.
      *
-     * @param string             $expectedFile
-     * @param string|DOMDocument $actualXml
-     * @param string             $message
+     * @param DOMDocument|string $expectedXml
+     * @param DOMDocument|string $actualXml
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertXmlStringNotEqualsXmlFile($expectedFile, $actualXml, $message = '')
+    function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = '') : void
     {
     }
     /**
-     * Asserts that two XML documents are not equal.
+     * Asserts that a hierarchy of DOMElements matches.
      *
-     * @param string|DOMDocument $expectedXml
-     * @param string|DOMDocument $actualXml
-     * @param string             $message
+     * @throws AssertionFailedError
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, $message = '')
+    function assertEqualXMLStructure(\DOMElement $expectedElement, \DOMElement $actualElement, bool $checkAttributes = \false, string $message = '') : void
+    {
+    }
+    /**
+     * Evaluates a PHPUnit\Framework\Constraint matcher object.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that a string is a valid JSON string.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJson(string $actualJson, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two given JSON encoded objects or arrays are equal.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two given JSON encoded objects or arrays are not equal.
+     *
+     * @param string $expectedJson
+     * @param string $actualJson
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJsonStringNotEqualsJsonString($expectedJson, $actualJson, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that the generated JSON encoded object and the content of the given file are equal.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that the generated JSON encoded object and the content of the given file are not equal.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two JSON files are equal.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '') : void
+    {
+    }
+    /**
+     * Asserts that two JSON files are not equal.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    function assertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '') : void
+    {
+    }
+    function logicalAnd() : \PHPUnit\Framework\Constraint\LogicalAnd
+    {
+    }
+    function logicalOr() : \PHPUnit\Framework\Constraint\LogicalOr
+    {
+    }
+    function logicalNot(\PHPUnit\Framework\Constraint\Constraint $constraint) : \PHPUnit\Framework\Constraint\LogicalNot
+    {
+    }
+    function logicalXor() : \PHPUnit\Framework\Constraint\LogicalXor
+    {
+    }
+    function anything() : \PHPUnit\Framework\Constraint\IsAnything
+    {
+    }
+    function isTrue() : \PHPUnit\Framework\Constraint\IsTrue
+    {
+    }
+    function callback(callable $callback) : \PHPUnit\Framework\Constraint\Callback
+    {
+    }
+    function isFalse() : \PHPUnit\Framework\Constraint\IsFalse
+    {
+    }
+    function isJson() : \PHPUnit\Framework\Constraint\IsJson
+    {
+    }
+    function isNull() : \PHPUnit\Framework\Constraint\IsNull
+    {
+    }
+    function isFinite() : \PHPUnit\Framework\Constraint\IsFinite
+    {
+    }
+    function isInfinite() : \PHPUnit\Framework\Constraint\IsInfinite
+    {
+    }
+    function isNan() : \PHPUnit\Framework\Constraint\IsNan
+    {
+    }
+    function attribute(\PHPUnit\Framework\Constraint\Constraint $constraint, string $attributeName) : \PHPUnit\Framework\Constraint\Attribute
+    {
+    }
+    function contains($value, bool $checkForObjectIdentity = \true, bool $checkForNonObjectIdentity = \false) : \PHPUnit\Framework\Constraint\TraversableContains
+    {
+    }
+    function containsOnly(string $type) : \PHPUnit\Framework\Constraint\TraversableContainsOnly
+    {
+    }
+    function containsOnlyInstancesOf(string $className) : \PHPUnit\Framework\Constraint\TraversableContainsOnly
+    {
+    }
+    function arrayHasKey($key) : \PHPUnit\Framework\Constraint\ArrayHasKey
+    {
+    }
+    function equalTo($value, float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = \false, bool $ignoreCase = \false) : \PHPUnit\Framework\Constraint\IsEqual
+    {
+    }
+    function attributeEqualTo(string $attributeName, $value, float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = \false, bool $ignoreCase = \false) : \PHPUnit\Framework\Constraint\Attribute
+    {
+    }
+    function isEmpty() : \PHPUnit\Framework\Constraint\IsEmpty
+    {
+    }
+    function isWritable() : \PHPUnit\Framework\Constraint\IsWritable
+    {
+    }
+    function isReadable() : \PHPUnit\Framework\Constraint\IsReadable
+    {
+    }
+    function directoryExists() : \PHPUnit\Framework\Constraint\DirectoryExists
+    {
+    }
+    function fileExists() : \PHPUnit\Framework\Constraint\FileExists
+    {
+    }
+    function greaterThan($value) : \PHPUnit\Framework\Constraint\GreaterThan
+    {
+    }
+    function greaterThanOrEqual($value) : \PHPUnit\Framework\Constraint\LogicalOr
+    {
+    }
+    function classHasAttribute(string $attributeName) : \PHPUnit\Framework\Constraint\ClassHasAttribute
+    {
+    }
+    function classHasStaticAttribute(string $attributeName) : \PHPUnit\Framework\Constraint\ClassHasStaticAttribute
+    {
+    }
+    function objectHasAttribute($attributeName) : \PHPUnit\Framework\Constraint\ObjectHasAttribute
+    {
+    }
+    function identicalTo($value) : \PHPUnit\Framework\Constraint\IsIdentical
+    {
+    }
+    function isInstanceOf(string $className) : \PHPUnit\Framework\Constraint\IsInstanceOf
+    {
+    }
+    function isType(string $type) : \PHPUnit\Framework\Constraint\IsType
+    {
+    }
+    function lessThan($value) : \PHPUnit\Framework\Constraint\LessThan
+    {
+    }
+    function lessThanOrEqual($value) : \PHPUnit\Framework\Constraint\LogicalOr
+    {
+    }
+    function matchesRegularExpression(string $pattern) : \PHPUnit\Framework\Constraint\RegularExpression
+    {
+    }
+    function matches(string $string) : \PHPUnit\Framework\Constraint\StringMatchesFormatDescription
+    {
+    }
+    function stringStartsWith($prefix) : \PHPUnit\Framework\Constraint\StringStartsWith
+    {
+    }
+    function stringContains(string $string, bool $case = \true) : \PHPUnit\Framework\Constraint\StringContains
+    {
+    }
+    function stringEndsWith(string $suffix) : \PHPUnit\Framework\Constraint\StringEndsWith
+    {
+    }
+    function countOf(int $count) : \PHPUnit\Framework\Constraint\Count
     {
     }
     /**
      * Returns a matcher that matches when the method is executed
-     * at the given $index.
-     *
-     * @param int $index
-     *
-     * @return PHPUnit\Framework\MockObject\Matcher\InvokedAtIndex
+     * zero or more times.
      */
-    function at($index)
+    function any() : \PHPUnit\Framework\MockObject\Matcher\AnyInvokedCount
+    {
+    }
+    /**
+     * Returns a matcher that matches when the method is never executed.
+     */
+    function never() : \PHPUnit\Framework\MockObject\Matcher\InvokedCount
+    {
+    }
+    /**
+     * Returns a matcher that matches when the method is executed
+     * at least N times.
+     *
+     * @param int $requiredInvocations
+     */
+    function atLeast($requiredInvocations) : \PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastCount
     {
     }
     /**
      * Returns a matcher that matches when the method is executed at least once.
-     *
-     * @return PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastOnce
      */
-    function atLeastOnce()
+    function atLeastOnce() : \PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastOnce
     {
     }
     /**
-     * Returns a PHPUnit\Framework\Constraint\Attribute matcher object.
-     *
-     * @param Constraint $constraint
-     * @param string     $attributeName
-     *
-     * @return Attribute
+     * Returns a matcher that matches when the method is executed exactly once.
      */
-    function attribute(\PHPUnit\Framework\Constraint\Constraint $constraint, $attributeName)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsEqual matcher object
-     * that is wrapped in a PHPUnit\Framework\Constraint\Attribute matcher
-     * object.
-     *
-     * @param string $attributeName
-     * @param mixed  $value
-     * @param float  $delta
-     * @param int    $maxDepth
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
-     *
-     * @return Attribute
-     */
-    function attributeEqualTo($attributeName, $value, $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Callback matcher object.
-     *
-     * @param callable $callback
-     *
-     * @return Callback
-     */
-    function callback($callback)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\ClassHasAttribute matcher object.
-     *
-     * @param string $attributeName
-     *
-     * @return ClassHasAttribute
-     */
-    function classHasAttribute($attributeName)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\ClassHasStaticAttribute matcher
-     * object.
-     *
-     * @param string $attributeName
-     *
-     * @return ClassHasStaticAttribute
-     */
-    function classHasStaticAttribute($attributeName)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\TraversableContains matcher
-     * object.
-     *
-     * @param mixed $value
-     * @param bool  $checkForObjectIdentity
-     * @param bool  $checkForNonObjectIdentity
-     *
-     * @return TraversableContains
-     */
-    function contains($value, $checkForObjectIdentity = \true, $checkForNonObjectIdentity = \false)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\TraversableContainsOnly matcher
-     * object.
-     *
-     * @param string $type
-     *
-     * @return TraversableContainsOnly
-     */
-    function containsOnly($type)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\TraversableContainsOnly matcher
-     * object.
-     *
-     * @param string $classname
-     *
-     * @return TraversableContainsOnly
-     */
-    function containsOnlyInstancesOf($classname)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Count matcher object.
-     *
-     * @param int $count
-     *
-     * @return Count
-     */
-    function countOf($count)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\DirectoryExists matcher object.
-     *
-     * @return DirectoryExists
-     */
-    function directoryExists()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsEqual matcher object.
-     *
-     * @param mixed $value
-     * @param float $delta
-     * @param int   $maxDepth
-     * @param bool  $canonicalize
-     * @param bool  $ignoreCase
-     *
-     * @return IsEqual
-     */
-    function equalTo($value, $delta = 0.0, $maxDepth = 10, $canonicalize = \false, $ignoreCase = \false)
+    function once() : \PHPUnit\Framework\MockObject\Matcher\InvokedCount
     {
     }
     /**
@@ -17012,333 +20211,55 @@ namespace {
      * exactly $count times.
      *
      * @param int $count
-     *
-     * @return PHPUnit\Framework\MockObject\Matcher\InvokedCount
      */
-    function exactly($count)
+    function exactly($count) : \PHPUnit\Framework\MockObject\Matcher\InvokedCount
     {
     }
     /**
-     * Returns a PHPUnit\Framework\Constraint\FileExists matcher object.
+     * Returns a matcher that matches when the method is executed
+     * at most N times.
      *
-     * @return FileExists
+     * @param int $allowedInvocations
      */
-    function fileExists()
+    function atMost($allowedInvocations) : \PHPUnit\Framework\MockObject\Matcher\InvokedAtMostCount
     {
     }
     /**
-     * Returns a PHPUnit\Framework\Constraint\GreaterThan matcher object.
+     * Returns a matcher that matches when the method is executed
+     * at the given index.
      *
-     * @param mixed $value
-     *
-     * @return GreaterThan
+     * @param int $index
      */
-    function greaterThan($value)
+    function at($index) : \PHPUnit\Framework\MockObject\Matcher\InvokedAtIndex
     {
     }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Or matcher object that wraps
-     * a PHPUnit\Framework\Constraint\IsEqual and a
-     * PHPUnit\Framework\Constraint\GreaterThan matcher object.
-     *
-     * @param mixed $value
-     *
-     * @return LogicalOr
-     */
-    function greaterThanOrEqual($value)
+    function returnValue($value) : \PHPUnit\Framework\MockObject\Stub\ReturnStub
     {
     }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsIdentical matcher object.
-     *
-     * @param mixed $value
-     *
-     * @return IsIdentical
-     */
-    function identicalTo($value)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsEmpty matcher object.
-     *
-     * @return IsEmpty
-     */
-    function isEmpty()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsFalse matcher object.
-     *
-     * @return IsFalse
-     */
-    function isFalse()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsInfinite matcher object.
-     *
-     * @return IsInfinite
-     */
-    function isInfinite()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsInstanceOf matcher object.
-     *
-     * @param string $className
-     *
-     * @return IsInstanceOf
-     */
-    function isInstanceOf($className)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsJson matcher object.
-     *
-     * @return IsJson
-     */
-    function isJson()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsNan matcher object.
-     *
-     * @return IsNan
-     */
-    function isNan()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsNull matcher object.
-     *
-     * @return IsNull
-     */
-    function isNull()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsReadable matcher object.
-     *
-     * @return IsReadable
-     */
-    function isReadable()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsTrue matcher object.
-     *
-     * @return IsTrue
-     */
-    function isTrue()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsType matcher object.
-     *
-     * @param string $type
-     *
-     * @return IsType
-     */
-    function isType($type)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\IsWritable matcher object.
-     *
-     * @return IsWritable
-     */
-    function isWritable()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\LessThan matcher object.
-     *
-     * @param mixed $value
-     *
-     * @return LessThan
-     */
-    function lessThan($value)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Or matcher object that wraps
-     * a PHPUnit\Framework\Constraint\IsEqual and a
-     * PHPUnit\Framework\Constraint\LessThan matcher object.
-     *
-     * @param mixed $value
-     *
-     * @return LogicalOr
-     */
-    function lessThanOrEqual($value)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\And matcher object.
-     *
-     * @return LogicalAnd
-     */
-    function logicalAnd()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Not matcher object.
-     *
-     * @param Constraint $constraint
-     *
-     * @return LogicalNot
-     */
-    function logicalNot(\PHPUnit\Framework\Constraint\Constraint $constraint)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Or matcher object.
-     *
-     * @return LogicalOr
-     */
-    function logicalOr()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\Xor matcher object.
-     *
-     * @return LogicalXor
-     */
-    function logicalXor()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\StringMatches matcher object.
-     *
-     * @param string $string
-     *
-     * @return StringMatchesFormatDescription
-     */
-    function matches($string)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\PCREMatch matcher object.
-     *
-     * @param string $pattern
-     *
-     * @return RegularExpression
-     */
-    function matchesRegularExpression($pattern)
-    {
-    }
-    /**
-     * Returns a matcher that matches when the method is never executed.
-     *
-     * @return PHPUnit\Framework\MockObject\Matcher\InvokedCount
-     */
-    function never()
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\ObjectHasAttribute matcher object.
-     *
-     * @param string $attributeName
-     *
-     * @return ObjectHasAttribute
-     */
-    function objectHasAttribute($attributeName)
-    {
-    }
-    /**
-     * @param mixed $value, ...
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls
-     */
-    function onConsecutiveCalls()
-    {
-    }
-    /**
-     * Returns a matcher that matches when the method is executed exactly once.
-     *
-     * @return PHPUnit\Framework\MockObject\Matcher\InvokedCount
-     */
-    function once()
+    function returnValueMap(array $valueMap) : \PHPUnit\Framework\MockObject\Stub\ReturnValueMap
     {
     }
     /**
      * @param int $argumentIndex
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\ReturnArgument
      */
-    function returnArgument($argumentIndex)
+    function returnArgument($argumentIndex) : \PHPUnit\Framework\MockObject\Stub\ReturnArgument
     {
     }
-    /**
-     * @param mixed $callback
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\ReturnCallback
-     */
-    function returnCallback($callback)
+    function returnCallback($callback) : \PHPUnit\Framework\MockObject\Stub\ReturnCallback
     {
     }
     /**
      * Returns the current object.
      *
      * This method is useful when mocking a fluent interface.
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\ReturnSelf
      */
-    function returnSelf()
+    function returnSelf() : \PHPUnit\Framework\MockObject\Stub\ReturnSelf
     {
     }
-    /**
-     * @param mixed $value
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\Return
-     */
-    function returnValue($value)
+    function throwException(\Throwable $exception) : \PHPUnit\Framework\MockObject\Stub\Exception
     {
     }
-    /**
-     * @param array $valueMap
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\ReturnValueMap
-     */
-    function returnValueMap(array $valueMap)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\StringContains matcher object.
-     *
-     * @param string $string
-     * @param bool   $case
-     *
-     * @return StringContains
-     */
-    function stringContains($string, $case = \true)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\StringEndsWith matcher object.
-     *
-     * @param mixed $suffix
-     *
-     * @return StringEndsWith
-     */
-    function stringEndsWith($suffix)
-    {
-    }
-    /**
-     * Returns a PHPUnit\Framework\Constraint\StringStartsWith matcher object.
-     *
-     * @param mixed $prefix
-     *
-     * @return StringStartsWith
-     */
-    function stringStartsWith($prefix)
-    {
-    }
-    /**
-     * @param Exception $exception
-     *
-     * @return PHPUnit\Framework\MockObject\Stub\Exception
-     */
-    function throwException(\Exception $exception)
+    function onConsecutiveCalls() : \PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls
     {
     }
 }
