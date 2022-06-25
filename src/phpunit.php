@@ -432,12 +432,15 @@ interface TestSuiteLoader
 final class StandardTestSuiteLoader implements \PHPUnit\Runner\TestSuiteLoader
 {
     /**
-     * @throws \PHPUnit\Framework\ClassNotFoundException
+     * @throws Exception
      */
     public function load(string $suiteClassFile) : \ReflectionClass
     {
     }
     public function reload(\ReflectionClass $aClass) : \ReflectionClass
+    {
+    }
+    private function exceptionFor(string $className, string $filename) : \PHPUnit\Runner\Exception
     {
     }
 }
@@ -521,7 +524,7 @@ abstract class BaseTestRunner
      *
      * @throws Exception
      */
-    public function getTest(string $suiteClassFile, $suffixes = '') : ?\PHPUnit\Framework\Test
+    public function getTest(string $suiteClassFile, $suffixes = '') : ?\PHPUnit\Framework\TestSuite
     {
     }
     /**
@@ -607,7 +610,6 @@ final class PhptTestCase implements \PHPUnit\Framework\SelfDescribing, \PHPUnit\
      * @throws Exception
      * @throws \SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
-     * @throws \SebastianBergmann\CodeCoverage\MissingCoversAnnotationException
      * @throws \SebastianBergmann\CodeCoverage\RuntimeException
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
@@ -1040,6 +1042,10 @@ class DefaultResultPrinter extends \PHPUnit\Util\Printer implements \PHPUnit\Tex
      */
     private $defectListPrinted = false;
     /**
+     * @var Timer
+     */
+    private $timer;
+    /**
      * Constructor.
      *
      * @param null|resource|string $out
@@ -1050,9 +1056,6 @@ class DefaultResultPrinter extends \PHPUnit\Util\Printer implements \PHPUnit\Tex
     public function __construct($out = null, bool $verbose = false, string $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
     {
     }
-    /**
-     * @throws \SebastianBergmann\Timer\RuntimeException
-     */
     public function printResult(\PHPUnit\Framework\TestResult $result) : void
     {
     }
@@ -1146,10 +1149,7 @@ class DefaultResultPrinter extends \PHPUnit\Util\Printer implements \PHPUnit\Tex
     protected function printSkipped(\PHPUnit\Framework\TestResult $result) : void
     {
     }
-    /**
-     * @throws \SebastianBergmann\Timer\RuntimeException
-     */
-    protected function printHeader() : void
+    protected function printHeader(\PHPUnit\Framework\TestResult $result) : void
     {
     }
     protected function printFooter(\PHPUnit\Framework\TestResult $result) : void
@@ -1203,9 +1203,6 @@ final class TeamCity extends \PHPUnit\TextUI\DefaultResultPrinter
      * @var false|int
      */
     private $flowId;
-    /**
-     * @throws \SebastianBergmann\Timer\RuntimeException
-     */
     public function printResult(\PHPUnit\Framework\TestResult $result) : void
     {
     }
@@ -1479,7 +1476,7 @@ final class RegularExpression
     /**
      * @return false|int
      */
-    public static function safeMatch(string $pattern, string $subject, ?array $matches = null, int $flags = 0, int $offset = 0)
+    public static function safeMatch(string $pattern, string $subject)
     {
     }
 }
@@ -1618,7 +1615,7 @@ final class Getopt
     /**
      * @throws Exception
      */
-    public static function getopt(array $args, string $short_options, array $long_options = null) : array
+    public static function parse(array $args, string $short_options, array $long_options = null) : array
     {
     }
     /**
@@ -1880,18 +1877,20 @@ final class Json
     public static function prettify(string $json) : string
     {
     }
-    /*
+    /**
      * To allow comparison of JSON strings, first process them into a consistent
      * format so that they can be compared as strings.
+     *
      * @return array ($error, $canonicalized_json)  The $error parameter is used
-     * to indicate an error decoding the json.  This is used to avoid ambiguity
-     * with JSON strings consisting entirely of 'null' or 'false'.
+     *               to indicate an error decoding the json. This is used to avoid ambiguity
+     *               with JSON strings consisting entirely of 'null' or 'false'.
      */
     public static function canonicalize(string $json) : array
     {
     }
-    /*
+    /**
      * JSON object keys are unordered while PHP array keys are ordered.
+     *
      * Sort all array keys to ensure both the expected and actual values have
      * their keys in the same order.
      */
@@ -2468,15 +2467,22 @@ class CliTestDoxPrinter extends \PHPUnit\Util\TestDox\TestDoxPrinter
      */
     private $nonSuccessfulTestResults = [];
     /**
-     * @throws \SebastianBergmann\Timer\RuntimeException
+     * @var Timer
      */
+    private $timer;
+    /**
+     * @param null|resource|string $out
+     * @param int|string           $numberOfColumns
+     *
+     * @throws \PHPUnit\Framework\Exception
+     */
+    public function __construct($out = null, bool $verbose = false, string $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
+    {
+    }
     public function printResult(\PHPUnit\Framework\TestResult $result) : void
     {
     }
-    /**
-     * @throws \SebastianBergmann\Timer\RuntimeException
-     */
-    protected function printHeader() : void
+    protected function printHeader(\PHPUnit\Framework\TestResult $result) : void
     {
     }
     protected function formatClassName(\PHPUnit\Framework\Test $test) : string
@@ -2557,7 +2563,7 @@ final class HtmlResultPrinter extends \PHPUnit\Util\TestDox\ResultPrinter
     /**
      * @var string
      */
-    private const PAGE_HEADER = <<<EOT
+    private const PAGE_HEADER = <<<'EOT'
 <!doctype html>
 <html lang="en">
     <head>
@@ -2592,7 +2598,7 @@ EOT;
     /**
      * @var string
      */
-    private const CLASS_HEADER = <<<EOT
+    private const CLASS_HEADER = <<<'EOT'
 
         <h2 id="%s">%s</h2>
         <ul>
@@ -2601,13 +2607,13 @@ EOT;
     /**
      * @var string
      */
-    private const CLASS_FOOTER = <<<EOT
+    private const CLASS_FOOTER = <<<'EOT'
         </ul>
 EOT;
     /**
      * @var string
      */
-    private const PAGE_FOOTER = <<<EOT
+    private const PAGE_FOOTER = <<<'EOT'
 
     </body>
 </html>
@@ -2775,16 +2781,6 @@ final class DocBlock
     {
     }
     public function isToBeExecutedAsPostCondition() : bool
-    {
-    }
-    /**
-     * Parse annotation content to use constant/class constant values
-     *
-     * Constants are specified using a starting '@'. For example: @ClassName::CONST_NAME
-     *
-     * If the constant is not found the string is used as is to ensure maximum BC.
-     */
-    private function parseAnnotationContent(string $message) : string
     {
     }
     private function getDataFromDataProviderAnnotation(string $docComment) : ?array
@@ -3345,7 +3341,6 @@ class TestSuite implements \IteratorAggregate, \PHPUnit\Framework\SelfDescribing
      * @throws \PHPUnit\Framework\CodeCoverageException
      * @throws \SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
-     * @throws \SebastianBergmann\CodeCoverage\MissingCoversAnnotationException
      * @throws \SebastianBergmann\CodeCoverage\RuntimeException
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
@@ -5240,15 +5235,6 @@ final class SyntheticSkippedError extends \PHPUnit\Framework\SyntheticError impl
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-class ClassNotFoundException extends \PHPUnit\Framework\Exception
-{
-    public static function byFilename(string $className, string $filename) : self
-    {
-    }
-}
-/**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
- */
 final class NoChildTestSuiteException extends \PHPUnit\Framework\Exception
 {
 }
@@ -5431,6 +5417,10 @@ final class TestResult implements \Countable
      * @var bool
      */
     private $enforceTimeLimit = false;
+    /**
+     * @var bool
+     */
+    private $forceCoversAnnotation = false;
     /**
      * @var int
      */
@@ -5672,7 +5662,6 @@ final class TestResult implements \Countable
      *
      * @throws CodeCoverageException
      * @throws OriginalCoveredCodeNotExecutedException
-     * @throws OriginalMissingCoversAnnotationException
      * @throws UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
      * @throws \SebastianBergmann\CodeCoverage\RuntimeException
@@ -5805,6 +5794,12 @@ final class TestResult implements \Countable
     {
     }
     public function isStrictAboutTodoAnnotatedTests() : bool
+    {
+    }
+    public function forceCoversAnnotation() : void
+    {
+    }
+    public function forcesCoversAnnotation() : bool
     {
     }
     /**
@@ -5941,7 +5936,7 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
 {
     private const LOCALE_CATEGORIES = [\LC_ALL, \LC_COLLATE, \LC_CTYPE, \LC_MONETARY, \LC_NUMERIC, \LC_TIME];
     /**
-     * @var bool
+     * @var ?bool
      */
     protected $backupGlobals;
     /**
@@ -6325,7 +6320,6 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
      * @throws UtilException
      * @throws \SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
-     * @throws \SebastianBergmann\CodeCoverage\MissingCoversAnnotationException
      * @throws \SebastianBergmann\CodeCoverage\RuntimeException
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
@@ -9668,9 +9662,6 @@ interface MethodNameMatch extends \PHPUnit\Framework\MockObject\Builder\Paramete
      */
     public function method($name);
 }
-/**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
- */
 final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\InvocationStubber, \PHPUnit\Framework\MockObject\Builder\MethodNameMatch
 {
     /**
@@ -9703,7 +9694,6 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     public function willReturn($value, ...$nextValues) : self
     {
     }
-    /** {@inheritDoc} */
     public function willReturnReference(&$reference) : self
     {
     }
@@ -9713,7 +9703,6 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     public function willReturnArgument($argumentIndex) : self
     {
     }
-    /** {@inheritDoc} */
     public function willReturnCallback($callback) : self
     {
     }
@@ -10168,8 +10157,8 @@ final class InvocationHandler
     {
     }
     /**
-     * @throws Exception
-     * @throws \Throwable
+     * @throws RuntimeException
+     * @throws \Exception
      */
     public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
     {
@@ -10178,7 +10167,6 @@ final class InvocationHandler
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \Throwable
      */
     public function verify() : void
@@ -10615,9 +10603,6 @@ final class MockMethod
      * @throws RuntimeException
      */
     private static function getMethodParameters(\ReflectionMethod $method, bool $forCall = false) : string
-    {
-    }
-    private static function deriveReturnType(\ReflectionMethod $method) : \SebastianBergmann\Type\Type
     {
     }
 }
@@ -13688,7 +13673,7 @@ final class Generator
     /**
      * @var string
      */
-    private const TEMPLATE = <<<EOT
+    private const TEMPLATE = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/{phpunit_version}/phpunit.xsd"
@@ -14349,6 +14334,10 @@ final class TestRunner extends \PHPUnit\Runner\BaseTestRunner
      * @var Hook[]
      */
     private $extensions = [];
+    /**
+     * @var Timer
+     */
+    private $timer;
     public function __construct(\PHPUnit\Runner\TestSuiteLoader $loader = null, \SebastianBergmann\CodeCoverage\Filter $filter = null)
     {
     }
@@ -14356,7 +14345,7 @@ final class TestRunner extends \PHPUnit\Runner\BaseTestRunner
      * @throws \PHPUnit\Runner\Exception
      * @throws Exception
      */
-    public function run(\PHPUnit\Framework\Test $suite, array $arguments = [], array $warnings = [], bool $exit = true) : \PHPUnit\Framework\TestResult
+    public function run(\PHPUnit\Framework\TestSuite $suite, array $arguments = [], array $warnings = [], bool $exit = true) : \PHPUnit\Framework\TestResult
     {
     }
     /**
