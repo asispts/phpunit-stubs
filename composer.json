@@ -1,0 +1,19 @@
+{
+  "name": "asispts/phpunit-stubs",
+  "description": "PHPUnit stubs for IDE intellisense",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Asis Pattisahusiwa",
+      "email": "asispts@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "require": {}
+}
