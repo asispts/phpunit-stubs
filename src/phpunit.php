@@ -111,59 +111,33 @@ interface TestResultCache
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final class DefaultTestResultCache implements \Serializable, \PHPUnit\Runner\TestResultCache
+final class DefaultTestResultCache implements \PHPUnit\Runner\TestResultCache
 {
+    /**
+     * @var int
+     */
+    private const VERSION = 1;
+    /**
+     * @psalm-var list<int>
+     */
+    private const ALLOWED_TEST_STATUSES = [\PHPUnit\Runner\BaseTestRunner::STATUS_SKIPPED, \PHPUnit\Runner\BaseTestRunner::STATUS_INCOMPLETE, \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE, \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR, \PHPUnit\Runner\BaseTestRunner::STATUS_RISKY, \PHPUnit\Runner\BaseTestRunner::STATUS_WARNING];
     /**
      * @var string
      */
-    public const DEFAULT_RESULT_CACHE_FILENAME = '.phpunit.result.cache';
+    private const DEFAULT_RESULT_CACHE_FILENAME = '.phpunit.result.cache';
     /**
-     * Provide extra protection against incomplete or corrupt caches.
-     *
-     * @var int[]
-     */
-    private const ALLOWED_CACHE_TEST_STATUSES = [\PHPUnit\Runner\BaseTestRunner::STATUS_SKIPPED, \PHPUnit\Runner\BaseTestRunner::STATUS_INCOMPLETE, \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE, \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR, \PHPUnit\Runner\BaseTestRunner::STATUS_RISKY, \PHPUnit\Runner\BaseTestRunner::STATUS_WARNING];
-    /**
-     * Path and filename for result cache file.
-     *
      * @var string
      */
     private $cacheFilename;
     /**
-     * The list of defective tests.
-     *
-     * <code>
-     * // Mark a test skipped
-     * $this->defects[$testName] = BaseTestRunner::TEST_SKIPPED;
-     * </code>
-     *
-     * @var array<string, int>
+     * @psalm-var array<string, int>
      */
     private $defects = [];
     /**
-     * The list of execution duration of suites and tests (in seconds).
-     *
-     * <code>
-     * // Record running time for test
-     * $this->times[$testName] = 1.234;
-     * </code>
-     *
-     * @var array<string, float>
+     * @psalm-var array<string, float>
      */
     private $times = [];
     public function __construct(?string $filepath = null)
-    {
-    }
-    /**
-     * @throws Exception
-     */
-    public function persist() : void
-    {
-    }
-    /**
-     * @throws Exception
-     */
-    public function saveToFile() : void
     {
     }
     public function setState(string $testName, int $state) : void
@@ -181,43 +155,58 @@ final class DefaultTestResultCache implements \Serializable, \PHPUnit\Runner\Tes
     public function load() : void
     {
     }
-    public function copyStateToCache(self $targetCache) : void
-    {
-    }
-    public function clear() : void
-    {
-    }
-    public function serialize() : string
-    {
-    }
     /**
-     * @param string $serialized
+     * @throws Exception
      */
-    public function unserialize($serialized) : void
+    public function persist() : void
     {
     }
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface Hook
 {
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface TestHook extends \PHPUnit\Runner\Hook
 {
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface BeforeTestHook extends \PHPUnit\Runner\TestHook
 {
     public function executeBeforeTest(string $test) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterTestFailureHook extends \PHPUnit\Runner\TestHook
 {
@@ -226,66 +215,26 @@ interface AfterTestFailureHook extends \PHPUnit\Runner\TestHook
 namespace PHPUnit\Framework;
 
 /**
- * @deprecated Use the `TestHook` interfaces instead
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @deprecated
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface TestListener
 {
-    /**
-     * An error occurred.
-     *
-     * @deprecated Use `AfterTestErrorHook::executeAfterTestError` instead
-     */
     public function addError(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
-    /**
-     * A warning occurred.
-     *
-     * @deprecated Use `AfterTestWarningHook::executeAfterTestWarning` instead
-     */
     public function addWarning(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\Warning $e, float $time) : void;
-    /**
-     * A failure occurred.
-     *
-     * @deprecated Use `AfterTestFailureHook::executeAfterTestFailure` instead
-     */
     public function addFailure(\PHPUnit\Framework\Test $test, \PHPUnit\Framework\AssertionFailedError $e, float $time) : void;
-    /**
-     * Incomplete test.
-     *
-     * @deprecated Use `AfterIncompleteTestHook::executeAfterIncompleteTest` instead
-     */
     public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
-    /**
-     * Risky test.
-     *
-     * @deprecated Use `AfterRiskyTestHook::executeAfterRiskyTest` instead
-     */
     public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
-    /**
-     * Skipped test.
-     *
-     * @deprecated Use `AfterSkippedTestHook::executeAfterSkippedTest` instead
-     */
     public function addSkippedTest(\PHPUnit\Framework\Test $test, \Throwable $t, float $time) : void;
-    /**
-     * A test suite started.
-     */
     public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void;
-    /**
-     * A test suite ended.
-     */
     public function endTestSuite(\PHPUnit\Framework\TestSuite $suite) : void;
-    /**
-     * A test started.
-     *
-     * @deprecated Use `BeforeTestHook::executeBeforeTest` instead
-     */
     public function startTest(\PHPUnit\Framework\Test $test) : void;
-    /**
-     * A test ended.
-     *
-     * @deprecated Use `AfterTestHook::executeAfterTest` instead
-     */
     public function endTest(\PHPUnit\Framework\Test $test, float $time) : void;
 }
 namespace PHPUnit\Runner;
@@ -338,14 +287,26 @@ final class TestListenerAdapter implements \PHPUnit\Framework\TestListener
     }
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterLastTestHook extends \PHPUnit\Runner\Hook
 {
     public function executeAfterLastTest() : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterTestHook extends \PHPUnit\Runner\TestHook
 {
@@ -358,49 +319,91 @@ interface AfterTestHook extends \PHPUnit\Runner\TestHook
     public function executeAfterTest(string $test, float $time) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterIncompleteTestHook extends \PHPUnit\Runner\TestHook
 {
     public function executeAfterIncompleteTest(string $test, string $message, float $time) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterTestWarningHook extends \PHPUnit\Runner\TestHook
 {
     public function executeAfterTestWarning(string $test, string $message, float $time) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterRiskyTestHook extends \PHPUnit\Runner\TestHook
 {
     public function executeAfterRiskyTest(string $test, string $message, float $time) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterSuccessfulTestHook extends \PHPUnit\Runner\TestHook
 {
     public function executeAfterSuccessfulTest(string $test, float $time) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterTestErrorHook extends \PHPUnit\Runner\TestHook
 {
     public function executeAfterTestError(string $test, string $message, float $time) : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface BeforeFirstTestHook extends \PHPUnit\Runner\Hook
 {
     public function executeBeforeFirstTest() : void;
 }
 /**
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
 interface AfterSkippedTestHook extends \PHPUnit\Runner\TestHook
 {
@@ -454,6 +457,54 @@ final class ResultCacheExtension implements \PHPUnit\Runner\AfterIncompleteTestH
     {
     }
 }
+namespace PHPUnit\Runner\Extension;
+
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class PharLoader
+{
+    /**
+     * @psalm-return array{loadedExtensions: list<string>, notLoadedExtensions: list<string>}
+     */
+    public function loadPharExtensionsInDirectory(string $directory) : array
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class ExtensionHandler
+{
+    /**
+     * @throws Exception
+     */
+    public function registerExtension(\PHPUnit\TextUI\XmlConfiguration\Extension $extensionConfiguration, \PHPUnit\TextUI\TestRunner $runner) : void
+    {
+    }
+    /**
+     * @throws Exception
+     *
+     * @deprecated
+     */
+    public function createTestListenerInstance(\PHPUnit\TextUI\XmlConfiguration\Extension $listenerConfiguration) : \PHPUnit\Framework\TestListener
+    {
+    }
+    /**
+     * @throws Exception
+     */
+    private function createInstance(\PHPUnit\TextUI\XmlConfiguration\Extension $extensionConfiguration) : object
+    {
+    }
+    /**
+     * @throws Exception
+     */
+    private function ensureClassExists(\PHPUnit\TextUI\XmlConfiguration\Extension $extensionConfiguration) : void
+    {
+    }
+}
+namespace PHPUnit\Runner;
+
 /**
  * @deprecated see https://github.com/sebastianbergmann/phpunit/issues/4039
  *
@@ -658,10 +709,10 @@ final class PhptTestCase implements \PHPUnit\Framework\Reorderable, \PHPUnit\Fra
     /**
      * Runs a test and collects its result in a TestResult instance.
      *
-     * @throws Exception
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
      */
     public function run(\PHPUnit\Framework\TestResult $result = null) : \PHPUnit\Framework\TestResult
     {
@@ -717,9 +768,9 @@ final class PhptTestCase implements \PHPUnit\Framework\Reorderable, \PHPUnit\Fra
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     private function assertPhptExpectation(array $sections, string $output) : void
     {
@@ -835,8 +886,8 @@ final class TestSuiteSorter
     {
     }
     /**
-     * @throws Exception
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
      */
     public function reorderTestsInSuite(\PHPUnit\Framework\Test $suite, int $order, bool $resolveDependencies, int $orderDefects, bool $isRootTestSuite = true) : void
     {
@@ -1553,9 +1604,6 @@ final class Filter
     public static function getFilteredStacktrace(\Throwable $t) : string
     {
     }
-    /**
-     * @param false|string $prefix
-     */
     private static function shouldPrintFrame(array $frame, $prefix, \PHPUnit\Util\ExcludeList $excludeList) : bool
     {
     }
@@ -1826,6 +1874,30 @@ final class ErrorHandler
     {
     }
 }
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class Reflection
+{
+    /**
+     * @psalm-return list<ReflectionMethod>
+     */
+    public function publicMethodsInTestClass(\ReflectionClass $class) : array
+    {
+    }
+    /**
+     * @psalm-return list<ReflectionMethod>
+     */
+    public function methodsInTestClass(\ReflectionClass $class) : array
+    {
+    }
+    /**
+     * @psalm-return list<ReflectionMethod>
+     */
+    private function filterMethods(\ReflectionClass $class, ?int $filter) : array
+    {
+    }
+}
 namespace PHPUnit\Util\PHP;
 
 /**
@@ -2045,7 +2117,7 @@ final class VersionComparisonOperator
     {
     }
     /**
-     * @return '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
+     * @return '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne'
      */
     public function asString() : string
     {
@@ -2130,8 +2202,6 @@ final class ExcludeList
         \SebastianBergmann\Type\TypeName::class => 1,
         // sebastian/version
         \SebastianBergmann\Version::class => 1,
-        // symfony/polyfill-ctype
-        \Symfony\Polyfill\Ctype\Ctype::class => 1,
         // theseer/tokenizer
         \TheSeer\Tokenizer\Tokenizer::class => 1,
         // webmozart/assert
@@ -2853,6 +2923,8 @@ final class HtmlResultPrinter extends \PHPUnit\Util\TestDox\ResultPrinter
                 font-variant-ligatures: common-ligatures;
                 font-kerning: normal;
                 margin-left: 2em;
+                background-color: #ffffff;
+                color: #000000;
             }
 
             body > ul > li {
@@ -3362,7 +3434,7 @@ final class Test
      *
      * Zend Framework (http://framework.zend.com/)
      *
-     * @link      http://github.com/zendframework/zf2 for the canonical source repository
+     * @see      http://github.com/zendframework/zf2 for the canonical source repository
      *
      * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
      * @license   http://framework.zend.com/license/new-bsd New BSD License
@@ -3446,9 +3518,9 @@ class TestSuite implements \IteratorAggregate, \PHPUnit\Framework\Reorderable, \
      */
     private $iteratorFilter;
     /**
-     * @var string[]
+     * @var int
      */
-    private $declaredClasses;
+    private $declaredClassesPointer;
     /**
      * @psalm-var array<int,string>
      */
@@ -3720,9 +3792,9 @@ abstract class Assert
      * @param int|string        $key
      * @param array|ArrayAccess $array
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertArrayHasKey($key, $array, string $message = '') : void
     {
@@ -3733,9 +3805,9 @@ abstract class Assert
      * @param int|string        $key
      * @param array|ArrayAccess $array
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertArrayNotHasKey($key, $array, string $message = '') : void
     {
@@ -3743,9 +3815,9 @@ abstract class Assert
     /**
      * Asserts that a haystack contains a needle.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertContains($needle, iterable $haystack, string $message = '') : void
     {
@@ -3756,9 +3828,9 @@ abstract class Assert
     /**
      * Asserts that a haystack does not contain a needle.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertNotContains($needle, iterable $haystack, string $message = '') : void
     {
@@ -3769,8 +3841,8 @@ abstract class Assert
     /**
      * Asserts that a haystack contains only values of a given type.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '') : void
     {
@@ -3778,8 +3850,8 @@ abstract class Assert
     /**
      * Asserts that a haystack contains only instances of a given class name.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = '') : void
     {
@@ -3787,8 +3859,8 @@ abstract class Assert
     /**
      * Asserts that a haystack does not contain only values of a given type.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '') : void
     {
@@ -3798,9 +3870,9 @@ abstract class Assert
      *
      * @param Countable|iterable $haystack
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertCount(int $expectedCount, $haystack, string $message = '') : void
     {
@@ -3810,9 +3882,9 @@ abstract class Assert
      *
      * @param Countable|iterable $haystack
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertNotCount(int $expectedCount, $haystack, string $message = '') : void
     {
@@ -3820,8 +3892,8 @@ abstract class Assert
     /**
      * Asserts that two variables are equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertEquals($expected, $actual, string $message = '') : void
     {
@@ -3829,8 +3901,8 @@ abstract class Assert
     /**
      * Asserts that two variables are equal (canonicalizing).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertEqualsCanonicalizing($expected, $actual, string $message = '') : void
     {
@@ -3838,8 +3910,8 @@ abstract class Assert
     /**
      * Asserts that two variables are equal (ignoring case).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertEqualsIgnoringCase($expected, $actual, string $message = '') : void
     {
@@ -3847,8 +3919,8 @@ abstract class Assert
     /**
      * Asserts that two variables are equal (with delta).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertEqualsWithDelta($expected, $actual, float $delta, string $message = '') : void
     {
@@ -3856,8 +3928,8 @@ abstract class Assert
     /**
      * Asserts that two variables are not equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNotEquals($expected, $actual, string $message = '') : void
     {
@@ -3865,8 +3937,8 @@ abstract class Assert
     /**
      * Asserts that two variables are not equal (canonicalizing).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNotEqualsCanonicalizing($expected, $actual, string $message = '') : void
     {
@@ -3874,8 +3946,8 @@ abstract class Assert
     /**
      * Asserts that two variables are not equal (ignoring case).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNotEqualsIgnoringCase($expected, $actual, string $message = '') : void
     {
@@ -3883,8 +3955,8 @@ abstract class Assert
     /**
      * Asserts that two variables are not equal (with delta).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNotEqualsWithDelta($expected, $actual, float $delta, string $message = '') : void
     {
@@ -3898,8 +3970,8 @@ abstract class Assert
     /**
      * Asserts that a variable is empty.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert empty $actual
      */
@@ -3909,8 +3981,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not empty.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !empty $actual
      */
@@ -3920,8 +3992,8 @@ abstract class Assert
     /**
      * Asserts that a value is greater than another value.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertGreaterThan($expected, $actual, string $message = '') : void
     {
@@ -3929,8 +4001,8 @@ abstract class Assert
     /**
      * Asserts that a value is greater than or equal to another value.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertGreaterThanOrEqual($expected, $actual, string $message = '') : void
     {
@@ -3938,8 +4010,8 @@ abstract class Assert
     /**
      * Asserts that a value is smaller than another value.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertLessThan($expected, $actual, string $message = '') : void
     {
@@ -3947,8 +4019,8 @@ abstract class Assert
     /**
      * Asserts that a value is smaller than or equal to another value.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertLessThanOrEqual($expected, $actual, string $message = '') : void
     {
@@ -3957,8 +4029,8 @@ abstract class Assert
      * Asserts that the contents of one file is equal to the contents of another
      * file.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileEquals(string $expected, string $actual, string $message = '') : void
     {
@@ -3967,8 +4039,8 @@ abstract class Assert
      * Asserts that the contents of one file is equal to the contents of another
      * file (canonicalizing).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileEqualsCanonicalizing(string $expected, string $actual, string $message = '') : void
     {
@@ -3977,8 +4049,8 @@ abstract class Assert
      * Asserts that the contents of one file is equal to the contents of another
      * file (ignoring case).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileEqualsIgnoringCase(string $expected, string $actual, string $message = '') : void
     {
@@ -3987,8 +4059,8 @@ abstract class Assert
      * Asserts that the contents of one file is not equal to the contents of
      * another file.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileNotEquals(string $expected, string $actual, string $message = '') : void
     {
@@ -3997,8 +4069,8 @@ abstract class Assert
      * Asserts that the contents of one file is not equal to the contents of another
      * file (canonicalizing).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileNotEqualsCanonicalizing(string $expected, string $actual, string $message = '') : void
     {
@@ -4007,8 +4079,8 @@ abstract class Assert
      * Asserts that the contents of one file is not equal to the contents of another
      * file (ignoring case).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileNotEqualsIgnoringCase(string $expected, string $actual, string $message = '') : void
     {
@@ -4017,8 +4089,8 @@ abstract class Assert
      * Asserts that the contents of a string is equal
      * to the contents of a file.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringEqualsFile(string $expectedFile, string $actualString, string $message = '') : void
     {
@@ -4027,8 +4099,8 @@ abstract class Assert
      * Asserts that the contents of a string is equal
      * to the contents of a file (canonicalizing).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '') : void
     {
@@ -4037,8 +4109,8 @@ abstract class Assert
      * Asserts that the contents of a string is equal
      * to the contents of a file (ignoring case).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '') : void
     {
@@ -4047,8 +4119,8 @@ abstract class Assert
      * Asserts that the contents of a string is not equal
      * to the contents of a file.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = '') : void
     {
@@ -4057,8 +4129,8 @@ abstract class Assert
      * Asserts that the contents of a string is not equal
      * to the contents of a file (canonicalizing).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '') : void
     {
@@ -4067,8 +4139,8 @@ abstract class Assert
      * Asserts that the contents of a string is not equal
      * to the contents of a file (ignoring case).
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '') : void
     {
@@ -4076,8 +4148,8 @@ abstract class Assert
     /**
      * Asserts that a file/dir is readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertIsReadable(string $filename, string $message = '') : void
     {
@@ -4085,8 +4157,8 @@ abstract class Assert
     /**
      * Asserts that a file/dir exists and is not readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertIsNotReadable(string $filename, string $message = '') : void
     {
@@ -4094,8 +4166,8 @@ abstract class Assert
     /**
      * Asserts that a file/dir exists and is not readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4107,8 +4179,8 @@ abstract class Assert
     /**
      * Asserts that a file/dir exists and is writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertIsWritable(string $filename, string $message = '') : void
     {
@@ -4116,8 +4188,8 @@ abstract class Assert
     /**
      * Asserts that a file/dir exists and is not writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertIsNotWritable(string $filename, string $message = '') : void
     {
@@ -4125,8 +4197,8 @@ abstract class Assert
     /**
      * Asserts that a file/dir exists and is not writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4138,8 +4210,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDirectoryExists(string $directory, string $message = '') : void
     {
@@ -4147,8 +4219,8 @@ abstract class Assert
     /**
      * Asserts that a directory does not exist.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDirectoryDoesNotExist(string $directory, string $message = '') : void
     {
@@ -4156,8 +4228,8 @@ abstract class Assert
     /**
      * Asserts that a directory does not exist.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4169,8 +4241,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists and is readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDirectoryIsReadable(string $directory, string $message = '') : void
     {
@@ -4178,8 +4250,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists and is not readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDirectoryIsNotReadable(string $directory, string $message = '') : void
     {
@@ -4187,8 +4259,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists and is not readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4200,8 +4272,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists and is writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDirectoryIsWritable(string $directory, string $message = '') : void
     {
@@ -4209,8 +4281,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists and is not writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDirectoryIsNotWritable(string $directory, string $message = '') : void
     {
@@ -4218,8 +4290,8 @@ abstract class Assert
     /**
      * Asserts that a directory exists and is not writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4231,8 +4303,8 @@ abstract class Assert
     /**
      * Asserts that a file exists.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileExists(string $filename, string $message = '') : void
     {
@@ -4240,8 +4312,8 @@ abstract class Assert
     /**
      * Asserts that a file does not exist.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileDoesNotExist(string $filename, string $message = '') : void
     {
@@ -4249,8 +4321,8 @@ abstract class Assert
     /**
      * Asserts that a file does not exist.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4262,8 +4334,8 @@ abstract class Assert
     /**
      * Asserts that a file exists and is readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileIsReadable(string $file, string $message = '') : void
     {
@@ -4271,8 +4343,8 @@ abstract class Assert
     /**
      * Asserts that a file exists and is not readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileIsNotReadable(string $file, string $message = '') : void
     {
@@ -4280,8 +4352,8 @@ abstract class Assert
     /**
      * Asserts that a file exists and is not readable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4293,8 +4365,8 @@ abstract class Assert
     /**
      * Asserts that a file exists and is writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileIsWritable(string $file, string $message = '') : void
     {
@@ -4302,8 +4374,8 @@ abstract class Assert
     /**
      * Asserts that a file exists and is not writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFileIsNotWritable(string $file, string $message = '') : void
     {
@@ -4311,8 +4383,8 @@ abstract class Assert
     /**
      * Asserts that a file exists and is not writable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4324,8 +4396,8 @@ abstract class Assert
     /**
      * Asserts that a condition is true.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert true $condition
      */
@@ -4335,8 +4407,8 @@ abstract class Assert
     /**
      * Asserts that a condition is not true.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !true $condition
      */
@@ -4346,8 +4418,8 @@ abstract class Assert
     /**
      * Asserts that a condition is false.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert false $condition
      */
@@ -4357,8 +4429,8 @@ abstract class Assert
     /**
      * Asserts that a condition is not false.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !false $condition
      */
@@ -4368,8 +4440,8 @@ abstract class Assert
     /**
      * Asserts that a variable is null.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert null $actual
      */
@@ -4379,8 +4451,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not null.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !null $actual
      */
@@ -4390,8 +4462,8 @@ abstract class Assert
     /**
      * Asserts that a variable is finite.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertFinite($actual, string $message = '') : void
     {
@@ -4399,8 +4471,8 @@ abstract class Assert
     /**
      * Asserts that a variable is infinite.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertInfinite($actual, string $message = '') : void
     {
@@ -4408,8 +4480,8 @@ abstract class Assert
     /**
      * Asserts that a variable is nan.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNan($actual, string $message = '') : void
     {
@@ -4417,9 +4489,9 @@ abstract class Assert
     /**
      * Asserts that a class has a specified attribute.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertClassHasAttribute(string $attributeName, string $className, string $message = '') : void
     {
@@ -4427,9 +4499,9 @@ abstract class Assert
     /**
      * Asserts that a class does not have a specified attribute.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertClassNotHasAttribute(string $attributeName, string $className, string $message = '') : void
     {
@@ -4437,9 +4509,9 @@ abstract class Assert
     /**
      * Asserts that a class has a specified static attribute.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertClassHasStaticAttribute(string $attributeName, string $className, string $message = '') : void
     {
@@ -4447,9 +4519,9 @@ abstract class Assert
     /**
      * Asserts that a class does not have a specified static attribute.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = '') : void
     {
@@ -4459,9 +4531,9 @@ abstract class Assert
      *
      * @param object $object
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertObjectHasAttribute(string $attributeName, $object, string $message = '') : void
     {
@@ -4471,9 +4543,9 @@ abstract class Assert
      *
      * @param object $object
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertObjectNotHasAttribute(string $attributeName, $object, string $message = '') : void
     {
@@ -4483,8 +4555,8 @@ abstract class Assert
      * Used on objects, it asserts that two variables reference
      * the same object.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-template ExpectedType
      * @psalm-param ExpectedType $expected
@@ -4498,8 +4570,8 @@ abstract class Assert
      * Used on objects, it asserts that two variables do not reference
      * the same object.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertNotSame($expected, $actual, string $message = '') : void
     {
@@ -4507,9 +4579,9 @@ abstract class Assert
     /**
      * Asserts that a variable is of a given type.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      *
      * @psalm-template ExpectedType of object
      * @psalm-param class-string<ExpectedType> $expected
@@ -4521,9 +4593,9 @@ abstract class Assert
     /**
      * Asserts that a variable is not of a given type.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      *
      * @psalm-template ExpectedType of object
      * @psalm-param class-string<ExpectedType> $expected
@@ -4535,8 +4607,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type array.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert array $actual
      */
@@ -4546,8 +4618,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type bool.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert bool $actual
      */
@@ -4557,8 +4629,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type float.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert float $actual
      */
@@ -4568,8 +4640,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type int.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert int $actual
      */
@@ -4579,8 +4651,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type numeric.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert numeric $actual
      */
@@ -4590,8 +4662,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type object.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert object $actual
      */
@@ -4601,8 +4673,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type resource.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert resource $actual
      */
@@ -4612,8 +4684,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type resource and is closed.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert resource $actual
      */
@@ -4623,8 +4695,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type string.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert string $actual
      */
@@ -4634,8 +4706,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type scalar.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert scalar $actual
      */
@@ -4645,8 +4717,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type callable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert callable $actual
      */
@@ -4656,8 +4728,8 @@ abstract class Assert
     /**
      * Asserts that a variable is of type iterable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert iterable $actual
      */
@@ -4667,8 +4739,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type array.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !array $actual
      */
@@ -4678,8 +4750,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type bool.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !bool $actual
      */
@@ -4689,8 +4761,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type float.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !float $actual
      */
@@ -4700,8 +4772,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type int.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !int $actual
      */
@@ -4711,8 +4783,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type numeric.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !numeric $actual
      */
@@ -4722,8 +4794,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type object.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !object $actual
      */
@@ -4733,8 +4805,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type resource.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !resource $actual
      */
@@ -4744,8 +4816,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type resource.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !resource $actual
      */
@@ -4755,8 +4827,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type string.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !string $actual
      */
@@ -4766,8 +4838,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type scalar.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !scalar $actual
      */
@@ -4777,8 +4849,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type callable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !callable $actual
      */
@@ -4788,8 +4860,8 @@ abstract class Assert
     /**
      * Asserts that a variable is not of type iterable.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-assert !iterable $actual
      */
@@ -4799,8 +4871,8 @@ abstract class Assert
     /**
      * Asserts that a string matches a given regular expression.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void
     {
@@ -4808,8 +4880,8 @@ abstract class Assert
     /**
      * Asserts that a string matches a given regular expression.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4821,8 +4893,8 @@ abstract class Assert
     /**
      * Asserts that a string does not match a given regular expression.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void
     {
@@ -4830,8 +4902,8 @@ abstract class Assert
     /**
      * Asserts that a string does not match a given regular expression.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @codeCoverageIgnore
      *
@@ -4847,9 +4919,9 @@ abstract class Assert
      * @param Countable|iterable $expected
      * @param Countable|iterable $actual
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertSameSize($expected, $actual, string $message = '') : void
     {
@@ -4861,9 +4933,9 @@ abstract class Assert
      * @param Countable|iterable $expected
      * @param Countable|iterable $actual
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertNotSameSize($expected, $actual, string $message = '') : void
     {
@@ -4871,8 +4943,8 @@ abstract class Assert
     /**
      * Asserts that a string matches a given format string.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringMatchesFormat(string $format, string $string, string $message = '') : void
     {
@@ -4880,8 +4952,8 @@ abstract class Assert
     /**
      * Asserts that a string does not match a given format string.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotMatchesFormat(string $format, string $string, string $message = '') : void
     {
@@ -4889,8 +4961,8 @@ abstract class Assert
     /**
      * Asserts that a string matches a given format file.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringMatchesFormatFile(string $formatFile, string $string, string $message = '') : void
     {
@@ -4898,8 +4970,8 @@ abstract class Assert
     /**
      * Asserts that a string does not match a given format string.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = '') : void
     {
@@ -4907,8 +4979,8 @@ abstract class Assert
     /**
      * Asserts that a string starts with a given prefix.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringStartsWith(string $prefix, string $string, string $message = '') : void
     {
@@ -4919,36 +4991,36 @@ abstract class Assert
      * @param string $prefix
      * @param string $string
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringStartsNotWith($prefix, $string, string $message = '') : void
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringContainsString(string $needle, string $haystack, string $message = '') : void
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = '') : void
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotContainsString(string $needle, string $haystack, string $message = '') : void
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringNotContainsStringIgnoringCase(string $needle, string $haystack, string $message = '') : void
     {
@@ -4956,8 +5028,8 @@ abstract class Assert
     /**
      * Asserts that a string ends with a given suffix.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringEndsWith(string $suffix, string $string, string $message = '') : void
     {
@@ -4965,8 +5037,8 @@ abstract class Assert
     /**
      * Asserts that a string ends not with a given suffix.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertStringEndsNotWith(string $suffix, string $string, string $message = '') : void
     {
@@ -4974,9 +5046,9 @@ abstract class Assert
     /**
      * Asserts that two XML files are equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
+     * @throws ExpectationFailedException
      */
     public static function assertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '') : void
     {
@@ -4984,9 +5056,9 @@ abstract class Assert
     /**
      * Asserts that two XML files are not equal.
      *
-     * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws \PHPUnit\Util\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '') : void
     {
@@ -4996,9 +5068,9 @@ abstract class Assert
      *
      * @param DOMDocument|string $actualXml
      *
-     * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = '') : void
     {
@@ -5008,9 +5080,9 @@ abstract class Assert
      *
      * @param DOMDocument|string $actualXml
      *
-     * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = '') : void
     {
@@ -5021,9 +5093,9 @@ abstract class Assert
      * @param DOMDocument|string $expectedXml
      * @param DOMDocument|string $actualXml
      *
-     * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = '') : void
     {
@@ -5034,9 +5106,9 @@ abstract class Assert
      * @param DOMDocument|string $expectedXml
      * @param DOMDocument|string $actualXml
      *
-     * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = '') : void
     {
@@ -5044,9 +5116,9 @@ abstract class Assert
     /**
      * Asserts that a hierarchy of DOMElements matches.
      *
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws AssertionFailedError
      * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      *
      * @codeCoverageIgnore
      *
@@ -5058,8 +5130,8 @@ abstract class Assert
     /**
      * Evaluates a PHPUnit\Framework\Constraint matcher object.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '') : void
     {
@@ -5067,8 +5139,8 @@ abstract class Assert
     /**
      * Asserts that a string is a valid JSON string.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJson(string $actualJson, string $message = '') : void
     {
@@ -5076,8 +5148,8 @@ abstract class Assert
     /**
      * Asserts that two given JSON encoded objects or arrays are equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = '') : void
     {
@@ -5088,8 +5160,8 @@ abstract class Assert
      * @param string $expectedJson
      * @param string $actualJson
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJsonStringNotEqualsJsonString($expectedJson, $actualJson, string $message = '') : void
     {
@@ -5097,8 +5169,8 @@ abstract class Assert
     /**
      * Asserts that the generated JSON encoded object and the content of the given file are equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '') : void
     {
@@ -5106,8 +5178,8 @@ abstract class Assert
     /**
      * Asserts that the generated JSON encoded object and the content of the given file are not equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '') : void
     {
@@ -5115,8 +5187,8 @@ abstract class Assert
     /**
      * Asserts that two JSON files are equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '') : void
     {
@@ -5124,8 +5196,8 @@ abstract class Assert
     /**
      * Asserts that two JSON files are not equal.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public static function assertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '') : void
     {
@@ -5151,6 +5223,13 @@ abstract class Assert
     public static function isTrue() : \PHPUnit\Framework\Constraint\IsTrue
     {
     }
+    /**
+     * @psalm-template CallbackInput of mixed
+     *
+     * @psalm-param callable(CallbackInput $callback): bool $callback
+     *
+     * @psalm-return Callback<CallbackInput>
+     */
     public static function callback(callable $callback) : \PHPUnit\Framework\Constraint\Callback
     {
     }
@@ -5616,6 +5695,18 @@ final class ComparisonMethodDoesNotDeclareExactlyOneParameterException extends \
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
+final class Error extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\SelfDescribing
+{
+    /**
+     * Wrapper for getMessage() which is declared as final.
+     */
+    public function toString() : string
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
 final class ComparisonMethodDoesNotAcceptParameterTypeException extends \PHPUnit\Framework\Exception
 {
     public function __construct(string $className, string $methodName, string $type)
@@ -5780,10 +5871,6 @@ final class TestResult implements \Countable
      */
     private $time = 0;
     /**
-     * @var TestSuite
-     */
-    private $topTestSuite;
-    /**
      * Code Coverage information.
      *
      * @var CodeCoverage
@@ -5792,7 +5879,7 @@ final class TestResult implements \Countable
     /**
      * @var bool
      */
-    private $convertDeprecationsToExceptions = true;
+    private $convertDeprecationsToExceptions = false;
     /**
      * @var bool
      */
@@ -6078,12 +6165,6 @@ final class TestResult implements \Countable
     {
     }
     /**
-     * Returns the (top) test suite.
-     */
-    public function topTestSuite() : \PHPUnit\Framework\TestSuite
-    {
-    }
-    /**
      * Returns whether code coverage information should be collected.
      */
     public function getCollectCodeCoverageInformation() : bool
@@ -6092,10 +6173,10 @@ final class TestResult implements \Countable
     /**
      * Runs a TestCase.
      *
-     * @throws CodeCoverageException
-     * @throws UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws CodeCoverageException
+     * @throws UnintentionallyCoveredCodeException
      */
     public function run(\PHPUnit\Framework\Test $test) : void
     {
@@ -6307,6 +6388,24 @@ final class TestResult implements \Countable
     public function setRegisterMockObjectsFromTestArgumentsRecursively(bool $flag) : void
     {
     }
+    private function recordError(\PHPUnit\Framework\Test $test, \Throwable $t) : void
+    {
+    }
+    private function recordNotImplemented(\PHPUnit\Framework\Test $test, \Throwable $t) : void
+    {
+    }
+    private function recordRisky(\PHPUnit\Framework\Test $test, \Throwable $t) : void
+    {
+    }
+    private function recordSkipped(\PHPUnit\Framework\Test $test, \Throwable $t) : void
+    {
+    }
+    private function recordWarning(\PHPUnit\Framework\Test $test, \Throwable $t) : void
+    {
+    }
+    private function shouldTimeLimitBeEnforced(int $size) : bool
+    {
+    }
 }
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -6493,11 +6592,11 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
      */
     private $output = '';
     /**
-     * @var string
+     * @var ?string
      */
     private $outputExpectedRegex;
     /**
-     * @var string
+     * @var ?string
      */
     private $outputExpectedString;
     /**
@@ -6517,7 +6616,7 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
      */
     private $outputRetrievedForAssertion = false;
     /**
-     * @var Snapshot
+     * @var ?Snapshot
      */
     private $snapshot;
     /**
@@ -6661,6 +6760,22 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
     {
     }
     /**
+     * Performs assertions shared by all tests of a test case.
+     *
+     * This method is called between setUp() and test.
+     */
+    protected function assertPreConditions() : void
+    {
+    }
+    /**
+     * Performs assertions shared by all tests of a test case.
+     *
+     * This method is called between test and tearDown().
+     */
+    protected function assertPostConditions() : void
+    {
+    }
+    /**
      * This method is called after each test.
      */
     protected function tearDown() : void
@@ -6768,11 +6883,11 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
      * Runs the test case and collects the results in a TestResult object.
      * If no TestResult object is passed a new one will be created.
      *
-     * @throws CodeCoverageException
-     * @throws UtilException
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
      * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws CodeCoverageException
+     * @throws UtilException
      */
     public function run(\PHPUnit\Framework\TestResult $result = null) : \PHPUnit\Framework\TestResult
     {
@@ -6808,12 +6923,6 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
     public function setGroups(array $groups) : void
-    {
-    }
-    /**
-     * @internal This method is not covered by the backward compatibility promise for PHPUnit
-     */
-    public function getAnnotations() : array
     {
     }
     /**
@@ -7108,10 +7217,10 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
     /**
      * Override to run the test and assert its state.
      *
+     * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
      * @throws AssertionFailedError
      * @throws Exception
      * @throws ExpectationFailedException
-     * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
      * @throws Throwable
      */
     protected function runTest()
@@ -7259,22 +7368,6 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
     {
     }
     /**
-     * Performs assertions shared by all tests of a test case.
-     *
-     * This method is called between setUp() and test.
-     */
-    protected function assertPreConditions() : void
-    {
-    }
-    /**
-     * Performs assertions shared by all tests of a test case.
-     *
-     * This method is called between test and tearDown().
-     */
-    protected function assertPostConditions() : void
-    {
-    }
-    /**
      * This method is called when a test method did not execute successfully.
      *
      * @throws Throwable
@@ -7292,9 +7385,9 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
     {
     }
     /**
-     * @throws Warning
      * @throws SkippedTestError
      * @throws SyntheticSkippedError
+     * @throws Warning
      */
     private function checkRequirements() : void
     {
@@ -7330,8 +7423,8 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
     {
     }
     /**
-     * @throws RiskyTestError
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws RiskyTestError
      */
     private function restoreGlobalState() : void
     {
@@ -7340,8 +7433,8 @@ abstract class TestCase extends \PHPUnit\Framework\Assert implements \PHPUnit\Fr
     {
     }
     /**
-     * @throws RiskyTestError
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws RiskyTestError
      */
     private function compareGlobalStateSnapshots(\SebastianBergmann\GlobalState\Snapshot $before, \SebastianBergmann\GlobalState\Snapshot $after) : void
     {
@@ -7465,8 +7558,8 @@ abstract class Constraint implements \Countable, \PHPUnit\Framework\SelfDescribi
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function evaluate($other, string $description = '', bool $returnResult = false) : ?bool
     {
@@ -7499,8 +7592,8 @@ abstract class Constraint implements \Countable, \PHPUnit\Framework\SelfDescribi
      * @param string            $description       Additional information about the test
      * @param ComparisonFailure $comparisonFailure
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-return never-return
      */
@@ -7556,7 +7649,7 @@ abstract class Constraint implements \Countable, \PHPUnit\Framework\SelfDescribi
      * Returns the description of the failure when this constraint appears in
      * context of an $operator expression.
      *
-     * The purpose of this method is to provide meaningful failue description
+     * The purpose of this method is to provide meaningful failure description
      * in context of operators such as LogicalNot. Native PHPUnit constraints
      * are supported out of the box by LogicalNot, but externally developed
      * ones had no way to provide correct messages in this context.
@@ -7933,8 +8026,8 @@ final class ExceptionMessageRegularExpression extends \PHPUnit\Framework\Constra
      *
      * @param \PHPUnit\Framework\Exception $other
      *
-     * @throws Exception
      * @throws \PHPUnit\Framework\Exception
+     * @throws Exception
      */
     protected function matches($other) : bool
     {
@@ -7999,10 +8092,6 @@ final class IsTrue extends \PHPUnit\Framework\Constraint\Constraint
 final class IsIdentical extends \PHPUnit\Framework\Constraint\Constraint
 {
     /**
-     * @var float
-     */
-    private const EPSILON = 1.0E-10;
-    /**
      * @var mixed
      */
     private $value;
@@ -8019,8 +8108,8 @@ final class IsIdentical extends \PHPUnit\Framework\Constraint\Constraint
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function evaluate($other, string $description = '', bool $returnResult = false) : ?bool
     {
@@ -8232,14 +8321,19 @@ final class StringStartsWith extends \PHPUnit\Framework\Constraint\Constraint
     }
 }
 /**
+ * @psalm-template CallbackInput of mixed
+ *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 final class Callback extends \PHPUnit\Framework\Constraint\Constraint
 {
     /**
      * @var callable
+     *
+     * @psalm-var callable(CallbackInput $input): bool
      */
     private $callback;
+    /** @psalm-param callable(CallbackInput $input): bool $callback */
     public function __construct(callable $callback)
     {
     }
@@ -8254,6 +8348,8 @@ final class Callback extends \PHPUnit\Framework\Constraint\Constraint
      * constraint is met, false otherwise.
      *
      * @param mixed $other value or object to evaluate
+     *
+     * @psalm-param CallbackInput $other
      */
     protected function matches($other) : bool
     {
@@ -8715,11 +8811,11 @@ final class ObjectEquals extends \PHPUnit\Framework\Constraint\Constraint
     }
     /**
      * @throws ActualValueIsNotAnObjectException
-     * @throws ComparisonMethodDoesNotExistException
+     * @throws ComparisonMethodDoesNotAcceptParameterTypeException
      * @throws ComparisonMethodDoesNotDeclareBoolReturnTypeException
      * @throws ComparisonMethodDoesNotDeclareExactlyOneParameterException
      * @throws ComparisonMethodDoesNotDeclareParameterTypeException
-     * @throws ComparisonMethodDoesNotAcceptParameterTypeException
+     * @throws ComparisonMethodDoesNotExistException
      */
     protected function matches($other) : bool
     {
@@ -9024,8 +9120,8 @@ final class TraversableContainsOnly extends \PHPUnit\Framework\Constraint\Constr
      *
      * @param mixed|Traversable $other
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function evaluate($other, string $description = '', bool $returnResult = false) : ?bool
     {
@@ -9106,9 +9202,9 @@ final class JsonMatches extends \PHPUnit\Framework\Constraint\Constraint
      * @param string            $description       Additional information about the test
      * @param ComparisonFailure $comparisonFailure
      *
-     * @throws ExpectationFailedException
      * @throws \PHPUnit\Framework\Exception
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      *
      * @psalm-return never-return
      */
@@ -9480,6 +9576,48 @@ final class TestSuiteIterator implements \RecursiveIterator
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
+final class ErrorTestCase extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @var bool
+     */
+    protected $backupGlobals = false;
+    /**
+     * @var bool
+     */
+    protected $backupStaticAttributes = false;
+    /**
+     * @var bool
+     */
+    protected $runTestInSeparateProcess = false;
+    /**
+     * @var string
+     */
+    private $message;
+    public function __construct(string $message = '')
+    {
+    }
+    public function getMessage() : string
+    {
+    }
+    /**
+     * Returns a string representation of the test case.
+     */
+    public function toString() : string
+    {
+    }
+    /**
+     * @throws Exception
+     *
+     * @psalm-return never-return
+     */
+    protected function runTest() : void
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
 final class SkippedTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -9597,6 +9735,10 @@ final class MethodName
     public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation) : bool
     {
     }
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
     public function matchesName(string $methodName) : bool
     {
     }
@@ -9851,15 +9993,15 @@ final class Parameters implements \PHPUnit\Framework\MockObject\Rule\ParametersR
      * does the rule will get the invoked() method called which should check
      * if an expectation is met.
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function verify() : void
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     private function doVerify() : bool
     {
@@ -9894,8 +10036,8 @@ final class ConsecutiveParameters implements \PHPUnit\Framework\MockObject\Rule\
     {
     }
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function apply(\PHPUnit\Framework\MockObject\Invocation $invocation) : void
     {
@@ -9912,8 +10054,8 @@ final class ConsecutiveParameters implements \PHPUnit\Framework\MockObject\Rule\
      *
      * @param int $callIndex
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     private function verifyInvocation(\PHPUnit\Framework\MockObject\Invocation $invocation, $callIndex) : void
     {
@@ -10061,8 +10203,59 @@ interface Exception extends \Throwable
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
+final class UnknownTypeException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $type)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class UnknownClassException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $className)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class SoapExtensionNotAvailableException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct()
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class MethodCannotBeConfiguredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $method)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class MatcherAlreadyRegisteredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $id)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
 final class IncompatibleReturnValueException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
 {
+    /**
+     * @param mixed $value
+     */
+    public function __construct(\PHPUnit\Framework\MockObject\ConfigurableMethod $method, $value)
+    {
+    }
 }
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -10079,8 +10272,134 @@ final class RuntimeException extends \RuntimeException implements \PHPUnit\Frame
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
+final class InvalidMethodNameException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $method)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class CannotUseOnlyMethodsException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $type, string $methodName)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class OriginalConstructorInvocationRequiredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct()
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class MethodNameNotConfiguredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct()
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class MethodParametersAlreadyConfiguredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct()
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class DuplicateMethodException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    /**
+     * @psalm-param list<string> $methods
+     */
+    public function __construct(array $methods)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class ReturnValueNotConfiguredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(\PHPUnit\Framework\MockObject\Invocation $invocation)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class CannotUseAddMethodsException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $type, string $methodName)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class UnknownTraitException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $traitName)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class ClassAlreadyExistsException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $className)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class ReflectionException extends \RuntimeException implements \PHPUnit\Framework\MockObject\Exception
+{
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class MethodNameAlreadyConfiguredException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct()
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
 final class BadMethodCallException extends \BadMethodCallException implements \PHPUnit\Framework\MockObject\Exception
 {
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class MatchBuilderNotFoundException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $id)
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class ClassIsFinalException extends \PHPUnit\Framework\Exception implements \PHPUnit\Framework\MockObject\Exception
+{
+    public function __construct(string $className)
+    {
+    }
 }
 /**
  * @method InvocationStubber method($constraint)
@@ -10381,11 +10700,11 @@ interface MethodNameMatch extends \PHPUnit\Framework\MockObject\Builder\Paramete
      * Adds a new method name match and returns the parameter match object for
      * further matching possibilities.
      *
-     * @param \PHPUnit\Framework\Constraint\Constraint $name Constraint for matching method, if a string is passed it will use the PHPUnit_Framework_Constraint_IsEqual
+     * @param \PHPUnit\Framework\Constraint\Constraint $constraint Constraint for matching method, if a string is passed it will use the PHPUnit_Framework_Constraint_IsEqual
      *
      * @return ParametersMatch
      */
-    public function method($name);
+    public function method($constraint);
 }
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -10408,6 +10727,8 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     {
     }
     /**
+     * @throws MatcherAlreadyRegisteredException
+     *
      * @return $this
      */
     public function id($id) : self
@@ -10419,6 +10740,12 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     public function will(\PHPUnit\Framework\MockObject\Stub\Stub $stub) : \PHPUnit\Framework\MockObject\Builder\Identity
     {
     }
+    /**
+     * @param mixed   $value
+     * @param mixed[] $nextValues
+     *
+     * @throws IncompatibleReturnValueException
+     */
     public function willReturn($value, ...$nextValues) : self
     {
     }
@@ -10450,7 +10777,11 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     {
     }
     /**
-     * @throws RuntimeException
+     * @param mixed[] $arguments
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws MethodNameNotConfiguredException
+     * @throws MethodParametersAlreadyConfiguredException
      *
      * @return $this
      */
@@ -10460,7 +10791,9 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     /**
      * @param array ...$arguments
      *
-     * @throws RuntimeException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws MethodNameNotConfiguredException
+     * @throws MethodParametersAlreadyConfiguredException
      *
      * @return $this
      */
@@ -10468,7 +10801,8 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     {
     }
     /**
-     * @throws RuntimeException
+     * @throws MethodNameNotConfiguredException
+     * @throws MethodParametersAlreadyConfiguredException
      *
      * @return $this
      */
@@ -10478,7 +10812,9 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     /**
      * @param Constraint|string $constraint
      *
-     * @throws RuntimeException
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+     * @throws MethodCannotBeConfiguredException
+     * @throws MethodNameAlreadyConfiguredException
      *
      * @return $this
      */
@@ -10486,16 +10822,18 @@ final class InvocationMocker implements \PHPUnit\Framework\MockObject\Builder\In
     {
     }
     /**
-     * Validate that a parameters rule can be defined, throw exceptions otherwise.
-     *
-     * @throws RuntimeException
+     * @throws MethodNameNotConfiguredException
+     * @throws MethodParametersAlreadyConfiguredException
      */
-    private function canDefineParameters() : void
+    private function ensureParametersCanBeConfigured() : void
     {
     }
     private function getConfiguredMethod() : ?\PHPUnit\Framework\MockObject\ConfigurableMethod
     {
     }
+    /**
+     * @throws IncompatibleReturnValueException
+     */
     private function ensureTypeOfReturnValues(array $values) : void
     {
     }
@@ -10620,7 +10958,15 @@ final class MockBuilder
     /**
      * Creates a mock object using a fluent interface.
      *
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+     * @throws ClassAlreadyExistsException
+     * @throws ClassIsFinalException
+     * @throws DuplicateMethodException
+     * @throws InvalidMethodNameException
+     * @throws OriginalConstructorInvocationRequiredException
+     * @throws ReflectionException
      * @throws RuntimeException
+     * @throws UnknownTypeException
      *
      * @psalm-return MockObject&MockedType
      */
@@ -10630,10 +10976,11 @@ final class MockBuilder
     /**
      * Creates a mock object for an abstract class using a fluent interface.
      *
-     * @throws \PHPUnit\Framework\Exception
-     * @throws RuntimeException
-     *
      * @psalm-return MockObject&MockedType
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws ReflectionException
+     * @throws RuntimeException
      */
     public function getMockForAbstractClass() : \PHPUnit\Framework\MockObject\MockObject
     {
@@ -10641,10 +10988,11 @@ final class MockBuilder
     /**
      * Creates a mock object for a trait using a fluent interface.
      *
-     * @throws \PHPUnit\Framework\Exception
-     * @throws RuntimeException
-     *
      * @psalm-return MockObject&MockedType
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws ReflectionException
+     * @throws RuntimeException
      */
     public function getMockForTrait() : \PHPUnit\Framework\MockObject\MockObject
     {
@@ -10664,7 +11012,8 @@ final class MockBuilder
      *
      * @param string[] $methods
      *
-     * @throws RuntimeException
+     * @throws CannotUseOnlyMethodsException
+     * @throws ReflectionException
      *
      * @return $this
      */
@@ -10676,6 +11025,8 @@ final class MockBuilder
      *
      * @param string[] $methods
      *
+     * @throws CannotUseAddMethodsException
+     * @throws ReflectionException
      * @throws RuntimeException
      *
      * @return $this
@@ -10685,6 +11036,10 @@ final class MockBuilder
     }
     /**
      * Specifies the subset of methods to not mock. Default is to mock all of them.
+     *
+     * @deprecated https://github.com/sebastianbergmann/phpunit/pull/3687
+     *
+     * @throws ReflectionException
      */
     public function setMethodsExcept(array $methods = []) : self
     {
@@ -10886,7 +11241,7 @@ final class InvocationHandler
      * @param string  $id      The identification of the matcher
      * @param Matcher $matcher The builder which is being registered
      *
-     * @throws RuntimeException
+     * @throws MatcherAlreadyRegisteredException
      */
     public function registerMatcher(string $id, \PHPUnit\Framework\MockObject\Matcher $matcher) : void
     {
@@ -10895,8 +11250,8 @@ final class InvocationHandler
     {
     }
     /**
-     * @throws RuntimeException
      * @throws Exception
+     * @throws RuntimeException
      */
     public function invoke(\PHPUnit\Framework\MockObject\Invocation $invocation)
     {
@@ -10971,25 +11326,28 @@ final class Matcher
     {
     }
     /**
-     * @throws Exception
-     * @throws RuntimeException
      * @throws ExpectationFailedException
+     * @throws MatchBuilderNotFoundException
+     * @throws MethodNameNotConfiguredException
+     * @throws RuntimeException
      */
     public function invoked(\PHPUnit\Framework\MockObject\Invocation $invocation)
     {
     }
     /**
-     * @throws RuntimeException
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+     * @throws MatchBuilderNotFoundException
+     * @throws MethodNameNotConfiguredException
+     * @throws RuntimeException
      */
     public function matches(\PHPUnit\Framework\MockObject\Invocation $invocation) : bool
     {
     }
     /**
-     * @throws RuntimeException
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+     * @throws MethodNameNotConfiguredException
      */
     public function verify() : void
     {
@@ -11003,6 +11361,54 @@ final class Matcher
  */
 final class Generator
 {
+    private const MOCKED_CLONE_METHOD_WITH_VOID_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait MockedCloneMethodWithVoidReturnType
+{
+    public function __clone(): void
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+    }
+}
+EOT;
+    private const MOCKED_CLONE_METHOD_WITHOUT_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait MockedCloneMethodWithoutReturnType
+{
+    public function __clone()
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+    }
+}
+EOT;
+    private const UNMOCKED_CLONE_METHOD_WITH_VOID_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait UnmockedCloneMethodWithVoidReturnType
+{
+    public function __clone(): void
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+
+        parent::__clone();
+    }
+}
+EOT;
+    private const UNMOCKED_CLONE_METHOD_WITHOUT_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait UnmockedCloneMethodWithoutReturnType
+{
+    public function __clone()
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+
+        parent::__clone();
+    }
+}
+EOT;
     /**
      * @var array
      */
@@ -11020,9 +11426,26 @@ final class Generator
      *
      * @param null|array $methods
      *
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+     * @throws ClassAlreadyExistsException
+     * @throws ClassIsFinalException
+     * @throws DuplicateMethodException
+     * @throws InvalidMethodNameException
+     * @throws OriginalConstructorInvocationRequiredException
+     * @throws ReflectionException
      * @throws RuntimeException
+     * @throws UnknownTypeException
      */
     public function getMock(string $type, $methods = [], array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, bool $cloneArguments = true, bool $callOriginalMethods = false, object $proxyTarget = null, bool $allowMockingUnknownTypes = true, bool $returnValueGeneration = true) : \PHPUnit\Framework\MockObject\MockObject
+    {
+    }
+    /**
+     * @psalm-param list<class-string> $interfaces
+     *
+     * @throws RuntimeException
+     * @throws UnknownTypeException
+     */
+    public function getMockForInterfaces(array $interfaces, bool $callAutoload = true) : \PHPUnit\Framework\MockObject\MockObject
     {
     }
     /**
@@ -11035,7 +11458,16 @@ final class Generator
      * @psalm-param class-string<RealInstanceType> $originalClassName
      * @psalm-return MockObject&RealInstanceType
      *
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+     * @throws ClassAlreadyExistsException
+     * @throws ClassIsFinalException
+     * @throws DuplicateMethodException
+     * @throws InvalidMethodNameException
+     * @throws OriginalConstructorInvocationRequiredException
+     * @throws ReflectionException
      * @throws RuntimeException
+     * @throws UnknownClassException
+     * @throws UnknownTypeException
      */
     public function getMockForAbstractClass(string $originalClassName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, array $mockedMethods = null, bool $cloneArguments = true) : \PHPUnit\Framework\MockObject\MockObject
     {
@@ -11047,7 +11479,17 @@ final class Generator
      *
      * @psalm-param trait-string $traitName
      *
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+     * @throws ClassAlreadyExistsException
+     * @throws ClassIsFinalException
+     * @throws DuplicateMethodException
+     * @throws InvalidMethodNameException
+     * @throws OriginalConstructorInvocationRequiredException
+     * @throws ReflectionException
      * @throws RuntimeException
+     * @throws UnknownClassException
+     * @throws UnknownTraitException
+     * @throws UnknownTypeException
      */
     public function getMockForTrait(string $traitName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, array $mockedMethods = null, bool $cloneArguments = true) : \PHPUnit\Framework\MockObject\MockObject
     {
@@ -11057,22 +11499,30 @@ final class Generator
      *
      * @psalm-param trait-string $traitName
      *
+     * @throws ReflectionException
      * @throws RuntimeException
+     * @throws UnknownTraitException
      */
     public function getObjectForTrait(string $traitName, string $traitClassName = '', bool $callAutoload = true, bool $callOriginalConstructor = false, array $arguments = []) : object
     {
     }
+    /**
+     * @throws ClassIsFinalException
+     * @throws ReflectionException
+     * @throws RuntimeException
+     */
     public function generate(string $type, array $methods = null, string $mockClassName = '', bool $callOriginalClone = true, bool $callAutoload = true, bool $cloneArguments = true, bool $callOriginalMethods = false) : \PHPUnit\Framework\MockObject\MockClass
     {
     }
     /**
      * @throws RuntimeException
+     * @throws SoapExtensionNotAvailableException
      */
     public function generateClassFromWsdl(string $wsdlFile, string $className, array $methods = [], array $options = []) : string
     {
     }
     /**
-     * @throws RuntimeException
+     * @throws ReflectionException
      *
      * @return string[]
      */
@@ -11080,7 +11530,7 @@ final class Generator
     {
     }
     /**
-     * @throws RuntimeException
+     * @throws ReflectionException
      *
      * @return MockMethod[]
      */
@@ -11088,7 +11538,7 @@ final class Generator
     {
     }
     /**
-     * @throws RuntimeException
+     * @throws ReflectionException
      *
      * @return MockMethod[]
      */
@@ -11098,15 +11548,23 @@ final class Generator
     /**
      * @psalm-param class-string $interfaceName
      *
+     * @throws ReflectionException
+     *
      * @return ReflectionMethod[]
      */
     private function userDefinedInterfaceMethods(string $interfaceName) : array
     {
     }
+    /**
+     * @throws ReflectionException
+     * @throws RuntimeException
+     */
     private function getObject(\PHPUnit\Framework\MockObject\MockType $mockClass, $type = '', bool $callOriginalConstructor = false, bool $callAutoload = false, array $arguments = [], bool $callOriginalMethods = false, object $proxyTarget = null, bool $returnValueGeneration = true)
     {
     }
     /**
+     * @throws ClassIsFinalException
+     * @throws ReflectionException
      * @throws RuntimeException
      */
     private function generateMock(string $type, ?array $explicitMethods, string $mockClassName, bool $callOriginalClone, bool $callAutoload, bool $cloneArguments, bool $callOriginalMethods) : \PHPUnit\Framework\MockObject\MockClass
@@ -11124,6 +11582,9 @@ final class Generator
     private function isMethodNameExcluded(string $name) : bool
     {
     }
+    /**
+     * @throws RuntimeException
+     */
     private function getTemplate(string $template) : \SebastianBergmann\Template\Template
     {
     }
@@ -11131,6 +11592,12 @@ final class Generator
      * @see https://github.com/sebastianbergmann/phpunit/issues/4139#issuecomment-605409765
      */
     private function isConstructor(\ReflectionMethod $method) : bool
+    {
+    }
+    private function mockedCloneMethod() : string
+    {
+    }
+    private function unmockedCloneMethod() : string
     {
     }
 }
@@ -11189,24 +11656,6 @@ trait Api
     {
     }
     public function expects(\PHPUnit\Framework\MockObject\Rule\InvocationOrder $matcher) : \PHPUnit\Framework\MockObject\Builder\InvocationMocker
-    {
-    }
-}
-/**
- * @internal This trait is not covered by the backward compatibility promise for PHPUnit
- */
-trait UnmockedCloneMethod
-{
-    public function __clone()
-    {
-    }
-}
-/**
- * @internal This trait is not covered by the backward compatibility promise for PHPUnit
- */
-trait MockedCloneMethod
-{
-    public function __clone()
     {
     }
 }
@@ -11316,6 +11765,7 @@ final class MockMethod
      */
     private $deprecation;
     /**
+     * @throws ReflectionException
      * @throws RuntimeException
      */
     public static function fromReflection(\ReflectionMethod $method, bool $callOriginalMethod, bool $cloneArguments) : self
@@ -11339,6 +11789,9 @@ final class MockMethod
     public function getReturnType() : \SebastianBergmann\Type\Type
     {
     }
+    /**
+     * @throws RuntimeException
+     */
     private function getTemplate(string $template) : \SebastianBergmann\Template\Template
     {
     }
@@ -11353,18 +11806,21 @@ final class MockMethod
     /**
      * Returns the parameters of a function or method.
      *
-     * @throws RuntimeException
+     * @throws ReflectionException
      */
     private static function getMethodParametersForCall(\ReflectionMethod $method) : string
     {
     }
     /**
-     * @throws RuntimeException
+     * @throws ReflectionException
      */
     private static function exportDefaultValue(\ReflectionParameter $parameter) : string
     {
     }
     private static function unionTypeAsString(\ReflectionUnionType $union, string $self) : string
+    {
+    }
+    private static function intersectionTypeAsString(\ReflectionIntersectionType $intersection) : string
     {
     }
 }
@@ -11418,7 +11874,7 @@ final class WarningTestCase extends \PHPUnit\Framework\TestCase
  * Re-instantiates Exceptions thrown by user-space code to retain their original
  * class names, properties, and stack traces (but without arguments).
  *
- * Unlike PHPUnit\Framework_\Exception, the complete stack of previous Exceptions
+ * Unlike PHPUnit\Framework\Exception, the complete stack of previous Exceptions
  * is processed.
  *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -11544,6 +12000,42 @@ final class TestFailure
 }
 namespace PHPUnit\TextUI;
 
+/**
+ * @internal This interface is not covered by the backward compatibility promise for PHPUnit
+ */
+interface Exception extends \Throwable
+{
+}
+/**
+ * @internal This interface is not covered by the backward compatibility promise for PHPUnit
+ */
+final class TestDirectoryNotFoundException extends \RuntimeException implements \PHPUnit\TextUI\Exception
+{
+    public function __construct(string $path)
+    {
+    }
+}
+/**
+ * @internal This interface is not covered by the backward compatibility promise for PHPUnit
+ */
+final class RuntimeException extends \RuntimeException implements \PHPUnit\TextUI\Exception
+{
+}
+/**
+ * @internal This interface is not covered by the backward compatibility promise for PHPUnit
+ */
+final class TestFileNotFoundException extends \RuntimeException implements \PHPUnit\TextUI\Exception
+{
+    public function __construct(string $path)
+    {
+    }
+}
+/**
+ * @internal This interface is not covered by the backward compatibility promise for PHPUnit
+ */
+final class ReflectionException extends \RuntimeException implements \PHPUnit\TextUI\Exception
+{
+}
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
@@ -11674,9 +12166,6 @@ class Command
     private function exitWithErrorMessage(string $message) : void
     {
     }
-    private function handleExtensions(string $directory) : void
-    {
-    }
     private function handleListGroups(\PHPUnit\Framework\TestSuite $suite, bool $exit) : int
     {
     }
@@ -11723,10 +12212,6 @@ final class TestRunner extends \PHPUnit\Runner\BaseTestRunner
     public const SUCCESS_EXIT = 0;
     public const FAILURE_EXIT = 1;
     public const EXCEPTION_EXIT = 2;
-    /**
-     * @var bool
-     */
-    private static $versionStringPrinted = false;
     /**
      * @var CodeCoverageFilter
      */
@@ -11785,8 +12270,8 @@ final class TestRunner extends \PHPUnit\Runner\BaseTestRunner
     {
     }
     /**
-     * @throws Exception
      * @throws \PHPUnit\TextUI\XmlConfiguration\Exception
+     * @throws Exception
      */
     private function handleConfiguration(array &$arguments) : void
     {
@@ -11816,7 +12301,7 @@ final class TestRunner extends \PHPUnit\Runner\BaseTestRunner
 final class Help
 {
     private const LEFT_MARGIN = '  ';
-    private const HELP_TEXT = ['Usage' => [['text' => 'phpunit [options] UnitTest.php'], ['text' => 'phpunit [options] <directory>']], 'Code Coverage Options' => [['arg' => '--coverage-clover <file>', 'desc' => 'Generate code coverage report in Clover XML format'], ['arg' => '--coverage-cobertura <file>', 'desc' => 'Generate code coverage report in Cobertura XML format'], ['arg' => '--coverage-crap4j <file>', 'desc' => 'Generate code coverage report in Crap4J XML format'], ['arg' => '--coverage-html <dir>', 'desc' => 'Generate code coverage report in HTML format'], ['arg' => '--coverage-php <file>', 'desc' => 'Export PHP_CodeCoverage object to file'], ['arg' => '--coverage-text <file>', 'desc' => 'Generate code coverage report in text format [default: standard output]'], ['arg' => '--coverage-xml <dir>', 'desc' => 'Generate code coverage report in PHPUnit XML format'], ['arg' => '--coverage-cache <dir>', 'desc' => 'Cache static analysis results'], ['arg' => '--warm-coverage-cache', 'desc' => 'Warm static analysis cache'], ['arg' => '--coverage-filter <dir>', 'desc' => 'Include <dir> in code coverage analysis'], ['arg' => '--path-coverage', 'desc' => 'Perform path coverage analysis'], ['arg' => '--disable-coverage-ignore', 'desc' => 'Disable annotations for ignoring code coverage'], ['arg' => '--no-coverage', 'desc' => 'Ignore code coverage configuration']], 'Logging Options' => [['arg' => '--log-junit <file>', 'desc' => 'Log test execution in JUnit XML format to file'], ['arg' => '--log-teamcity <file>', 'desc' => 'Log test execution in TeamCity format to file'], ['arg' => '--testdox-html <file>', 'desc' => 'Write agile documentation in HTML format to file'], ['arg' => '--testdox-text <file>', 'desc' => 'Write agile documentation in Text format to file'], ['arg' => '--testdox-xml <file>', 'desc' => 'Write agile documentation in XML format to file'], ['arg' => '--reverse-list', 'desc' => 'Print defects in reverse order'], ['arg' => '--no-logging', 'desc' => 'Ignore logging configuration']], 'Test Selection Options' => [['arg' => '--list-suites', 'desc' => 'List available test suites'], ['arg' => '--testsuite <name>', 'desc' => 'Filter which testsuite to run'], ['arg' => '--list-groups', 'desc' => 'List available test groups'], ['arg' => '--group <name>', 'desc' => 'Only runs tests from the specified group(s)'], ['arg' => '--exclude-group <name>', 'desc' => 'Exclude tests from the specified group(s)'], ['arg' => '--covers <name>', 'desc' => 'Only runs tests annotated with "@covers <name>"'], ['arg' => '--uses <name>', 'desc' => 'Only runs tests annotated with "@uses <name>"'], ['arg' => '--list-tests', 'desc' => 'List available tests'], ['arg' => '--list-tests-xml <file>', 'desc' => 'List available tests in XML format'], ['arg' => '--filter <pattern>', 'desc' => 'Filter which tests to run'], ['arg' => '--test-suffix <suffixes>', 'desc' => 'Only search for test in files with specified suffix(es). Default: Test.php,.phpt']], 'Test Execution Options' => [['arg' => '--dont-report-useless-tests', 'desc' => 'Do not report tests that do not test anything'], ['arg' => '--strict-coverage', 'desc' => 'Be strict about @covers annotation usage'], ['arg' => '--strict-global-state', 'desc' => 'Be strict about changes to global state'], ['arg' => '--disallow-test-output', 'desc' => 'Be strict about output during tests'], ['arg' => '--disallow-resource-usage', 'desc' => 'Be strict about resource usage during small tests'], ['arg' => '--enforce-time-limit', 'desc' => 'Enforce time limit based on test size'], ['arg' => '--default-time-limit <sec>', 'desc' => 'Timeout in seconds for tests without @small, @medium or @large'], ['arg' => '--disallow-todo-tests', 'desc' => 'Disallow @todo-annotated tests'], ['spacer' => ''], ['arg' => '--process-isolation', 'desc' => 'Run each test in a separate PHP process'], ['arg' => '--globals-backup', 'desc' => 'Backup and restore $GLOBALS for each test'], ['arg' => '--static-backup', 'desc' => 'Backup and restore static attributes for each test'], ['spacer' => ''], ['arg' => '--colors <flag>', 'desc' => 'Use colors in output ("never", "auto" or "always")'], ['arg' => '--columns <n>', 'desc' => 'Number of columns to use for progress output'], ['arg' => '--columns max', 'desc' => 'Use maximum number of columns for progress output'], ['arg' => '--stderr', 'desc' => 'Write to STDERR instead of STDOUT'], ['arg' => '--stop-on-defect', 'desc' => 'Stop execution upon first not-passed test'], ['arg' => '--stop-on-error', 'desc' => 'Stop execution upon first error'], ['arg' => '--stop-on-failure', 'desc' => 'Stop execution upon first error or failure'], ['arg' => '--stop-on-warning', 'desc' => 'Stop execution upon first warning'], ['arg' => '--stop-on-risky', 'desc' => 'Stop execution upon first risky test'], ['arg' => '--stop-on-skipped', 'desc' => 'Stop execution upon first skipped test'], ['arg' => '--stop-on-incomplete', 'desc' => 'Stop execution upon first incomplete test'], ['arg' => '--fail-on-incomplete', 'desc' => 'Treat incomplete tests as failures'], ['arg' => '--fail-on-risky', 'desc' => 'Treat risky tests as failures'], ['arg' => '--fail-on-skipped', 'desc' => 'Treat skipped tests as failures'], ['arg' => '--fail-on-warning', 'desc' => 'Treat tests with warnings as failures'], ['arg' => '-v|--verbose', 'desc' => 'Output more verbose information'], ['arg' => '--debug', 'desc' => 'Display debugging information'], ['spacer' => ''], ['arg' => '--repeat <times>', 'desc' => 'Runs the test(s) repeatedly'], ['arg' => '--teamcity', 'desc' => 'Report test execution progress in TeamCity format'], ['arg' => '--testdox', 'desc' => 'Report test execution progress in TestDox format'], ['arg' => '--testdox-group', 'desc' => 'Only include tests from the specified group(s)'], ['arg' => '--testdox-exclude-group', 'desc' => 'Exclude tests from the specified group(s)'], ['arg' => '--no-interaction', 'desc' => 'Disable TestDox progress animation'], ['arg' => '--printer <printer>', 'desc' => 'TestListener implementation to use'], ['spacer' => ''], ['arg' => '--order-by <order>', 'desc' => 'Run tests in order: default|defects|duration|no-depends|random|reverse|size'], ['arg' => '--random-order-seed <N>', 'desc' => 'Use a specific random seed <N> for random order'], ['arg' => '--cache-result', 'desc' => 'Write test results to cache file'], ['arg' => '--do-not-cache-result', 'desc' => 'Do not write test results to cache file']], 'Configuration Options' => [['arg' => '--prepend <file>', 'desc' => 'A PHP script that is included as early as possible'], ['arg' => '--bootstrap <file>', 'desc' => 'A PHP script that is included before the tests run'], ['arg' => '-c|--configuration <file>', 'desc' => 'Read configuration from XML file'], ['arg' => '--no-configuration', 'desc' => 'Ignore default configuration file (phpunit.xml)'], ['arg' => '--extensions <extensions>', 'desc' => 'A comma separated list of PHPUnit extensions to load'], ['arg' => '--no-extensions', 'desc' => 'Do not load PHPUnit extensions'], ['arg' => '--include-path <path(s)>', 'desc' => 'Prepend PHP\'s include_path with given path(s)'], ['arg' => '-d <key[=value]>', 'desc' => 'Sets a php.ini value'], ['arg' => '--cache-result-file <file>', 'desc' => 'Specify result cache path and filename'], ['arg' => '--generate-configuration', 'desc' => 'Generate configuration file with suggested settings'], ['arg' => '--migrate-configuration', 'desc' => 'Migrate configuration file to current format']], 'Miscellaneous Options' => [['arg' => '-h|--help', 'desc' => 'Prints this usage information'], ['arg' => '--version', 'desc' => 'Prints the version and exits'], ['arg' => '--atleast-version <min>', 'desc' => 'Checks that version is greater than min and exits'], ['arg' => '--check-version', 'desc' => 'Check whether PHPUnit is the latest version']]];
+    private const HELP_TEXT = ['Usage' => [['text' => 'phpunit [options] UnitTest.php'], ['text' => 'phpunit [options] <directory>']], 'Code Coverage Options' => [['arg' => '--coverage-clover <file>', 'desc' => 'Generate code coverage report in Clover XML format'], ['arg' => '--coverage-cobertura <file>', 'desc' => 'Generate code coverage report in Cobertura XML format'], ['arg' => '--coverage-crap4j <file>', 'desc' => 'Generate code coverage report in Crap4J XML format'], ['arg' => '--coverage-html <dir>', 'desc' => 'Generate code coverage report in HTML format'], ['arg' => '--coverage-php <file>', 'desc' => 'Export PHP_CodeCoverage object to file'], ['arg' => '--coverage-text=<file>', 'desc' => 'Generate code coverage report in text format [default: standard output]'], ['arg' => '--coverage-xml <dir>', 'desc' => 'Generate code coverage report in PHPUnit XML format'], ['arg' => '--coverage-cache <dir>', 'desc' => 'Cache static analysis results'], ['arg' => '--warm-coverage-cache', 'desc' => 'Warm static analysis cache'], ['arg' => '--coverage-filter <dir>', 'desc' => 'Include <dir> in code coverage analysis'], ['arg' => '--path-coverage', 'desc' => 'Perform path coverage analysis'], ['arg' => '--disable-coverage-ignore', 'desc' => 'Disable annotations for ignoring code coverage'], ['arg' => '--no-coverage', 'desc' => 'Ignore code coverage configuration']], 'Logging Options' => [['arg' => '--log-junit <file>', 'desc' => 'Log test execution in JUnit XML format to file'], ['arg' => '--log-teamcity <file>', 'desc' => 'Log test execution in TeamCity format to file'], ['arg' => '--testdox-html <file>', 'desc' => 'Write agile documentation in HTML format to file'], ['arg' => '--testdox-text <file>', 'desc' => 'Write agile documentation in Text format to file'], ['arg' => '--testdox-xml <file>', 'desc' => 'Write agile documentation in XML format to file'], ['arg' => '--reverse-list', 'desc' => 'Print defects in reverse order'], ['arg' => '--no-logging', 'desc' => 'Ignore logging configuration']], 'Test Selection Options' => [['arg' => '--list-suites', 'desc' => 'List available test suites'], ['arg' => '--testsuite <name>', 'desc' => 'Filter which testsuite to run'], ['arg' => '--list-groups', 'desc' => 'List available test groups'], ['arg' => '--group <name>', 'desc' => 'Only runs tests from the specified group(s)'], ['arg' => '--exclude-group <name>', 'desc' => 'Exclude tests from the specified group(s)'], ['arg' => '--covers <name>', 'desc' => 'Only runs tests annotated with "@covers <name>"'], ['arg' => '--uses <name>', 'desc' => 'Only runs tests annotated with "@uses <name>"'], ['arg' => '--list-tests', 'desc' => 'List available tests'], ['arg' => '--list-tests-xml <file>', 'desc' => 'List available tests in XML format'], ['arg' => '--filter <pattern>', 'desc' => 'Filter which tests to run'], ['arg' => '--test-suffix <suffixes>', 'desc' => 'Only search for test in files with specified suffix(es). Default: Test.php,.phpt']], 'Test Execution Options' => [['arg' => '--dont-report-useless-tests', 'desc' => 'Do not report tests that do not test anything'], ['arg' => '--strict-coverage', 'desc' => 'Be strict about @covers annotation usage'], ['arg' => '--strict-global-state', 'desc' => 'Be strict about changes to global state'], ['arg' => '--disallow-test-output', 'desc' => 'Be strict about output during tests'], ['arg' => '--disallow-resource-usage', 'desc' => 'Be strict about resource usage during small tests'], ['arg' => '--enforce-time-limit', 'desc' => 'Enforce time limit based on test size'], ['arg' => '--default-time-limit <sec>', 'desc' => 'Timeout in seconds for tests without @small, @medium or @large'], ['arg' => '--disallow-todo-tests', 'desc' => 'Disallow @todo-annotated tests'], ['spacer' => ''], ['arg' => '--process-isolation', 'desc' => 'Run each test in a separate PHP process'], ['arg' => '--globals-backup', 'desc' => 'Backup and restore $GLOBALS for each test'], ['arg' => '--static-backup', 'desc' => 'Backup and restore static attributes for each test'], ['spacer' => ''], ['arg' => '--colors <flag>', 'desc' => 'Use colors in output ("never", "auto" or "always")'], ['arg' => '--columns <n>', 'desc' => 'Number of columns to use for progress output'], ['arg' => '--columns max', 'desc' => 'Use maximum number of columns for progress output'], ['arg' => '--stderr', 'desc' => 'Write to STDERR instead of STDOUT'], ['arg' => '--stop-on-defect', 'desc' => 'Stop execution upon first not-passed test'], ['arg' => '--stop-on-error', 'desc' => 'Stop execution upon first error'], ['arg' => '--stop-on-failure', 'desc' => 'Stop execution upon first error or failure'], ['arg' => '--stop-on-warning', 'desc' => 'Stop execution upon first warning'], ['arg' => '--stop-on-risky', 'desc' => 'Stop execution upon first risky test'], ['arg' => '--stop-on-skipped', 'desc' => 'Stop execution upon first skipped test'], ['arg' => '--stop-on-incomplete', 'desc' => 'Stop execution upon first incomplete test'], ['arg' => '--fail-on-incomplete', 'desc' => 'Treat incomplete tests as failures'], ['arg' => '--fail-on-risky', 'desc' => 'Treat risky tests as failures'], ['arg' => '--fail-on-skipped', 'desc' => 'Treat skipped tests as failures'], ['arg' => '--fail-on-warning', 'desc' => 'Treat tests with warnings as failures'], ['arg' => '-v|--verbose', 'desc' => 'Output more verbose information'], ['arg' => '--debug', 'desc' => 'Display debugging information'], ['spacer' => ''], ['arg' => '--repeat <times>', 'desc' => 'Runs the test(s) repeatedly'], ['arg' => '--teamcity', 'desc' => 'Report test execution progress in TeamCity format'], ['arg' => '--testdox', 'desc' => 'Report test execution progress in TestDox format'], ['arg' => '--testdox-group', 'desc' => 'Only include tests from the specified group(s)'], ['arg' => '--testdox-exclude-group', 'desc' => 'Exclude tests from the specified group(s)'], ['arg' => '--no-interaction', 'desc' => 'Disable TestDox progress animation'], ['arg' => '--printer <printer>', 'desc' => 'TestListener implementation to use'], ['spacer' => ''], ['arg' => '--order-by <order>', 'desc' => 'Run tests in order: default|defects|duration|no-depends|random|reverse|size'], ['arg' => '--random-order-seed <N>', 'desc' => 'Use a specific random seed <N> for random order'], ['arg' => '--cache-result', 'desc' => 'Write test results to cache file'], ['arg' => '--do-not-cache-result', 'desc' => 'Do not write test results to cache file']], 'Configuration Options' => [['arg' => '--prepend <file>', 'desc' => 'A PHP script that is included as early as possible'], ['arg' => '--bootstrap <file>', 'desc' => 'A PHP script that is included before the tests run'], ['arg' => '-c|--configuration <file>', 'desc' => 'Read configuration from XML file'], ['arg' => '--no-configuration', 'desc' => 'Ignore default configuration file (phpunit.xml)'], ['arg' => '--extensions <extensions>', 'desc' => 'A comma separated list of PHPUnit extensions to load'], ['arg' => '--no-extensions', 'desc' => 'Do not load PHPUnit extensions'], ['arg' => '--include-path <path(s)>', 'desc' => 'Prepend PHP\'s include_path with given path(s)'], ['arg' => '-d <key[=value]>', 'desc' => 'Sets a php.ini value'], ['arg' => '--cache-result-file <file>', 'desc' => 'Specify result cache path and filename'], ['arg' => '--generate-configuration', 'desc' => 'Generate configuration file with suggested settings'], ['arg' => '--migrate-configuration', 'desc' => 'Migrate configuration file to current format']], 'Miscellaneous Options' => [['arg' => '-h|--help', 'desc' => 'Prints this usage information'], ['arg' => '--version', 'desc' => 'Prints the version and exits'], ['arg' => '--atleast-version <min>', 'desc' => 'Checks that version is greater than min and exits'], ['arg' => '--check-version', 'desc' => 'Check whether PHPUnit is the latest version']]];
     /**
      * @var int Number of columns required to write the longest option name to the console
      */
@@ -11842,6 +12327,20 @@ final class Help
     {
     }
     private function writeWithColor() : void
+    {
+    }
+}
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class TestSuiteMapper
+{
+    /**
+     * @throws RuntimeException
+     * @throws TestDirectoryNotFoundException
+     * @throws TestFileNotFoundException
+     */
+    public function map(\PHPUnit\TextUI\XmlConfiguration\TestSuiteCollection $configuration, string $filter) : \PHPUnit\Framework\TestSuite
     {
     }
 }
@@ -12088,9 +12587,9 @@ final class MigrationBuilder
 final class Migrator
 {
     /**
+     * @throws Exception
      * @throws MigrationBuilderException
      * @throws MigrationException
-     * @throws Exception
      * @throws XmlException
      */
     public function migrate(string $filename) : string
@@ -12792,27 +13291,6 @@ final class PHPUnit
     {
     }
     public function conflictBetweenPrinterClassAndTestdox() : bool
-    {
-    }
-}
-/**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
- */
-final class ExtensionHandler
-{
-    public function createHookInstance(\PHPUnit\TextUI\XmlConfiguration\Extension $extension) : \PHPUnit\Runner\Hook
-    {
-    }
-    public function createTestListenerInstance(\PHPUnit\TextUI\XmlConfiguration\Extension $extension) : \PHPUnit\Framework\TestListener
-    {
-    }
-    private function createInstance(\PHPUnit\TextUI\XmlConfiguration\Extension $extension) : object
-    {
-    }
-    /**
-     * @throws Exception
-     */
-    private function ensureClassExists(\PHPUnit\TextUI\XmlConfiguration\Extension $extension) : void
     {
     }
 }
@@ -13657,12 +14135,13 @@ final class Generator
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
+         convertDeprecationsToExceptions="true"
          failOnRisky="true"
          failOnWarning="true"
          verbose="true">
     <testsuites>
         <testsuite name="default">
-            <directory suffix="Test.php">{tests_directory}</directory>
+            <directory>{tests_directory}</directory>
         </testsuite>
     </testsuites>
 
@@ -13866,15 +14345,6 @@ final class TestDirectoryCollection implements \Countable, \IteratorAggregate
     {
     }
     public function isEmpty() : bool
-    {
-    }
-}
-/**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
- */
-final class TestSuiteMapper
-{
-    public function map(\PHPUnit\TextUI\XmlConfiguration\TestSuiteCollection $configuration, string $filter) : \PHPUnit\Framework\TestSuite
     {
     }
 }
@@ -14606,14 +15076,6 @@ final class Loader
     private function element(\DOMXPath $xpath, string $element) : ?\DOMElement
     {
     }
-}
-namespace PHPUnit\TextUI;
-
-/**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
- */
-final class Exception extends \RuntimeException implements \PHPUnit\Exception
-{
 }
 namespace PHPUnit\TextUI\CliArguments;
 
